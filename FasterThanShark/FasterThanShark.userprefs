@@ -1,12 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs">
-    <Files>
-      <File FileName="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" Line="22" Column="3" />
-      <File FileName="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" Line="21" Column="1" />
-      <File FileName="Assets\Scripts\StartScreen\Managers\Options.cs" Line="25" Column="31" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

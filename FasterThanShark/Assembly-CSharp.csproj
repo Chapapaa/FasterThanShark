@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
