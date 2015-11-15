@@ -50,6 +50,9 @@
      <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
+     <Compile Include="Assets\TEST\Map.cs" />
+     <Compile Include="Assets\TEST\Node.cs" />
+     <Compile Include="Assets\TEST\Pathfinding.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/PROGRAMMES/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
