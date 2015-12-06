@@ -47,12 +47,19 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Door.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\GetClickedNode.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Map01.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Map_Ship01.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Node.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Pathfinding.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PathfindingManager.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerSelection.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
-     <Compile Include="Assets\TEST\Map.cs" />
-     <Compile Include="Assets\TEST\Node.cs" />
-     <Compile Include="Assets\TEST\Pathfinding.cs" />
+     <Compile Include="Assets\TEST\Player\PlayerMvt.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/PROGRAMMES/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
