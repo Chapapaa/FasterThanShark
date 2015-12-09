@@ -1,12 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MainScene\Pathfinding\Node.cs">
     <Files>
-      <File FileName="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs" Line="38" Column="95" />
+      <File FileName="Assets\Scripts\MainScene\Pathfinding\Pathfinding.cs" Line="289" Column="34" />
+      <File FileName="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs" Line="9" Column="25" />
+      <File FileName="Assets\Scripts\MainScene\Pathfinding\ShipDoor.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainScene\Pathfinding\PathfindingManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainScene\Pathfinding\GetClickedNode.cs" Line="20" Column="1" />
+      <File FileName="Assets\Scripts\MainScene\Pathfinding\GetClickedNode.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\MainScene\Pathfinding\PlayerSelection.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MainScene\Pathfinding\Pathfinding.cs" Line="242" Column="41" />
+      <File FileName="Assets\Scripts\MainScene\Pathfinding\Map_Ship01.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MainScene\Pathfinding\Node.cs" Line="28" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

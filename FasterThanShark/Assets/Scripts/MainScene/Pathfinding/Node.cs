@@ -11,6 +11,7 @@ public class Node {
 	public int posX = 0;
 	public int posY = 0; 
 
+
 	public void _Init(bool _walkable, int _posX, int _posY )
 		
 	{
@@ -23,4 +24,6 @@ public class Node {
 	{
 		walkable = false;
 	}
+
+
 }

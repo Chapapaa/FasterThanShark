@@ -10,6 +10,9 @@ public class Pathfinding : MonoBehaviour  {
 	public List<Node> OpenL = new List<Node>();
 	public List<Node> CloseL = new List<Node>();
 
+	// Tableaux représentant la map.
+	// Toute modification de la map devra etre répercutée ici
+	// Ici : Map de 15 * 10;
 	Node[][] nodesArrayXY = new Node[15][];
 	Door[][] doorArrayX = new Door[15][];
 	Door[][] doorArrayY = new Door[15][];
@@ -19,6 +22,7 @@ public class Pathfinding : MonoBehaviour  {
 	// Use this for initialization
 	void Start () 
 	{
+		// Chargement de la map dans les tableaux
 		nodesArrayXY[0] = new Node[10] 	{ worldMap.a1, 		worldMap.b1, 	worldMap.c1, 	worldMap.d1, 	worldMap.e1,	worldMap.f1, 		worldMap.g1, 	worldMap.h1, 	worldMap.i1, 	worldMap.j1 };
 		nodesArrayXY[1] = new Node[10] 	{ worldMap.a2, 		worldMap.b2, 	worldMap.c2, 	worldMap.d2, 	worldMap.e2,	worldMap.f2, 		worldMap.g2, 	worldMap.h2, 	worldMap.i2, 	worldMap.j2 };
 		nodesArrayXY[2] = new Node[10] 	{ worldMap.a3, 		worldMap.b3, 	worldMap.c3, 	worldMap.d3, 	worldMap.e3,	worldMap.f3, 		worldMap.g3, 	worldMap.h3, 	worldMap.i3, 	worldMap.j3 };
@@ -67,6 +71,7 @@ public class Pathfinding : MonoBehaviour  {
 		doorArrayY[13] = new Door[10] 	{ worldMap.dY_a14, 		worldMap.dY_b14, 	worldMap.dY_c14, 	worldMap.dY_d14, 	worldMap.dY_e14,	worldMap.dY_f14, 		worldMap.dY_g14, 	worldMap.dY_h14, 	worldMap.dY_i14, 	worldMap.dY_j14 };
 		doorArrayY[14] = new Door[10]	{ worldMap.dY_a15, 		worldMap.dY_b15, 	worldMap.dY_c15, 	worldMap.dY_d15, 	worldMap.dY_e15,	worldMap.dY_f15, 		worldMap.dY_g15, 	worldMap.dY_h15, 	worldMap.dY_i15, 	worldMap.dY_j15 };
 
+		// Récupération de toutes les cases de la map.
 		AllNodes.Add(worldMap.a0);
 		AllNodes.Add(worldMap.a1);
 		AllNodes.Add(worldMap.a2);
@@ -226,7 +231,12 @@ public class Pathfinding : MonoBehaviour  {
 	
 	}
 
-
+	/// <summary>
+	/// Converts the position to the corresponding Node.
+	/// </summary>
+	/// <returns>The Node with the corresponding position.</returns>
+	/// <param name="posX">Position x.</param>
+	/// <param name="posY">Position y.</param>
 	Node ConvertPosToNode(int posX, int posY)
 	{
 		foreach(Node myNode in AllNodes)
@@ -238,36 +248,59 @@ public class Pathfinding : MonoBehaviour  {
 		}
 		return worldMap.a0;
 	}
-
+	/// <summary>
+	/// Gets the node to go from the Given positions.
+	/// </summary>
+	/// <returns>The node to go (the first step of the path)</returns>
+	/// <param name="startNodePosX">Start Node position x.</param>
+	/// <param name="startNodePosY">Start Node position y.</param>
+	/// <param name="endNodePosX">Destination Node position x.</param>
+	/// <param name="endNodePosY">Final Destination Node position y.</param>
 	public Node GetNodeToGo(int startNodePosX, int startNodePosY, int endNodePosX, int endNodePosY)
 	{
-		Node startNode = ConvertPosToNode(startNodePosX, startNodePosY);
-		Node endNode = ConvertPosToNode(endNodePosX,endNodePosY );
-		OpenL = new List<Node>();						// Liste des nodes à visiter
-		CloseL = new List<Node>();						// Liste des nodes déjà visités
-		int indexX = startNode.posX;
-		int indexY = startNode.posY;
-
-		worldMap.ResetMap();
-		
-		if(!startNode.walkable)							// Si la case de base n'est pas dans la map return;
+		/*
+		 * Algorithme de pathfinding de type A*
+		 * Déplacement dans 4 directions : up,right,bottom,left ( pas de diagonales ) 
+		 * Récupere toutes les cases de la map
+		 * pour chaque case Initialise les valeurs de H,G,F
+		 * H étant la distance de la case par rapport à la case d'arrivée
+		 * G étant la distance de la case par rapport à la case de départ
+		 * F étant H + G;
+		 * Depuis la case de départ regarde toutes les cases adjacentes, et choisit la case avec la plus petite valeur de F.
+		 * Rajoute la case en question à la liste des cases visitées et initialise sa case parente
+		 * Répete l'opération jusqu'a trouver un chemin
+		 * Retourne ensuite la premiere case du chemin trouvé
+		 * En cas d'erreur retourne la case de la map par défaut : a0 (posX = -1, posY = -1, !walkable)
+		 */
+		Node startNode = ConvertPosToNode(startNodePosX, startNodePosY);	// Récupération du Node de départ
+		Node endNode = ConvertPosToNode(endNodePosX,endNodePosY );			// Récupération du Node de destination
+		OpenL = new List<Node>();		// Liste des nodes à visiter
+		CloseL = new List<Node>();		// Liste des nodes déjà visités
+		int indexX = startNode.posX;	// Index du tableau
+		int indexY = startNode.posY;	// Index du tableau
+		worldMap.ResetMap();		// Reset de toutes les valeurs de la map.
+		if(!startNode.walkable)		// Si la case de base n'est pas praticable;
 		{
-			return worldMap.a0;
+			return worldMap.a0;		// Renvoie le Node par défaut.
 		}
-		currentNode = startNode;						// Initialise le node courant
-		currentNode.parentNode = currentNode;			// Initialise le Node parent (Au début le node de départ est son propre parent)
-		foreach (Node x in AllNodes)					// Initialise les valeurs de H de toutes les cases de la map
+		currentNode = startNode;	// Initialise le node courant
+		currentNode.gValue = 0;		// Initialise la veleur de G du node courant
+		currentNode.parentNode = currentNode;		// Initialise le Node parent (Au début le node de départ est son propre parent)
+		foreach (Node x in AllNodes)				// Initialise les valeurs de H de toutes les cases de la map
 		{
 			x.hValue = Mathf.Abs(endNode.posX - x.posX) + Mathf.Abs(endNode.posY - x.posY);
 		}
+
 		int i = 0;										// pour eviter une potentielle boucle infinie
-		while (i < 10000)								// Début de la boucle de pathfinding
+		while (i < 1000)								// Début de la boucle de pathfinding
 		{
 			i++;
 			CloseL.Add(currentNode);					// Ajoute le node courant dans la ClosedList (cases visitées)
 
 			// Ajoute toutes les cases valides adjacentes aux Nodes potentiels (OpenList).
-			if( !(indexY + 1 > 9))
+			// Cas particulier pour chaque direction
+			// Prends en compte les portes
+			if( (indexY + 1 < 10))
 			{
 				if((!CloseL.Contains(nodesArrayXY[indexX][indexY + 1])) && (!OpenL.Contains(nodesArrayXY[indexX][indexY + 1])) && nodesArrayXY[indexX][indexY + 1].walkable)
 				{
@@ -307,37 +340,94 @@ public class Pathfinding : MonoBehaviour  {
 					}
 				}
 			}
-			if(OpenL.Count <= 0)						// Si aucunes cases adjacentes possibles return;
+			if(OpenL.Count <= 0)		// Si aucunes cases adjacentes possibles return (Si le chemin est bloqué)
 			{
 				return worldMap.a0;
 			}
 			foreach (Node y in OpenL)					// Pour chaque node à visiter, initialise la G et F value ainsi que le node parent
 			{
-				y.parentNode = currentNode ;
+				y.parentNode = GetParentNode(y, CloseL);	// Initialise un Node parent temporaire pour chaque case à visiter
 				y.gValue = y.parentNode.gValue + 1;
 				y.fValue = y.hValue + y.gValue;
 			}
 			currentNode = SortNodesByFValue(OpenL);		// Trouve le prochain node à visiter et l'initialise comme étant le node courant
-			indexX = currentNode.posX;
+			currentNode.parentNode = GetParentNode(currentNode, CloseL);	// Initialise proprement le Node parent du Node courant
+			indexX = currentNode.posX;		// Rafraichissement des index
 			indexY = currentNode.posY;
-			OpenL.Remove(currentNode);
-			if(!currentNode.walkable)					// Si le node courant n'est pas valide return;
+			OpenL.Remove(currentNode);		// Suppression du Node courant de l'OpenList
+			if(!currentNode.walkable)		// Si le node courant n'est pas valide return (précaution pas forcément nécessaire) ;
 			{
 				return worldMap.a0;
 			}
 			if(currentNode.posX == endNode.posX && currentNode.posY == endNode.posY)	// Si le node courant est le node d'arrivée, fin;
 			{
-				while (currentNode.parentNode.posY != startNode.posY || currentNode.parentNode.posX != startNode.posX )
+				int j = 0; // Pour eviter une boucle infinie
+				// Remonte tous les parents du node d'arrivée pour trouver le node à parcourir adjacent au Node de départ
+				while ((currentNode.parentNode.posY != startNode.posY || currentNode.parentNode.posX != startNode.posX) && j < 1000)
 				{
+					j++;
 					currentNode = currentNode.parentNode;
 				}
-				return currentNode;
+				return currentNode; // Renvoi le Node adjacent au Node de départ
 			}
-
 		}
 		return worldMap.a0;
+	}
 
+	/// <summary>
+	/// Gets the parent of the given Node.
+	/// </summary>
+	/// <returns>The parent Node.</returns>
+	/// <param name="CurrentNode">Current node.</param>
+	/// <param name="ClosedList">Closed list.</param>
+	Node GetParentNode(Node CurrentNode, List<Node> ClosedList)
+	{
+		/*
+		 * Regarde tous les Nodes visités adjacent au Node courant
+		 * Si aucune porte n'est entre les deuxn ajoute ce Node à la liste des parents potentiels
+		 * Si les parents potentiels sont plusieurs
+		 * Récupere le Node parent potentiel ayant la valeur de G la plus petite ( le plus proche du point de départ )
+		 * Return le Node parent choisi
+		 */
+		List<Node> tempList = new List<Node>();
+		foreach(Node visitedNode in ClosedList)
+		{
+			if(visitedNode.posX == CurrentNode.posX && CurrentNode.posY == visitedNode.posY  - 1 && doorArrayY[CurrentNode.posX][CurrentNode.posY].open)
+			{
+				tempList.Add (visitedNode);
+			}
+			else if(visitedNode.posX - 1 == CurrentNode.posX && CurrentNode.posY == visitedNode.posY && doorArrayX[CurrentNode.posX][CurrentNode.posY].open)
+			{
+				tempList.Add (visitedNode);
+			}
+			else if(visitedNode.posX == CurrentNode.posX && CurrentNode.posY == visitedNode.posY + 1 && doorArrayY[CurrentNode.posX][CurrentNode.posY - 1].open)
+			{
+				tempList.Add (visitedNode);
+			}
+			else if(visitedNode.posX + 1 == CurrentNode.posX && CurrentNode.posY == visitedNode.posY && doorArrayX[CurrentNode.posX - 1][CurrentNode.posY].open)
+			{
+				tempList.Add (visitedNode);
+			}
+		}
 
+		Node parentNode = worldMap.a0;
+		if(tempList.Count > 1)
+		{
+			int Gvalue = 999;
+			parentNode = worldMap.a0;
+			foreach(Node a in tempList)
+			{
+				if(a.gValue < Gvalue)
+				{
+					parentNode = a;
+				}
+			}
+		}
+		else
+		{
+			parentNode = tempList[0];
+		}
+		return parentNode;
 	}
 
 	/// <summary>
@@ -348,18 +438,21 @@ public class Pathfinding : MonoBehaviour  {
 	Node SortNodesByFValue(List<Node> myListToSort)
 	{
 		Node minNode = new Node();
-		int FValue = 9999;
+		int FValue;
+		FValue = 9999;
 		
 		foreach( Node myNode in myListToSort )
 		{
-			if(myNode.fValue <= FValue)
+			if(myNode.fValue < FValue)
 			{
 				FValue = myNode.fValue;
 				minNode = myNode;
 			}
+
 		}
 		return minNode;
 	}
+
 
 
 

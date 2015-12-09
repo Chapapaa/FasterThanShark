@@ -490,7 +490,7 @@ public class Map_Ship01 : MonoBehaviour {
 		b1._Init(	true, 	0, 		1);
 		b2._Init(	true, 	1, 		1);
 		b3._Init(	true, 	2, 		1);
-		b4._Init(	true, 	3, 		1);
+		b4._Init(	false, 	3, 		1);
 		b5._Init(	true, 	4, 		1);
 		b6._Init(	true, 	5, 		1);
 		b7._Init(	true, 	6, 		1);
@@ -792,9 +792,9 @@ public class Map_Ship01 : MonoBehaviour {
 	{
 		foreach (Node i in AllNodes)
 		{
-			i.fValue = 0;
-			i.gValue = 0;
-			i.hValue = 0;
+			i.fValue = 999;
+			i.gValue = 999;
+			i.hValue = 999;
 			i.parentNode = a0;
 		}
 	}

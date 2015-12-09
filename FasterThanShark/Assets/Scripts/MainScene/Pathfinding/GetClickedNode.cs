@@ -9,6 +9,7 @@ public class GetClickedNode : MonoBehaviour {
 	PathfindingManager pathfindingMNG;
 
 
+
 	// Use this for initialization
 	void Start () {
 		pathfindingMNG = GameObject.FindGameObjectWithTag("Manager").GetComponent<PathfindingManager>();
@@ -17,6 +18,7 @@ public class GetClickedNode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 
 	
 	}
@@ -28,6 +30,7 @@ public class GetClickedNode : MonoBehaviour {
 			if(pathfindingMNG.selectedPlayer != null)
 			{
 				pathfindingMNG.MovePlayer(PositionX, PositionY);
+
 			}
 
 		}

@@ -56,6 +56,7 @@
      <Compile Include="Assets\Scripts\MainScene\Pathfinding\PathfindingManager.cs" />
      <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerSelection.cs" />
+     <Compile Include="Assets\Scripts\MainScene\Pathfinding\ShipDoor.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
      <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
