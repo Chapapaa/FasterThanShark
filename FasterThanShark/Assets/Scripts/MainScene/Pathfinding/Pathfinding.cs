@@ -274,6 +274,10 @@ public class Pathfinding : MonoBehaviour  {
 		 */
 		Node startNode = ConvertPosToNode(startNodePosX, startNodePosY);	// Récupération du Node de départ
 		Node endNode = ConvertPosToNode(endNodePosX,endNodePosY );			// Récupération du Node de destination
+        if (startNode == endNode)
+        {
+            return startNode;
+        }
 		OpenL = new List<Node>();		// Liste des nodes à visiter
 		CloseL = new List<Node>();		// Liste des nodes déjà visités
 		int indexX = startNode.posX;	// Index du tableau

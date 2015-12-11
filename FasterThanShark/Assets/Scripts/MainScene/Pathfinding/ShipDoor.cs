@@ -7,20 +7,33 @@ public class ShipDoor : MonoBehaviour {
 	public string axis;
 	public int posX;
 	public int posY;
+    bool colored = false;
+    Color myColor;
 
-	void OnMouseOver()
+
+    void OnMouseOver()
 	{
 		if(Input.GetMouseButtonDown(0))
 		{
-			OpenDoor();
+			OpenCloseDoor();
 		}
 	}
 
-	void OpenDoor()
+	void OpenCloseDoor()
 	{
-		gameObject.GetComponent<SpriteRenderer>().color = new Color(255f,0f,0f,255f);
-		worldMap.dX_b1.open = false;
-		worldMap.dY_b3.open = false;
+        if (!colored)
+        {
+            myColor = new Color(255f, 0f, 0f, 255f);
+            colored = !colored;
+        }
+        else
+        {
+            myColor = new Color(255f, 255f, 255f, 255f);
+            colored = !colored;
+        }
+        gameObject.GetComponent<SpriteRenderer>().color = myColor;
+        Door myDoor = worldMap.GetDoor(axis, posX, posY);
+        myDoor.open = !myDoor.open;
 	}
 
 
