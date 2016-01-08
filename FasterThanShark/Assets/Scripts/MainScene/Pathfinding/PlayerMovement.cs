@@ -5,7 +5,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	public Pathfinding pathfindingSCR;
 	public int playerPositionX = 0;
-	public int PlayerPositionY = 0;
+	public int playerPositionY = 0;
+    public float mapScale = 2f;
 	public float moveSpeed;
     public bool hardMoving = false;
 	public bool moving = false;
@@ -35,23 +36,23 @@ public class PlayerMovement : MonoBehaviour {
     {
         moving = true;      // Permet de savoir si le personnage est en mouvement
         activeCoroutine = true;     // Permet de savoir si la coroutine est déjà en cours d'execution.
-        while ((transform.localPosition.x * 2) != posX || (transform.localPosition.y * 2) != posY) // Tant que la position du personnage n'est pas égale à la destination finale voulue.
+        while ((transform.localPosition.x * mapScale) != posX || (transform.localPosition.y * mapScale) != posY) // Tant que la position du personnage n'est pas égale à la destination finale voulue.
         {
             if (hardMoving || numberofCoroutine > 0)
             {
                 yield return new WaitForSeconds(0.01f);
                  continue;
             }
-            Node targetNode = pathfindingSCR.GetNodeToGo(playerPositionX, PlayerPositionY, posX, posY);  // Node le plus proche à atteindre.				
+            Node targetNode = pathfindingSCR.GetNodeToGo(playerPositionX, playerPositionY, posX, posY);  // Node le plus proche à atteindre.				
             targetNodePos = new Vector2(targetNode.posX, targetNode.posY);       // Position du Node sur la grille du pathfinding
-            Vector3 targetNodePosition = new Vector3(targetNodePos.x / 2, targetNodePos.y / 2);       // Position du Node dans la scene
-            Vector2 playerPos = new Vector2(transform.localPosition.x * 2, transform.localPosition.y * 2);      // Position du joueur sur la grille du pathfinding
+            Vector3 targetNodePosition = new Vector3(targetNodePos.x / mapScale, targetNodePos.y / mapScale);       // Position du Node dans la scene
+            Vector2 playerPos = new Vector2(transform.localPosition.x * mapScale, transform.localPosition.y * mapScale);      // Position du joueur sur la grille du pathfinding
 
-            playerPos.x = transform.localPosition.x * 2;
-            playerPos.y = transform.localPosition.y * 2;
+            playerPos.x = transform.localPosition.x * mapScale;
+            playerPos.y = transform.localPosition.y * mapScale;
             if (targetNode.posX == -1 && lastPosition.x != -1) // 
             {
-                Vector3 lastPositionPos = new Vector3(lastPosition.x / 2, lastPosition.y / 2);
+                Vector3 lastPositionPos = new Vector3(lastPosition.x / mapScale, lastPosition.y / mapScale);
                 lastPositionPos.z = transform.localPosition.z;  // ( permet de garder la position du joueur en Z )
                                                                 //transform.localPosition = Vector3.MoveTowards(transform.localPosition, lastPositionPos, moveSpeed); // se déplace vers la case.
                 movePlayerCoroutine = movePlayer(lastPositionPos);
@@ -60,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
             }
             if (((targetNodePos.x != playerPos.x && targetNodePos.y != playerPos.y)) && lastPosition.x != -1)
             {
-                Vector3 lastPositionPos = new Vector3(lastPosition.x / 2, lastPosition.y / 2); // Récupere la position dans la scene du dernier Node parcouru
+                Vector3 lastPositionPos = new Vector3(lastPosition.x / mapScale, lastPosition.y / mapScale); // Récupere la position dans la scene du dernier Node parcouru
                 lastPositionPos.z = transform.localPosition.z;	// ( permet de garder la position du joueur en Z )
                 movePlayerCoroutine = movePlayer(lastPositionPos);
                 StartCoroutine(movePlayerCoroutine);
@@ -110,9 +111,9 @@ public class PlayerMovement : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.01f);
         }
-        playerPositionX = (int)Mathf.Round(transform.localPosition.x * 2);
-        PlayerPositionY = (int)Mathf.Round(transform.localPosition.y * 2);
-        lastPosition = new Vector2(playerPositionX, PlayerPositionY);
+        playerPositionX = (int)Mathf.Round(transform.localPosition.x * mapScale);
+        playerPositionY = (int)Mathf.Round(transform.localPosition.y * mapScale);
+        lastPosition = new Vector2(playerPositionX, playerPositionY);
         hardMoving = false;
         numberofCoroutine--;
         yield return null;

@@ -8,10 +8,7 @@ public class PlayerSelection : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		pathfindingMNG = GameObject.FindGameObjectWithTag("Manager").GetComponent<PathfindingManager>();
-	
 	}
-
-
 
 	void OnMouseOver()
 	{

@@ -225,12 +225,6 @@ public class Pathfinding : MonoBehaviour  {
 		AllNodes.Add(worldMap.j15);
 	}
 
-
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	/// <summary>
 	/// Converts the position to the corresponding Node.
 	/// </summary>
