@@ -8,6 +8,8 @@ public class GetClickedNode : MonoBehaviour {
     //public int PositionY;
     public float zPosition = 0;
     PathfindingManager pathfindingMNG;
+    Vector3 CursorPosPixels;
+    Vector3 CursorPos;
 
     Vector3 position;
 
@@ -22,10 +24,12 @@ public class GetClickedNode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        CursorPosPixels = Input.mousePosition;
+        CursorPosPixels.z = -1 * Camera.main.transform.position.z;
+        CursorPos = Camera.main.ScreenToWorldPoint(CursorPosPixels);
 
-
-	
 	}
+
 
 	void OnMouseOver()
 	{
@@ -33,11 +37,8 @@ public class GetClickedNode : MonoBehaviour {
 		{
 			if(pathfindingMNG.selectedPlayer != null)
 			{
-                print("MOVE FFS !");
-				pathfindingMNG.MovePlayer(position);
-                print("position to move :"+position);
-
-			}
+                pathfindingMNG.MovePlayer(position);
+            }
 
 		}
 

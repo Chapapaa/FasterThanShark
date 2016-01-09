@@ -7,12 +7,8 @@ public class PlayerMovement : MonoBehaviour {
     public float mapScale = 2f;
 	public float moveSpeed;
     public bool moving = false;
-    bool invalidPath = false;
-    Vector2 targetNodePos = new Vector2(0,0);
-    int numberofCoroutine = 0;
     AstarAI astarAI;
 
-    Vector2 lastPosition = new Vector2(-1,-1);
 
 
 	private IEnumerator moveCoroutine;

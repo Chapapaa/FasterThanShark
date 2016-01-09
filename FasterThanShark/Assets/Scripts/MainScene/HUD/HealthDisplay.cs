@@ -11,16 +11,18 @@ public class HealthDisplay : MonoBehaviour {
 	public int HP = 10;
 	public Image healthBar;
 	float health;
+    PlayerStats playerStatsSCR;
 
 	// Use this for initialization
 	void Start () {
-	
-	}
+        playerStatsSCR = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
+        HP = playerStatsSCR.health;
 
-		health = (float) HP / 10f;
+        health =  HP / 10f;
 		healthBar.fillAmount = health;
 	
 	}

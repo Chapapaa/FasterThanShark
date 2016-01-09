@@ -140,22 +140,20 @@
     <Compile Include="Assets\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\changelog.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\Door.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Pathfinding\PathfindingManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Weapons\WeaponManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\GetClickedNode.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\Map01.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\Map_Ship01.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\Node.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\Pathfinding2.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\PathfindingManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Player\AstarAI.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerSelection.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\ShipDoor.cs" />
+    <Compile Include="Assets\Scripts\MainScene\PlayerStats\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
-    <Compile Include="Assets\TEST\Player\PlayerMvt.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />
