@@ -6,7 +6,7 @@ public class PlayerMvt : MonoBehaviour {
 	// OBSOLETE PLEASE REWRITE THIS SCRIPT
 
 	public Map01 worldMap1;
-	public Pathfinding pathFindingSCR;
+	public Pathfinding2 pathFindingSCR;
 	public float distanceBetweenNodes = 0.2f;
 	Node startNode;
 	Node endNode;

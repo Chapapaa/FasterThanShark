@@ -6,11 +6,11 @@ public class PathfindingManager : MonoBehaviour {
 	public GameObject selectedPlayer;
 
 
-	public void MovePlayer(int posX, int posY)
+	public void MovePlayer(Vector3 position)
 	{
 		if(selectedPlayer != null)
 		{
-			selectedPlayer.GetComponent<PlayerMovement>().MoveToNode(posX, posY);
+			selectedPlayer.GetComponent<PlayerMovement>().MoveToNode(position);
 		}
 	}
 

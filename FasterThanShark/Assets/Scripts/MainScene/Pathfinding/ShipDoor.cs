@@ -3,12 +3,12 @@ using System.Collections;
 
 public class ShipDoor : MonoBehaviour {
 
-	public Map_Ship01 worldMap;
 	public string axis;
 	public int posX;
 	public int posY;
     bool colored = false;
     Color myColor;
+    
 
 
     void OnMouseOver()
@@ -25,16 +25,19 @@ public class ShipDoor : MonoBehaviour {
         {
             myColor = new Color(255f, 0f, 0f, 255f);
             colored = !colored;
+            gameObject.layer = 9;
+
         }
         else
         {
             myColor = new Color(255f, 255f, 255f, 255f);
             colored = !colored;
+            gameObject.layer = 0;
+            
         }
-        gameObject.GetComponent<SpriteRenderer>().color = myColor;
-        Door myDoor = worldMap.GetDoor(axis, posX, posY);
-        myDoor.open = !myDoor.open;
-	}
+        GetComponent<SpriteRenderer>().color = myColor;
+        AstarPath.active.Scan();
+    }
 
 
 	// Use this for initialization

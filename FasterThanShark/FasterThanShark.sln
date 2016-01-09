@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FasterThanShark.CSharp", "FasterThanShark.CSharp.csproj", "{C9514788-3299-B682-7FFE-5A022BA694AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FasterThanShark.CSharp.Editor", "FasterThanShark.CSharp.Editor.csproj", "{9E9EB9F6-9C60-4919-E26C-390D73CA9975}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{C9514788-3299-B682-7FFE-5A022BA694AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9514788-3299-B682-7FFE-5A022BA694AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9514788-3299-B682-7FFE-5A022BA694AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E9EB9F6-9C60-4919-E26C-390D73CA9975}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9EB9F6-9C60-4919-E26C-390D73CA9975}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9EB9F6-9C60-4919-E26C-390D73CA9975}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9EB9F6-9C60-4919-E26C-390D73CA9975}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

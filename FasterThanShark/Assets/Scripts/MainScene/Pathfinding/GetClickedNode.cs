@@ -4,15 +4,19 @@ using UnityEngine.UI;
 
 public class GetClickedNode : MonoBehaviour {
 
-	public int PositionX;
-	public int PositionY;
-	PathfindingManager pathfindingMNG;
+    //public int PositionX;
+    //public int PositionY;
+    public float zPosition = 0;
+    PathfindingManager pathfindingMNG;
+
+    Vector3 position;
 
 
 
 	// Use this for initialization
 	void Start () {
 		pathfindingMNG = GameObject.FindGameObjectWithTag("Manager").GetComponent<PathfindingManager>();
+        position = new Vector3(transform.position.x, transform.position.y, zPosition);
 	
 	}
 	
@@ -29,7 +33,9 @@ public class GetClickedNode : MonoBehaviour {
 		{
 			if(pathfindingMNG.selectedPlayer != null)
 			{
-				pathfindingMNG.MovePlayer(PositionX, PositionY);
+                print("MOVE FFS !");
+				pathfindingMNG.MovePlayer(position);
+                print("position to move :"+position);
 
 			}
 
