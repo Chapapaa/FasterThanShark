@@ -3,9 +3,6 @@ using System.Collections;
 
 public class ShipDoor : MonoBehaviour {
 
-	public string axis;
-	public int posX;
-	public int posY;
     bool colored = false;
     Color myColor;
     

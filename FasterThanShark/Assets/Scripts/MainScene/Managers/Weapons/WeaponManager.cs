@@ -15,6 +15,8 @@ public class WeaponManager : MonoBehaviour {
 
     public void SelectWeapon(int index)
     {
+        // change le curseur en mode cible
+        // selectionne l'arme
         print("Weapon selected : " + index);
     }
 }

@@ -143,17 +143,22 @@
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Event\ClickEventManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Pathfinding\PathfindingManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\ShipMap.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Weapons\WeaponManager.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\GetClickedNode.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Pathfinding\GetClickedRoom.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\Player\AstarAI.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\MainScene\Pathfinding\PlayerSelection.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Pathfinding\ShipDoor.cs" />
     <Compile Include="Assets\Scripts\MainScene\PlayerStats\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
+    <Compile Include="Assets\Ships\MainShip01\Scripts\MainShip01Map.cs" />
+    <Compile Include="Assets\Ships\Map\ShipCell.cs" />
+    <Compile Include="Assets\Ships\Map\ShipRoom.cs" />
+    <Compile Include="Assets\Ships\ShipDoor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AstarPathfindingProject\Editor\EditorAssets\Materials\Navmesh2.shader" />

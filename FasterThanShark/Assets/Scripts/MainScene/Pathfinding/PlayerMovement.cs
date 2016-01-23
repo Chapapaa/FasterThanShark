@@ -3,11 +3,13 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
 
-
+    public bool isAlly = true;
     public float mapScale = 2f;
 	public float moveSpeed;
     public bool moving = false;
     AstarAI astarAI;
+    ShipMap mapSCR;
+    Vector3 tempCellPos = new Vector3();
 
 
 
@@ -16,7 +18,10 @@ public class PlayerMovement : MonoBehaviour {
 
     public void MoveToNode(Vector3 targetPos)
 	{
-		
+        mapSCR.RemoveCharacterPosition(gameObject, isAlly);
+        mapSCR.RemoveCharacterPosition(gameObject, isAlly, tempCellPos);
+        tempCellPos = targetPos;
+        mapSCR.SetCharacterPosition(gameObject, isAlly, targetPos);
         StopAllCoroutines() ;
         moveCoroutine = Move (targetPos);
 		StartCoroutine(moveCoroutine);
@@ -31,7 +36,7 @@ public class PlayerMovement : MonoBehaviour {
             astarAI.speed = moveSpeed;
             yield return new WaitForSeconds(0.3f);
         }
-        
+        StopMovement();
     }
 
 
@@ -39,13 +44,17 @@ public class PlayerMovement : MonoBehaviour {
     {
         StopAllCoroutines();
         moving = false;
-        
+        mapSCR.RemoveCharacterPosition(gameObject, isAlly, tempCellPos);
+        mapSCR.SetCharacterPosition(gameObject, isAlly);
+
+
     }
 
     // Use this for initialization
     void Start () 
 	{
         astarAI = gameObject.GetComponent<AstarAI>();
+        mapSCR = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
 
     }
 	
