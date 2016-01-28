@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 public class ShipMap : MonoBehaviour
 {
-    public List<ShipRoom> shipMap;
-    public List<ShipRoom> enemyShipMap;
+    public List<ShipRoom> shipMap = new List<ShipRoom>();
+    public List<ShipRoom> enemyShipMap = new List<ShipRoom>();
 
     void Update()
     {
         if(Input.GetKey(KeyCode.A))
         {
             print(shipMap[0].cells[0].crew);
+            print(enemyShipMap[0].cells[0].crew);
         }
     }
     public void SetCharacterPosition(GameObject character, bool ally)
@@ -82,6 +83,17 @@ public class ShipMap : MonoBehaviour
     ShipCell GetCellByPos(Vector3 _position)
     {
         foreach(var room in shipMap)
+        {
+            foreach (var cell in room.cells)
+            {
+                float dist = Vector3.Distance(cell.position, _position);
+                if (dist < 0.5f)
+                {
+                    return cell;
+                }
+            }
+        }
+        foreach (var room in enemyShipMap)
         {
             foreach (var cell in room.cells)
             {

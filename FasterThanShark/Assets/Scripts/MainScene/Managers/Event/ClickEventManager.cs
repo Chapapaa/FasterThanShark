@@ -3,13 +3,15 @@ using System.Collections;
 
 public class ClickEventManager : MonoBehaviour {
 
-    ShipMap shipMapSCR;
+    public WeaponManager weaponSCR;
     public PathfindingManager pathMNG;
     float clickCD = 0.3f;
 
+    
+
 	// Use this for initialization
 	void Start () {
-        shipMapSCR = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
+        
 
     }
 	
@@ -22,8 +24,14 @@ public class ClickEventManager : MonoBehaviour {
 
 
     }
+    public void ResetSelection()
+    {
+        weaponSCR.UnselectWeapon();
+        pathMNG.selectedPlayer = null;
 
-    public void ClickOnRoom(int index, int buttonIndex)
+    }
+
+    public void ClickOnRoom(int index, int buttonIndex, int map, Vector3 RoomPos)
     {
         // A revoir , les appelation publiques, et le pathfinding manager 
         // ce script doit juste servire a dire "hey on a cliqué sur une case"
@@ -34,11 +42,17 @@ public class ClickEventManager : MonoBehaviour {
         clickCD = 0.3f;
         if (buttonIndex == 1)
         {
-            pathMNG.MovePlayer(index);
+            pathMNG.MovePlayer(index, map);
+            weaponSCR.UnselectWeapon();
         }
         if (buttonIndex == 0)
         {
-            // Weapon Manager : lance une attaque sur la salle d'index index;
+            
+            
+            weaponSCR.UseWeapon(index, map, RoomPos);
         }
     }
+
+    
+
 }

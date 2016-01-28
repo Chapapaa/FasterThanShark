@@ -140,10 +140,15 @@
     <Compile Include="Assets\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\changelog.cs" />
+    <Compile Include="Assets\Scripts\Items\Item.cs" />
+    <Compile Include="Assets\Scripts\Items\ItemDatabase.cs" />
+    <Compile Include="Assets\Scripts\Items\ItemInventory.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyHealthDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Event\ClickEventManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\HUD\UIManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Pathfinding\PathfindingManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\ShipMap.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Weapons\WeaponManager.cs" />
@@ -155,6 +160,7 @@
     <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
+    <Compile Include="Assets\Ships\EnemyShip01\Script\EnemyShip01Map.cs" />
     <Compile Include="Assets\Ships\MainShip01\Scripts\MainShip01Map.cs" />
     <Compile Include="Assets\Ships\Map\ShipCell.cs" />
     <Compile Include="Assets\Ships\Map\ShipRoom.cs" />
