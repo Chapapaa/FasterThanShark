@@ -11,6 +11,9 @@ public class Item
     public int itemDamage = 0;
     public int itemPrice = 0;
 
+    public GameObject displayPanelInventory;
+    public GameObject displayPanelWeapon;
+
     public Item(int _itemID, string _itemName, itemTypeEnum _itemType, float _itemCD, int _itemDamage, int _itemPrice)
     {
         itemID = _itemID;

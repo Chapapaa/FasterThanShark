@@ -1,18 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class ItemInventory : MonoBehaviour {
 
+    public WeaponButtonDisplay weaponHudManager;
     public ItemDatabase databaseSCR;
     public WeaponManager weaponSCR;
     public List<Item> playerWeaponInventory = new List<Item>();
     public List<Item> playerInventory = new List<Item>();
 
+    public GameObject playerInventoryPanel;
+    public GameObject playerInventoryWeaponPanel;
+    public GameObject itemDisplay;
+    
+
 	// Use this for initialization
 	void Start ()
     {
-        playerWeaponInventory.Add(databaseSCR.GetItem(1));
+        //playerWeaponInventory.Add(databaseSCR.GetItem(1));
         weaponSCR.RefreshWeapons();
 
 
@@ -31,12 +38,73 @@ public class ItemInventory : MonoBehaviour {
 
     public void AddItemToInventory(int itemID)
     {
-        playerInventory.Add(databaseSCR.GetItem(itemID));
+        Item newItem = databaseSCR.GetItem(itemID);
+        GameObject insObj = Instantiate(itemDisplay);
+        newItem.displayPanelInventory = insObj;
+        insObj.GetComponent<ItemPanelDisplay>().itemName.GetComponent<Text>().text = newItem.itemName;
+        insObj.transform.SetParent(playerInventoryPanel.transform);
+        playerInventory.Add(newItem);
+
     }
-    public void RemoveItemFromInventory(int itemID)
+    public void RemoveItemFromInventory(Item item)
     {
-        playerInventory.Remove(databaseSCR.GetItem(itemID));
+        foreach (Item itemToRemove in playerInventory)
+        {
+            if(itemToRemove == item)
+            {
+                Destroy(itemToRemove.displayPanelInventory);
+                playerInventory.Remove(itemToRemove);
+                return;
+            }
+        }
     }
 
+    public void EquipItem(GameObject itemPanel)
+    {
+        // Si l'inventaire d'arme n'est pas plein
+        foreach(Item item in playerInventory)
+        {
+            print(item.displayPanelInventory);
+            print(itemPanel);
+            if (item.displayPanelInventory == itemPanel)
+            {
+                Destroy(item.displayPanelInventory);
+                item.displayPanelInventory = null;
+                AddItemToWeaponInventory(item.itemID);
+                playerInventory.Remove(item);
+                break;
+            }
+        }
+        
+    }
+    public void UnEquipItem(GameObject itemPanel)
+    {
+        foreach (Item item in playerWeaponInventory)
+        {
+            if (item.displayPanelWeapon == itemPanel)
+            {
+                Destroy(item.displayPanelWeapon);
+                item.displayPanelWeapon = null;
+                AddItemToInventory(item.itemID);
+                playerWeaponInventory.Remove(item);
+                weaponHudManager.RefreshDisplay();
+                weaponSCR.RefreshWeapons();
+                break;
+            }
+        }
+    }
+
+    void AddItemToWeaponInventory(int itemID)
+    {
+        Item newItem = databaseSCR.GetItem(itemID);
+        playerWeaponInventory.Add(newItem);
+        GameObject insObj = Instantiate(itemDisplay);
+        insObj.GetComponent<ItemPanelDisplay>().itemName.GetComponent<Text>().text = newItem.itemName;
+        newItem.displayPanelWeapon = insObj;
+        insObj.transform.SetParent(playerInventoryWeaponPanel.transform);
+        weaponHudManager.RefreshDisplay();
+        weaponSCR.RefreshWeapons();
+
+    }
 
 }

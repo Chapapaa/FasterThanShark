@@ -7,14 +7,6 @@ public class ShipMap : MonoBehaviour
     public List<ShipRoom> shipMap = new List<ShipRoom>();
     public List<ShipRoom> enemyShipMap = new List<ShipRoom>();
 
-    void Update()
-    {
-        if(Input.GetKey(KeyCode.A))
-        {
-            print(shipMap[0].cells[0].crew);
-            print(enemyShipMap[0].cells[0].crew);
-        }
-    }
     public void SetCharacterPosition(GameObject character, bool ally)
     {
         Vector3 charPos = character.transform.position;

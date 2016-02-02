@@ -143,10 +143,13 @@
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\ItemDatabase.cs" />
     <Compile Include="Assets\Scripts\Items\ItemInventory.cs" />
+    <Compile Include="Assets\Scripts\Items\ItemPanelDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyHealthDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyStats.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\WeaponButtonDisplay.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\WeaponChargeDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Event\ClickEventManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\HUD\UIManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Pathfinding\PathfindingManager.cs" />
