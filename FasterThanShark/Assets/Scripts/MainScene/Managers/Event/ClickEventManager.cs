@@ -47,8 +47,6 @@ public class ClickEventManager : MonoBehaviour {
         }
         if (buttonIndex == 0)
         {
-            
-            
             weaponSCR.UseWeapon(index, map, RoomPos);
         }
     }

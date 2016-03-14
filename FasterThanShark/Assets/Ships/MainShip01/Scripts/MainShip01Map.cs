@@ -4,6 +4,23 @@ using System.Collections.Generic;
 
 public class MainShip01Map : MonoBehaviour {
 
+    public GameObject weaponIcon;
+    public GameObject navIcon;
+    public GameObject repairIcon;
+
+    public Transform Room0;
+    public Transform Room1;
+    public Transform Room2;
+    public Transform Room3;
+    public Transform Room4;
+    public Transform Room5;
+    public Transform Room6;
+    public Transform Room7;
+    public Transform Room8;
+    public Transform Room9;
+    public Transform Room10;
+    public Transform Room11;
+
     public Transform cell0;
     public Transform cell1;
     public Transform cell2;
@@ -42,14 +59,26 @@ public class MainShip01Map : MonoBehaviour {
     public Transform cell35;
 
 
+
+    Engine weaponEngine;
+    Engine navEngine;
+    Engine repairEngine;
+
+    Vector3 lastPosition;
     ShipMap shipMap;
     List<ShipRoom> map = new List<ShipRoom>();
 
-	// Use this for initialization
-	void Start () {
+    public EnginesManager enginesManager;
+
+    // Use this for initialization
+    void Start ()
+    {
         shipMap = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
+        enginesManager = GetComponent<EnginesManager>();
+
         Initialize();
-        shipMap.shipMap = map; 
+        lastPosition = transform.position;
+        shipMap.shipMap = map;
     }
 
     // Update is called once per frame
@@ -66,17 +95,57 @@ public class MainShip01Map : MonoBehaviour {
     /// </summary>
     void Initialize ()
     {
-        map.Add(new ShipRoom(4, "null", cell0.position, cell1.position, cell8.position, cell9.position));
-        map.Add(new ShipRoom(2, "null", cell2.position, cell3.position));
-        map.Add(new ShipRoom(4, "null", cell4.position, cell5.position, cell12.position, cell13.position));
-        map.Add(new ShipRoom(2, "null", cell6.position, cell18.position));
-        map.Add(new ShipRoom(2, "null", cell7.position, cell19.position));
-        map.Add(new ShipRoom(4, "null", cell10.position, cell11.position, cell22.position, cell23.position));
-        map.Add(new ShipRoom(2, "null", cell14.position, cell26.position));
-        map.Add(new ShipRoom(4, "null", cell15.position, cell16.position, cell27.position, cell28.position));
-        map.Add(new ShipRoom(2, "null", cell17.position, cell29.position));
-        map.Add(new ShipRoom(4, "null", cell20.position, cell21.position, cell30.position, cell31.position));
-        map.Add(new ShipRoom(2, "null", cell32.position, cell33.position));
-        map.Add(new ShipRoom(4, "null", cell24.position, cell25.position, cell34.position, cell35.position));
+        InitializeEngines();
+        map.Clear();
+        map.Add(new ShipRoom(4, weaponEngine, cell0.position, cell1.position, cell8.position, cell9.position, Room0.position));
+        map.Add(new ShipRoom(2, new Engine(), cell2.position, cell3.position, Room1.position));
+        map.Add(new ShipRoom(4, new Engine(), cell4.position, cell5.position, cell12.position, cell13.position, Room2.position));
+        map.Add(new ShipRoom(2, new Engine(), cell6.position, cell18.position, Room3.position));
+        map.Add(new ShipRoom(2, new Engine(), cell7.position, cell19.position, Room4.position));
+        map.Add(new ShipRoom(4, new Engine(), cell10.position, cell11.position, cell22.position, cell23.position, Room5.position));
+        map.Add(new ShipRoom(2, new Engine(), cell14.position, cell26.position, Room6.position));
+        map.Add(new ShipRoom(4, new Engine(), cell15.position, cell16.position, cell27.position, cell28.position, Room7.position));
+        map.Add(new ShipRoom(2, navEngine, cell17.position, cell29.position, Room8.position));
+        map.Add(new ShipRoom(4, new Engine(), cell20.position, cell21.position, cell30.position, cell31.position, Room9.position));
+        map.Add(new ShipRoom(2, new Engine(), cell32.position, cell33.position, Room10.position));
+        map.Add(new ShipRoom(4, repairEngine, cell24.position, cell25.position, cell34.position, cell35.position, Room11.position));
+        
+
+        foreach (var shipRoom in map)
+        {
+            if (shipRoom.engine.engine != Engine.engineType.other)
+            {
+                enginesManager.engines.Add(shipRoom.engine);
+            }
+        }
+        
+    }
+
+    void InitializeEngines()
+    {
+        navEngine = new Engine(Engine.engineType.navigation, 1);
+        navEngine.isActive = true;
+        navEngine.icon = navIcon;
+        weaponEngine = new Engine(Engine.engineType.weapon, 1);
+        weaponEngine.isActive = true;
+        weaponEngine.icon = weaponIcon;
+        repairEngine = new Engine(Engine.engineType.repair, 1);
+        repairEngine.isActive = true;
+        repairEngine.icon = repairIcon;
+
+    }
+
+
+
+
+    void Update()
+    {
+        if(lastPosition != transform.position)
+        {
+            Initialize();
+            lastPosition = transform.position;
+            AstarPath.active.Scan();
+        }
+
     }
 }

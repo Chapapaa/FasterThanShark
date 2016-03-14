@@ -7,6 +7,11 @@ public class ShipMap : MonoBehaviour
     public List<ShipRoom> shipMap = new List<ShipRoom>();
     public List<ShipRoom> enemyShipMap = new List<ShipRoom>();
 
+    public void ResetEnemyShipMap()
+    {
+        enemyShipMap.Clear();
+    }
+
     public void SetCharacterPosition(GameObject character, bool ally)
     {
         Vector3 charPos = character.transform.position;
@@ -99,6 +104,44 @@ public class ShipMap : MonoBehaviour
         return null;
     }
 
+    public ShipRoom GetRoomByPos(Vector3 _position)
+    {
+        foreach (var room in shipMap)
+        {
+            foreach (var cell in room.cells)
+            {
+                float dist = Vector3.Distance(cell.position, _position);
+                if (dist < 0.9f)
+                {
+                    return room;
+                }
+            }
+        }
+        foreach (var room in enemyShipMap)
+        {
+            foreach (var cell in room.cells)
+            {
+                float dist = Vector3.Distance(cell.position, _position);
+                if (dist < 0.9f)
+                {
+                    return room;
+                }
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="mapIndex">0 for ally, 1 for enemy</param>
+    public ShipRoom GetRandomAllyRoom()
+    {
+        
+        int randomNumber = Random.Range(0, shipMap.Count);
+        return shipMap[randomNumber];
+        
+    }
 
 }
 

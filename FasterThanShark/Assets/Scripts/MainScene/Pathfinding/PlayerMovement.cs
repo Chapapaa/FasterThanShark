@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour {
     public float mapScale = 2f;
 	public float moveSpeed;
     public bool moving = false;
-    AstarAI astarAI;
+    AILerp aiLerp;
     ShipMap mapSCR;
     Vector3 tempCellPos = new Vector3();
 
@@ -32,9 +32,22 @@ public class PlayerMovement : MonoBehaviour {
         moving = true;      // Permet de savoir si le personnage est en mouvement
         while (transform.position != targetPosition) // Tant que la position du personnage n'est pas égale à la destination finale voulue.
         {
-            astarAI.MoveToPosition(targetPosition);
-            astarAI.speed = moveSpeed;
+            
+            transform.position = new Vector3(transform.position.x, transform.position.y, targetPosition.z);
+            aiLerp.target = targetPosition;
+            aiLerp.speed = moveSpeed;
+            aiLerp.SearchPath();
+            //
+            //astarAI.MoveToPosition(targetPosition);
+            //astarAI.speed = moveSpeed;
+            //
+            print(transform.position);
+            print(targetPosition);
             yield return new WaitForSeconds(0.3f);
+            if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
+            {
+                transform.position = targetPosition;
+            }
         }
         StopMovement();
     }
@@ -53,8 +66,8 @@ public class PlayerMovement : MonoBehaviour {
     // Use this for initialization
     void Start () 
 	{
-        astarAI = gameObject.GetComponent<AstarAI>();
         mapSCR = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
+        aiLerp = gameObject.GetComponent<AILerp>();
 
     }
 	

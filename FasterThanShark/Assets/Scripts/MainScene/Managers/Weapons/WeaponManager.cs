@@ -6,6 +6,9 @@ public class WeaponManager : MonoBehaviour {
     public ItemInventory playerInventory;
     public ClickEventManager clickEvntMng;
     public GameObject enemy;
+    public bool WeaponDisplayInitialized = false;
+
+    WeaponDisplayManager weaponDisplayMng;
 
     public int weaponSelected = -1;
 
@@ -55,9 +58,7 @@ public class WeaponManager : MonoBehaviour {
     }
 
     public void UseWeapon(int index, int _mapIndex, Vector3 targetPos)
-    {
-        Debug.Log("tentative d'atk");
-        
+    {        
         if(_mapIndex == 1 && weaponSelected != -1)
         {
             // map valide, arme valide,
@@ -120,10 +121,14 @@ public class WeaponManager : MonoBehaviour {
 
     public void RefreshWeapons()
     {
+        if(!WeaponDisplayInitialized)
+        { return; }
         weapon1 = null;
         weapon2 = null;
         weapon3 = null;
         weapon4 = null;
+        weaponDisplayMng.RefreshWeaponsInDisplay(); // enleve toutes les armes du displayMng
+
         for (int i = 0; i < playerInventory.playerWeaponInventory.Count; i++ )
         {
             switch(i)
@@ -131,25 +136,30 @@ public class WeaponManager : MonoBehaviour {
                 case 0:
                     {
                         weapon1 = playerInventory.playerWeaponInventory[i];
+                        weaponDisplayMng.weapon1 = weapon1;
                         break;
                     }
                 case 1:
                     {
                         weapon2 = playerInventory.playerWeaponInventory[i];
+                        weaponDisplayMng.weapon2 = weapon2;
                         break;
                     }
                 case 2:
                     {
                         weapon3 = playerInventory.playerWeaponInventory[i];
+                        weaponDisplayMng.weapon3 = weapon3;
                         break;
                     }
                 case 3:
                     {
                         weapon4 = playerInventory.playerWeaponInventory[i];
+                        weaponDisplayMng.weapon4 = weapon4;
                         break;
                     }
             }
         }
+        weaponDisplayMng.RefreshWeaponDisplay(); // enleve les display et les reaffiche correctement
     }
 
     IEnumerator UseWeapon1CRT(Vector3 targetPosition, int mapIndex)
@@ -162,7 +172,10 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (mapIndex == 1)
                 {
-                    enemy.GetComponent<EnemyStats>().GetDamage(weapon1.itemDamage);
+                    //
+                    weaponDisplayMng.Fire(1);
+                    //
+                    enemy.GetComponent<EnemyManager>().GetDamage(weapon1.itemDamage, targetPosition);
                 }
                 weapon1.itemCurrentCD = 0f;
                 break;
@@ -181,7 +194,10 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (mapIndex == 1)
                 {
-                    enemy.GetComponent<EnemyStats>().GetDamage(weapon2.itemDamage);
+                    //
+                    weaponDisplayMng.Fire(2);
+                    //
+                    enemy.GetComponent<EnemyManager>().GetDamage(weapon2.itemDamage, targetPosition);
                 }
                 weapon2.itemCurrentCD = 0f;
                 break;
@@ -199,7 +215,10 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (mapIndex == 1)
                 {
-                    enemy.GetComponent<EnemyStats>().GetDamage(weapon3.itemDamage);
+                    //
+                    weaponDisplayMng.Fire(3);
+                    //
+                    enemy.GetComponent<EnemyManager>().GetDamage(weapon3.itemDamage, targetPosition);
                 }
                 weapon3.itemCurrentCD = 0f;
                 break;
@@ -217,7 +236,10 @@ public class WeaponManager : MonoBehaviour {
             {
                 if (mapIndex == 1)
                 {
-                    enemy.GetComponent<EnemyStats>().GetDamage(weapon4.itemDamage);
+                    //
+                    weaponDisplayMng.Fire(4);
+                    //
+                    enemy.GetComponent<EnemyManager>().GetDamage(weapon4.itemDamage, targetPosition);
                 }
                 weapon4.itemCurrentCD = 0f;
                 break;
@@ -227,7 +249,22 @@ public class WeaponManager : MonoBehaviour {
         Weapon4CRTIsRunning = false;
     }
 
+    IEnumerator Fire(Item weapon)
+    {
+        /*
+            Animation de tir;
+            attends qq secondes 
+            animation de vaisseau enemy touché
+            fin
+        */
+        yield return new WaitForSeconds(0.1f);
+    }
 
+
+    public void InitWeaponDisplayMng(GameObject weaponDisplayGO)
+    {
+        weaponDisplayMng = weaponDisplayGO.GetComponent<WeaponDisplayManager>();
+    }
 
     void OnDrawGizmos()
     {

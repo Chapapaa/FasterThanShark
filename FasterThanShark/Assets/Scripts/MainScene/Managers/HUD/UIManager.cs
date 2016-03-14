@@ -3,6 +3,7 @@ using System.Collections;
 
 public class UIManager : MonoBehaviour {
 
+    public GameObject optionPanel;
     public GameObject inventoryPanel;
     float inputCD = 0.5f;
     float timer = 0f;
@@ -35,6 +36,22 @@ public class UIManager : MonoBehaviour {
             {
                 inventoryPanel.SetActive(true);
             }
-        }	
-	}
+        }
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            if (timer < inputCD)
+            {
+                return;
+            }
+            timer = 0f;
+            if (optionPanel.activeInHierarchy)
+            {
+                optionPanel.SetActive(false);
+            }
+            else
+            {
+                optionPanel.SetActive(true);
+            }
+        }
+    }
 }

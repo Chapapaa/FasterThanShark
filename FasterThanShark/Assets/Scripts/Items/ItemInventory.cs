@@ -62,12 +62,16 @@ public class ItemInventory : MonoBehaviour {
     public void EquipItem(GameObject itemPanel)
     {
         // Si l'inventaire d'arme n'est pas plein
+        if(playerWeaponInventory.Count >= 4)
+        { return; }
+        // cherche l'item a equiper, et détruit d'un coté et le rajoute de l'autre
         foreach(Item item in playerInventory)
         {
-            print(item.displayPanelInventory);
-            print(itemPanel);
             if (item.displayPanelInventory == itemPanel)
             {
+                // Si ce n'est pas une arme, return
+                if(item.itemType != Item.itemTypeEnum.Weapon)
+                { return; }
                 Destroy(item.displayPanelInventory);
                 item.displayPanelInventory = null;
                 AddItemToWeaponInventory(item.itemID);

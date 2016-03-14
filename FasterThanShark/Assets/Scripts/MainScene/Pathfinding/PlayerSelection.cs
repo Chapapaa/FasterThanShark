@@ -9,7 +9,6 @@ public class PlayerSelection : MonoBehaviour
     float colliderx;
     float collidery;
     PathfindingManager pathfindingMNG;
-    bool mouseOver = false;
 
 	// Use this for initialization
 	void Start () {
