@@ -6,6 +6,7 @@ public class EventsManager : MonoBehaviour {
     public int sector = 1;
 
     public ShipSpawnManager spawnerMng;
+    public PauseManager pauseMng;
 
     public GameObject modalWindow;
     ModalWindowManager modalWindowMng;
@@ -18,7 +19,7 @@ public class EventsManager : MonoBehaviour {
 
     public void EnemyEncounter()
     {
-        // pause
+        pauseMng.Pause();
         mainShip.transform.position = mainShipPos.position;
         enemyShip = spawnerMng.SpawnEnemy();
         enemyShip.transform.position = enemyShipPos.position;
@@ -33,14 +34,14 @@ public class EventsManager : MonoBehaviour {
     {
 
         // affichage complet vaisseau
-        // fin de pause
+        pauseMng.Pause();
 
     }
     public void EnemyDestroyed()
     {
 
         // animation de destruction du vaisseau enemy
-        // pause
+        pauseMng.Pause();
         StandardRewardEvent();
         // all crew in mainship, movement stop;
         mainShip.transform.position = shipCenterPos.position;
@@ -50,13 +51,13 @@ public class EventsManager : MonoBehaviour {
     public void StandardEvent()
     {
         // position du vaisseau center;
-        // pause 
+        pauseMng.Pause();
         // affichage d'une fenetre modale
     }
     public void MainShipDestroyed()
     {
         // Animation de destruction du vaisseau
-        // pause
+        pauseMng.Pause();
         // affichage du score + boutton retry
     }
 

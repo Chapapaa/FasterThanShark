@@ -4,6 +4,8 @@ using System.Collections;
 public class CannonBullet : MonoBehaviour {
 
     bool move = false;
+    public Vector3 targetPosition;
+    public float speed = 1f;
 
 	// Use this for initialization
 	void Start () {
@@ -14,9 +16,9 @@ public class CannonBullet : MonoBehaviour {
 	void Update () {
         if (move)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y - 0.1f, transform.position.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
         }
-        if(transform.position.y < -50f)
+        if(transform.position == targetPosition)
         {
             Destroy(gameObject);
         }
@@ -26,6 +28,7 @@ public class CannonBullet : MonoBehaviour {
     public void MoveTowards(Vector3 positionStart, Vector3 positionEnd)
     {
         move = true;
+        targetPosition = positionEnd;
     }
 
 }

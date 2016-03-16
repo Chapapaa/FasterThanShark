@@ -3,16 +3,25 @@ using System.Collections;
 
 public class OptionWindowManager : MonoBehaviour {
 
-	public void ExitToWindows()
+    void OnEnable()
+    {
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Pause();
+    }
+    void OnDisable()
+    {
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Resume();
+    }
+
+    public void ExitToWindows()
     {
         Application.Quit();
     }
 
     public void ResumeGame()
     {
-        // TD : pause on/off
         gameObject.SetActive(false);
     }
+
 
 
 

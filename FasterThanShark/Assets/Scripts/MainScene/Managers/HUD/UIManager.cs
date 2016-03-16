@@ -5,6 +5,7 @@ public class UIManager : MonoBehaviour {
 
     public GameObject optionPanel;
     public GameObject inventoryPanel;
+    public PauseManager pauseMng;
     float inputCD = 0.5f;
     float timer = 0f;
 
@@ -47,10 +48,12 @@ public class UIManager : MonoBehaviour {
             if (optionPanel.activeInHierarchy)
             {
                 optionPanel.SetActive(false);
+                pauseMng.Pause();
             }
             else
             {
                 optionPanel.SetActive(true);
+                pauseMng.Pause();
             }
         }
     }

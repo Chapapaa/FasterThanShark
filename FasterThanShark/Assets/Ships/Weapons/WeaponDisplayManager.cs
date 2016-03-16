@@ -82,24 +82,32 @@ public class WeaponDisplayManager : MonoBehaviour {
             weapon1Display = Instantiate(standardCannon);
             weapon1Display.transform.SetParent(weapon1Container.transform);
             weapon1Display.transform.localPosition = Vector3.zero;
+            weapon1Display.transform.localRotation = weapon1Container.transform.localRotation;
+            weapon1Display.GetComponent<CannonBullletSpawner>().direction = 6;
         }
         if (weapon2 != null)
         {
             weapon2Display = Instantiate(standardCannon);
             weapon2Display.transform.SetParent(weapon2Container.transform);
             weapon2Display.transform.localPosition = Vector3.zero;
+            weapon2Display.transform.localRotation = weapon1Container.transform.localRotation;
+            weapon2Display.GetComponent<CannonBullletSpawner>().direction = 6;
         }
         if (weapon3 != null)
         {
             weapon3Display = Instantiate(standardCannon);
             weapon3Display.transform.SetParent(weapon3Container.transform);
             weapon3Display.transform.localPosition = Vector3.zero;
+            weapon3Display.transform.localRotation = weapon1Container.transform.localRotation;
+            weapon3Display.GetComponent<CannonBullletSpawner>().direction = 6;
         }
         if (weapon4 != null)
         {
             weapon4Display = Instantiate(standardCannon);
             weapon4Display.transform.SetParent(weapon4Container.transform);
             weapon4Display.transform.localPosition = Vector3.zero;
+            weapon4Display.transform.localRotation = weapon1Container.transform.localRotation;
+            weapon4Display.GetComponent<CannonBullletSpawner>().direction = 6;
         }
     }
     

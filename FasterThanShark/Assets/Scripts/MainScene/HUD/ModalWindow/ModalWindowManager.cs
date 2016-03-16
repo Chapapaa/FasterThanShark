@@ -15,8 +15,12 @@ public class ModalWindowManager : MonoBehaviour {
 
     void OnEnable ()
     {
-	
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Pause();
 	}
+    void OnDisable()
+    {
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Resume();
+    }
 	
 	// Update is called once per frame
 	void Update ()

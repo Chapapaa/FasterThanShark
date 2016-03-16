@@ -170,6 +170,7 @@
     <Compile Include="Assets\Scripts\MainScene\Managers\Event\EventsManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\HUD\UIManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Pathfinding\PathfindingManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Pause\PauseManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\ShipMap.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\ShipSpawnManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Weapons\WeaponManager.cs" />
@@ -187,6 +188,8 @@
     <Compile Include="Assets\Ships\EnginesManager.cs" />
     <Compile Include="Assets\Ships\MainShip01\Scripts\MainShip01Map.cs" />
     <Compile Include="Assets\Ships\MainShip01\Scripts\MainShip01Stats.cs" />
+    <Compile Include="Assets\Ships\MainShip02\Script\MainShip02Map.cs" />
+    <Compile Include="Assets\Ships\MainShip02\Script\MainShip02Stats.cs" />
     <Compile Include="Assets\Ships\Map\ShipCell.cs" />
     <Compile Include="Assets\Ships\Map\ShipRoom.cs" />
     <Compile Include="Assets\Ships\ShipDoor.cs" />

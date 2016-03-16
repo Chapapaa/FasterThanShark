@@ -24,6 +24,7 @@ public class CharSpawnManager : MonoBehaviour {
         spawnerCharPanel.GetComponent<CharacterPanelDisplay>().character = spawnedChar;
 
     }
+
     public void SpawnAlly(string charName)
     {
 
