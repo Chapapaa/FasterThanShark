@@ -147,6 +147,9 @@
     <Compile Include="Assets\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\changelog.cs" />
+    <Compile Include="Assets\Raving Bots\Scripts\Water2D\Water2DEffects.cs" />
+    <Compile Include="Assets\Raving Bots\Scripts\Water2D\Water2DMaterialScaler.cs" />
+    <Compile Include="Assets\Raving Bots\Scripts\Water2D\Water2DSplashFX.cs" />
     <Compile Include="Assets\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Scripts\Items\ItemDatabase.cs" />
     <Compile Include="Assets\Scripts\Items\ItemInventory.cs" />
@@ -212,6 +215,9 @@
     <None Include="Assets\AstarPathfindingProject\Readme.txt" />
     <None Include="Assets\AstarPathfindingProject\Readme_upgrading.txt" />
     <None Include="Assets\AstarPathfindingProject\link.xml" />
+    <None Include="Assets\Raving Bots\Shaders\Water 2D Plain.shader" />
+    <None Include="Assets\Raving Bots\Shaders\Water 2D Waves.shader" />
+    <None Include="Assets\Raving Bots\Shaders\Water2D.cginc" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
