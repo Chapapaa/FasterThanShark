@@ -5,6 +5,8 @@ public class CannonBullletSpawner : MonoBehaviour {
 
     public GameObject bulletPrefab;
     public int direction; // 8,6,2,4;
+    public int shaderOrder = 2000;
+    public int selectedCamera = 0;
     Vector3 targetPosition;
 
 	// Use this for initialization
@@ -15,7 +17,7 @@ public class CannonBullletSpawner : MonoBehaviour {
         }
         if (direction == 6)
         {
-            targetPosition = new Vector3(transform.position.x + 100f, transform.position.y, transform.position.z);
+            targetPosition = new Vector3(transform.position.x + 12f, transform.position.y, transform.position.z);
         }
         if (direction == 2)
         {
@@ -23,7 +25,7 @@ public class CannonBullletSpawner : MonoBehaviour {
         }
         if (direction == 4)
         {
-            targetPosition = new Vector3(transform.position.x - 100f, transform.position.y, transform.position.z);
+            targetPosition = new Vector3(transform.position.x - 12f, transform.position.y, transform.position.z);
         }
 
 
@@ -41,6 +43,24 @@ public class CannonBullletSpawner : MonoBehaviour {
         instBullet.transform.position = transform.position;
 
         instBullet.GetComponent<CannonBullet>().MoveTowards(transform.position, targetPosition);
+        instBullet.GetComponent<CannonBullet>().targetID = -1;
+        instBullet.GetComponent<ShaderRenderOrder>().renderQueueValue = shaderOrder;
+        if(selectedCamera == 0)
+        {
+            Transform[] transforms = instBullet.GetComponentsInChildren<Transform>();
+            foreach(var x in transforms)
+            {
+                x.gameObject.layer = 0;
+            }
+        }
+        if (selectedCamera == 1)
+        {
+            Transform[] transforms = instBullet.GetComponentsInChildren<Transform>();
+            foreach (var x in transforms)
+            {
+                x.gameObject.layer = 11;
+            }
+        }
     }
 
 }

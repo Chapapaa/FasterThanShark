@@ -6,8 +6,11 @@ public class WeaponManager : MonoBehaviour {
     public ItemInventory playerInventory;
     public ClickEventManager clickEvntMng;
     public GameObject enemy;
-    public bool WeaponDisplayInitialized = false;
 
+    public GameObject bulletPrefab;
+
+    public bool WeaponDisplayInitialized = false;
+    public BulletSpawnerManager bulletSpawnerMng;
     WeaponDisplayManager weaponDisplayMng;
 
     public int weaponSelected = -1;
@@ -40,8 +43,29 @@ public class WeaponManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            SelectWeapon(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            SelectWeapon(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            SelectWeapon(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4))
+        {
+            SelectWeapon(3);
+        }
 
-	}
+    }
+
+    public void StopAttacking()
+    {
+        StopAllCoroutines();
+    }
 
     public void UnselectWeapon()
     {
@@ -175,7 +199,9 @@ public class WeaponManager : MonoBehaviour {
                     //
                     weaponDisplayMng.Fire(1);
                     //
-                    enemy.GetComponent<EnemyManager>().GetDamage(weapon1.itemDamage, targetPosition);
+                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon1.itemDamage, bulletPrefab, targetPosition);
+
+                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon1.itemDamage, targetPosition);
                 }
                 weapon1.itemCurrentCD = 0f;
                 break;
@@ -197,7 +223,8 @@ public class WeaponManager : MonoBehaviour {
                     //
                     weaponDisplayMng.Fire(2);
                     //
-                    enemy.GetComponent<EnemyManager>().GetDamage(weapon2.itemDamage, targetPosition);
+                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon2.itemDamage, bulletPrefab, targetPosition);
+                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon2.itemDamage, targetPosition);
                 }
                 weapon2.itemCurrentCD = 0f;
                 break;
@@ -218,7 +245,8 @@ public class WeaponManager : MonoBehaviour {
                     //
                     weaponDisplayMng.Fire(3);
                     //
-                    enemy.GetComponent<EnemyManager>().GetDamage(weapon3.itemDamage, targetPosition);
+                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon3.itemDamage, bulletPrefab, targetPosition);
+                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon3.itemDamage, targetPosition);
                 }
                 weapon3.itemCurrentCD = 0f;
                 break;
@@ -239,7 +267,8 @@ public class WeaponManager : MonoBehaviour {
                     //
                     weaponDisplayMng.Fire(4);
                     //
-                    enemy.GetComponent<EnemyManager>().GetDamage(weapon4.itemDamage, targetPosition);
+                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon4.itemDamage, bulletPrefab, targetPosition);
+                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon4.itemDamage, targetPosition);
                 }
                 weapon4.itemCurrentCD = 0f;
                 break;
@@ -249,16 +278,16 @@ public class WeaponManager : MonoBehaviour {
         Weapon4CRTIsRunning = false;
     }
 
-    IEnumerator Fire(Item weapon)
-    {
-        /*
-            Animation de tir;
-            attends qq secondes 
-            animation de vaisseau enemy touché
-            fin
-        */
-        yield return new WaitForSeconds(0.1f);
-    }
+    //IEnumerator Fire(Item weapon)
+    //{
+    //    /*
+    //        Animation de tir;
+    //        attends qq secondes 
+    //        animation de vaisseau enemy touché
+    //        fin
+    //    */
+    //    yield return new WaitForSeconds(0.1f);
+    //}
 
 
     public void InitWeaponDisplayMng(GameObject weaponDisplayGO)

@@ -65,6 +65,21 @@ public class EnginesManager: MonoBehaviour
         return false;
 
     }
+    public bool isNavigationEngineAlive()
+    {
+        foreach (Engine engine in engines)
+        {
+            if (engine.engine == Engine.engineType.navigation)
+            {
+                if (engine.alive && engine.isActive)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
 
     public bool IsRepairEngineAlive()
     {

@@ -69,6 +69,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Animation\Effect\Explosion\Explosion.cs" />
+    <Compile Include="Assets\Animation\Test\MissText\MissText.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Core\AI\AILerp.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Core\AI\AIPath.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Core\AI\NavmeshController.cs" />
@@ -154,6 +156,9 @@
     <Compile Include="Assets\Scripts\Items\ItemDatabase.cs" />
     <Compile Include="Assets\Scripts\Items\ItemInventory.cs" />
     <Compile Include="Assets\Scripts\Items\ItemPanelDisplay.cs" />
+    <Compile Include="Assets\Scripts\MainScene\BulletSpawner\BulletSpawnerManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\BulletSpawner\BulletSpawnerOnAlly.cs" />
+    <Compile Include="Assets\Scripts\MainScene\BulletSpawner\BulletSpawnerOnEnemy.cs" />
     <Compile Include="Assets\Scripts\MainScene\Character\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyHealthDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyManager.cs" />
@@ -186,6 +191,7 @@
     <Compile Include="Assets\Scripts\StartScreen\Managers\Options.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartAndLoad.cs" />
     <Compile Include="Assets\Scripts\StartScreen\Managers\StartScreenGlobalManager.cs" />
+    <Compile Include="Assets\Shader\ShaderRenderOrder.cs" />
     <Compile Include="Assets\Ships\EnemyShip01\Script\EnemyShip01Map.cs" />
     <Compile Include="Assets\Ships\Engine.cs" />
     <Compile Include="Assets\Ships\EnginesManager.cs" />
@@ -218,6 +224,7 @@
     <None Include="Assets\Raving Bots\Shaders\Water 2D Plain.shader" />
     <None Include="Assets\Raving Bots\Shaders\Water 2D Waves.shader" />
     <None Include="Assets\Raving Bots\Shaders\Water2D.cginc" />
+    <None Include="Assets\Shader\InvisibleShader.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>

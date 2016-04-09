@@ -24,6 +24,22 @@ public class EnemyManager : MonoBehaviour {
         StartCoroutine(RepairHullCrt());
 
     }
+
+    void Update()
+    {
+        if (engineMng != null)
+        {
+            if (engineMng.isNavigationEngineAlive())
+            {
+                // TD : recupere la bonne valeur de flee;
+                statsSCR.flee = statsSCR.maxFlee;
+            }
+            else
+            {
+                statsSCR.flee = 0;
+            }
+        }
+    }
 	
     public void GetDamage(int amount, Vector3 position)
     {

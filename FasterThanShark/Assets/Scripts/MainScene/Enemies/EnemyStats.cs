@@ -11,6 +11,8 @@ public class EnemyStats : MonoBehaviour {
     public int maxHealth1 = 10;
     public int health2 = 5;
     public int maxHealth2 = 5;
+    public int flee = 0;
+    public int maxFlee = 0;
 
 
 

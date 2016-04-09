@@ -25,6 +25,18 @@ public class PlayerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (engineMng != null)
+        {
+            if (engineMng.isNavigationEngineAlive())
+            {
+                // TD : recupere la bonne valeur de flee;
+                playerStats.flee = playerStats.maxFlee;
+            }
+            else
+            {
+                playerStats.flee = 0;
+            }
+        }
 	
 	}
 

@@ -12,6 +12,8 @@ public class PlayerStats : MonoBehaviour {
     public int maxHealth1 = 5;
     public int health2 = 5;
     public int maxHealth2 = 5;
+    public int flee = 0;
+    public int maxFlee = 100;
 
     public EnginesManager engineMng = null;
 

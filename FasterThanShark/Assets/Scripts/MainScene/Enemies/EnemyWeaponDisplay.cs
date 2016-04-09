@@ -72,33 +72,41 @@ public class EnemyWeaponDisplay : MonoBehaviour {
             // TD : récupere le type d'arme et instancie le bon prefab;
             weapon0Display = Instantiate(standardCannon);
             weapon0Display.transform.SetParent(weapon0Container.transform);
-            weapon0Display.transform.localPosition = Vector3.zero;
+            weapon0Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
             weapon0Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             weapon0Display.GetComponent<CannonBullletSpawner>().direction = 4;
+            weapon0Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
+            weapon0Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
         }
         if (weapon1 != null)
         {
             weapon1Display = Instantiate(standardCannon);
             weapon1Display.transform.SetParent(weapon1Container.transform);
-            weapon1Display.transform.localPosition = Vector3.zero;
+            weapon1Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
             weapon1Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             weapon1Display.GetComponent<CannonBullletSpawner>().direction = 4;
+            weapon1Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
+            weapon1Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
         }
         if (weapon2 != null)
         {
             weapon2Display = Instantiate(standardCannon);
             weapon2Display.transform.SetParent(weapon2Container.transform);
-            weapon2Display.transform.localPosition = Vector3.zero;
+            weapon2Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
             weapon2Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             weapon2Display.GetComponent<CannonBullletSpawner>().direction = 4;
+            weapon2Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
+            weapon2Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
         }
         if (weapon3 != null)
         {
             weapon3Display = Instantiate(standardCannon);
             weapon3Display.transform.SetParent(weapon3Container.transform);
-            weapon3Display.transform.localPosition = Vector3.zero;
+            weapon3Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
             weapon3Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             weapon3Display.GetComponent<CannonBullletSpawner>().direction = 4;
+            weapon3Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
+            weapon3Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
         }
 
     }

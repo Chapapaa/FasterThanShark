@@ -7,6 +7,8 @@ public class EventsManager : MonoBehaviour {
 
     public ShipSpawnManager spawnerMng;
     public PauseManager pauseMng;
+    public BulletSpawnerManager bulletSpawnerMng;
+    public WeaponManager weaponMng;
 
     public GameObject modalWindow;
     ModalWindowManager modalWindowMng;
@@ -39,6 +41,8 @@ public class EventsManager : MonoBehaviour {
     }
     public void EnemyDestroyed()
     {
+        bulletSpawnerMng.DestroyAllBullets();
+        weaponMng.StopAttacking();
 
         // animation de destruction du vaisseau enemy
         pauseMng.Pause();
