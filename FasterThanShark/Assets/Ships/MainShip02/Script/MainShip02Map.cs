@@ -104,8 +104,8 @@ public class MainShip02Map : MonoBehaviour
         map.Add(new ShipRoom(4, weaponEngine, cell6.position, cell7.position, cell10.position, cell11.position, Room3.position));
         map.Add(new ShipRoom(2, new Engine(), cell12.position, cell16.position, Room4.position));
         map.Add(new ShipRoom(4, new Engine(), cell13.position, cell14.position, cell17.position, cell18.position, Room5.position));
-        map.Add(new ShipRoom(2, repairEngine, cell15.position, cell19.position, Room6.position));
-        map.Add(new ShipRoom(4, new Engine(), cell20.position, cell21.position, cell24.position, cell25.position, Room7.position));
+        map.Add(new ShipRoom(2, new Engine(), cell15.position, cell19.position, Room6.position));
+        map.Add(new ShipRoom(4, repairEngine, cell20.position, cell21.position, cell24.position, cell25.position, Room7.position));
         map.Add(new ShipRoom(4, new Engine(), cell22.position, cell23.position, cell26.position, cell27.position, Room8.position));
         map.Add(new ShipRoom(2, new Engine(), cell28.position, cell29.position, Room9.position));
         map.Add(new ShipRoom(4, new Engine(), cell30.position, cell31.position, cell32.position, cell33.position, Room10.position));

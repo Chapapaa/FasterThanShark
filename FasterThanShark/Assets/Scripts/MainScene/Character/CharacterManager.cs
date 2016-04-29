@@ -40,8 +40,13 @@ public class CharacterManager : MonoBehaviour {
     public void Death()
     {
         Destroy(displayPanel);
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>().DestroyChar(gameObject);
         // Maj de la map
-        Destroy(gameObject);
+        StartCoroutine(DeathCrt());
+    }
+    public void GetDamage(int amount)
+    {
+        currentHp -= amount;
     }
 
     IEnumerator RepairCoroutine()
@@ -81,4 +86,15 @@ public class CharacterManager : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    IEnumerator DeathCrt()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(2f);
+            Destroy(gameObject);
+        }
+    }
+
+
 }

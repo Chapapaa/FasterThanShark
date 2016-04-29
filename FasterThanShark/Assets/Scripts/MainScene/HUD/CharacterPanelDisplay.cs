@@ -6,6 +6,7 @@ public class CharacterPanelDisplay : MonoBehaviour {
 
     public GameObject character;
     CharacterManager charManager;
+    public GameObject healthBar;
 
     public GameObject nameTextPanel;
 
@@ -21,6 +22,7 @@ public class CharacterPanelDisplay : MonoBehaviour {
 	void Update ()
     {
         nameTextPanel.GetComponent<Text>().text = charManager.characterName;
+        healthBar.GetComponent<Image>().fillAmount = (float)charManager.currentHp /  charManager.maxHp;
 
 
     }

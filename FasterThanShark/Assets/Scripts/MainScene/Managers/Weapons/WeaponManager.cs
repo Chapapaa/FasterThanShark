@@ -197,11 +197,8 @@ public class WeaponManager : MonoBehaviour {
                 if (mapIndex == 1)
                 {
                     //
-                    weaponDisplayMng.Fire(1);
-                    //
-                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon1.itemDamage, bulletPrefab, targetPosition);
+                    weaponDisplayMng.Fire(1, targetPosition);
 
-                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon1.itemDamage, targetPosition);
                 }
                 weapon1.itemCurrentCD = 0f;
                 break;
@@ -221,9 +218,9 @@ public class WeaponManager : MonoBehaviour {
                 if (mapIndex == 1)
                 {
                     //
-                    weaponDisplayMng.Fire(2);
+                    weaponDisplayMng.Fire(2, targetPosition);
                     //
-                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon2.itemDamage, bulletPrefab, targetPosition);
+                    //bulletSpawnerMng.SpawnBulletOnEnemy(weapon2.itemDamage, bulletPrefab, targetPosition);
                     //enemy.GetComponent<EnemyManager>().GetDamage(weapon2.itemDamage, targetPosition);
                 }
                 weapon2.itemCurrentCD = 0f;
@@ -243,9 +240,9 @@ public class WeaponManager : MonoBehaviour {
                 if (mapIndex == 1)
                 {
                     //
-                    weaponDisplayMng.Fire(3);
+                    weaponDisplayMng.Fire(3, targetPosition);
                     //
-                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon3.itemDamage, bulletPrefab, targetPosition);
+                    //bulletSpawnerMng.SpawnBulletOnEnemy(weapon3.itemDamage, bulletPrefab, targetPosition);
                     //enemy.GetComponent<EnemyManager>().GetDamage(weapon3.itemDamage, targetPosition);
                 }
                 weapon3.itemCurrentCD = 0f;
@@ -265,9 +262,9 @@ public class WeaponManager : MonoBehaviour {
                 if (mapIndex == 1)
                 {
                     //
-                    weaponDisplayMng.Fire(4);
+                    weaponDisplayMng.Fire(4, targetPosition);
                     //
-                    bulletSpawnerMng.SpawnBulletOnEnemy(weapon4.itemDamage, bulletPrefab, targetPosition);
+                    //bulletSpawnerMng.SpawnBulletOnEnemy(weapon4.itemDamage, bulletPrefab, targetPosition);
                     //enemy.GetComponent<EnemyManager>().GetDamage(weapon4.itemDamage, targetPosition);
                 }
                 weapon4.itemCurrentCD = 0f;

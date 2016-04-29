@@ -27,34 +27,47 @@ public class EnemyWeaponDisplay : MonoBehaviour {
     /// animation of fireing
     /// </summary>
     /// <param name="weaponID">0,1,2,3</param>
-    public void Fire(int weaponID)
+    public void Fire(int weaponID, Vector3 _targetPos)
     {
         //affiche l'animation de tir avec l'arme choisie
         if (weaponID == 0)
         {
-            weapon0Display.GetComponent<Animator>().SetTrigger("Fire");
-            //CannonBullletSpawner
-           
-            weapon0Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-            
+            weapon0Display.GetComponent<Animator>().SetTrigger("Fire");          
+            weapon0Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon0Display.transform.localRotation = Quaternion.identity;
+            Vector3 dir = _targetPos - weapon0Display.transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            weapon0Display.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         }
+        // Inutilisé pour le moment
         if (weaponID == 1)
         {
             weapon1Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-            
-
+            weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon1Display.transform.localRotation = Quaternion.identity;
+            Vector3 dir = _targetPos - weapon1Display.transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            weapon1Display.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
         if (weaponID == 2)
         {
             weapon2Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-            
+            weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon2Display.transform.localRotation = Quaternion.identity;
+            Vector3 dir = _targetPos - weapon2Display.transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            weapon2Display.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
         }
         if (weaponID == 3)
         {
             weapon3Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
+            weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon3Display.transform.localRotation = Quaternion.identity;
+            Vector3 dir = _targetPos - weapon3Display.transform.position;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            weapon3Display.transform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
     }
     
@@ -73,40 +86,28 @@ public class EnemyWeaponDisplay : MonoBehaviour {
             weapon0Display = Instantiate(standardCannon);
             weapon0Display.transform.SetParent(weapon0Container.transform);
             weapon0Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon0Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            weapon0Display.GetComponent<CannonBullletSpawner>().direction = 4;
-            weapon0Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
-            weapon0Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
+            weapon0Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
         }
         if (weapon1 != null)
         {
             weapon1Display = Instantiate(standardCannon);
             weapon1Display.transform.SetParent(weapon1Container.transform);
             weapon1Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon1Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            weapon1Display.GetComponent<CannonBullletSpawner>().direction = 4;
-            weapon1Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
-            weapon1Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
+            weapon1Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
         }
         if (weapon2 != null)
         {
             weapon2Display = Instantiate(standardCannon);
             weapon2Display.transform.SetParent(weapon2Container.transform);
             weapon2Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon2Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            weapon2Display.GetComponent<CannonBullletSpawner>().direction = 4;
-            weapon2Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
-            weapon2Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
+            weapon2Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
         }
         if (weapon3 != null)
         {
             weapon3Display = Instantiate(standardCannon);
             weapon3Display.transform.SetParent(weapon3Container.transform);
             weapon3Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon3Display.transform.localRotation = Quaternion.Euler(0f, 0f, 0f);
-            weapon3Display.GetComponent<CannonBullletSpawner>().direction = 4;
-            weapon3Display.GetComponent<CannonBullletSpawner>().selectedCamera = 1;
-            weapon3Display.GetComponent<CannonBullletSpawner>().shaderOrder = 2001;
+            weapon3Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
         }
 
     }

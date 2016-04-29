@@ -3,17 +3,7 @@ using System.Collections;
 
 public class BulletSpawnerManager : MonoBehaviour {
 
-    public BulletSpawnerOnEnemy enemyBulletSpawner;
-    public BulletSpawnerOnAlly allyBulletSpawner;
 
-    public void SpawnBulletOnEnemy(int bulletDmg, GameObject prefab, Vector3 targetPos)
-    {
-        enemyBulletSpawner.SpawnBullet(bulletDmg, prefab, targetPos);
-    }
-    public void SpawnBulletOnAlly(int bulletDmg, GameObject prefab, Vector3 targetPos)
-    {
-        allyBulletSpawner.SpawnBullet(bulletDmg, prefab, targetPos);
-    }
 
     public void DestroyAllBullets()
     {
@@ -22,8 +12,6 @@ public class BulletSpawnerManager : MonoBehaviour {
         {
             Destroy(bullet);
         }
-        enemyBulletSpawner.StopAllCoroutines();
-        allyBulletSpawner.StopAllCoroutines();
     }
 
     // Use this for initialization

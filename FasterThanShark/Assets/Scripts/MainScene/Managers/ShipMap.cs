@@ -143,6 +143,42 @@ public class ShipMap : MonoBehaviour
         
     }
 
+    public void DestroyChar(GameObject character)
+    {
+        foreach (ShipRoom room in shipMap)
+        {
+            foreach(ShipCell cell in room.cells)
+            {
+                if(cell.crew == character)
+                {
+                    cell.crew = null;
+                    return;
+                }
+                if (cell.enemy == character)
+                {
+                    cell.enemy = null;
+                    return;
+                }
+            }
+        }
+        foreach (ShipRoom room in enemyShipMap)
+        {
+            foreach (ShipCell cell in room.cells)
+            {
+                if (cell.crew == character)
+                {
+                    cell.crew = null;
+                    return;
+                }
+                if (cell.enemy == character)
+                {
+                    cell.enemy = null;
+                    return;
+                }
+            }
+        }
+    }
+
 }
 
 

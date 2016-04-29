@@ -13,6 +13,17 @@ public class PlayerManager : MonoBehaviour {
         if(trueDamage > 0)
         {
             engineMng.GetDamageOnEngine(targetRoom.engine, trueDamage);
+            foreach(ShipCell cell in targetRoom.cells)
+            {
+                if(cell.crew != null)
+                {
+                    cell.crew.GetComponent<CharacterManager>().GetDamage(amount);
+                }
+                if (cell.enemy != null)
+                {
+                    cell.enemy.GetComponent<CharacterManager>().GetDamage(amount);
+                }
+            }
         }
     }
 

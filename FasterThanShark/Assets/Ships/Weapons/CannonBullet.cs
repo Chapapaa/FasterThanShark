@@ -53,12 +53,12 @@ public class CannonBullet : MonoBehaviour {
             {
                 ShipRoom targetedRoom = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>().GetRoomByPos(targetPosition);
                 GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().GetDamage(bulletDamage, targetedRoom);
-                Instantiate(explosionGO, transform.position, transform.rotation);
+                Instantiate(explosionGO, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
             else
             {
-                Instantiate(missText, transform.position, transform.rotation);
+                Instantiate(missText, transform.position, Quaternion.identity);
                 Vector3 newTarget = (targetPosition - startPosition) * 100f;
                 targetPosition = newTarget;
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
@@ -77,12 +77,12 @@ public class CannonBullet : MonoBehaviour {
             if (rng > enemyFlee)
             {
                 enemyMng.GetDamage(bulletDamage, targetPosition);
-                Instantiate(explosionGO, transform.position, transform.rotation);
+                Instantiate(explosionGO, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }
             else
             {
-                Instantiate(missText, transform.position, transform.rotation);
+                Instantiate(missText, transform.position, Quaternion.identity);
                 Vector3 newTarget = (targetPosition - startPosition) * 100f;
                 targetPosition = newTarget;
                 transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
