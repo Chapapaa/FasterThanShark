@@ -30,7 +30,6 @@ public class PlayerSelection : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                print("Player selected");
                 pathfindingMNG.selectedPlayer = gameObject;
             }
         }

@@ -8,9 +8,9 @@ using UnityEngine.UI;
 public class HealthDisplay : MonoBehaviour {
 
 
-	public int HP0 = 10;
+	public int HP0 = 5;
     public int HP1 = 10;
-    public int HP2 = 10;
+    public int HP2 = 5;
     public Image healthBar0;
     public Image healthBar1;
     public Image healthBar2;

@@ -16,10 +16,10 @@ public class ItemDatabase : MonoBehaviour {
 
     void Initialisation()
     {
-        // ID | Name | Type | CoolDown | Damage | Price
-        itemDatabase.Add(new Item(0,"defaultItem", Item.itemTypeEnum.Other, 0f, 0, 0));
-        itemDatabase.Add(new Item(1,"TestCannon1", Item.itemTypeEnum.Weapon, 2f, 1, 0));
-        itemDatabase.Add(new Item(2, "TestCannon2", Item.itemTypeEnum.Weapon, 5f, 2, 0));
+        // ID | Name | Type | CoolDown | Power | Damage | Price
+        itemDatabase.Add(new Item(0,"defaultItem", Item.itemTypeEnum.Other, 0f, 0, 0, 0));
+        itemDatabase.Add(new Item(1,"TestCannon1", Item.itemTypeEnum.Weapon, 2f,1, 1, 0));
+        itemDatabase.Add(new Item(2, "TestCannon2", Item.itemTypeEnum.Weapon, 5f, 2, 2, 0));
     }
     public Item GetItem(int ID)
     {
@@ -27,7 +27,8 @@ public class ItemDatabase : MonoBehaviour {
         {
             if(x.itemID == ID )
             {
-                return new Item(x.itemID, x.itemName,x.itemType,x.itemCD,x.itemDamage,x.itemPrice);
+                return new Item(x.itemID, x.itemName,x.itemType,x.itemCD,x.itemPwrCost
+                    ,x.itemDamage,x.itemPrice);
             }
         }
         return null;

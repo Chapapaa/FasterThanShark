@@ -6,6 +6,7 @@ public class ItemPanelDisplay : MonoBehaviour {
     ItemInventory inventory;
     public GameObject itemName;
     public GameObject itemDescription;
+    public GameObject itemPower;
 
 
     // Use this for initialization

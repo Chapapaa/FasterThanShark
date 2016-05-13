@@ -23,6 +23,7 @@ public class EnemyManager : MonoBehaviour {
         weaponsMng.enemy = gameObject;
         StartCoroutine(RepairHullCrt());
 
+
     }
 
     void Update()
@@ -94,6 +95,8 @@ public class EnemyManager : MonoBehaviour {
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+
 
 
 }

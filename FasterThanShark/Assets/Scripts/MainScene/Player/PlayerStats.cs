@@ -12,10 +12,16 @@ public class PlayerStats : MonoBehaviour {
     public int maxHealth1 = 5;
     public int health2 = 5;
     public int maxHealth2 = 5;
+
+
     public int flee = 0;
     public int maxFlee = 100;
 
+    public int currentPwr = 0;
+    public int maxPwr = 0;
+
     public EnginesManager engineMng = null;
+
 
 
 
@@ -29,7 +35,23 @@ public class PlayerStats : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-
+        if(engineMng != null)
+        {
+            maxFlee = engineMng.GetEngine(Engine.engineType.navigation).currentPwr * 10;
+            maxHealth2 = engineMng.GetEngine(Engine.engineType.repair).currentPwr;
+        }
+        if(health0 > maxHealth0)
+        {
+            health0 = maxHealth0;
+        }
+        if (health1 > maxHealth1)
+        {
+            health1 = maxHealth1;
+        }
+        if (health2 > maxHealth2)
+        {
+            health2 = maxHealth2;
+        }
 
     }
 
@@ -38,6 +60,7 @@ public class PlayerStats : MonoBehaviour {
         health = 0;
 
     }
+
 
     public int GetTrueDamage(int amount)
     {

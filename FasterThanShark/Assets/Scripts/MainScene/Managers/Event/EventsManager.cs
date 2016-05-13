@@ -12,17 +12,17 @@ public class EventsManager : MonoBehaviour {
 
     public GameObject modalWindow;
     ModalWindowManager modalWindowMng;
-    public Transform mainShipPos;
+    public Transform mainCameraPos;
     public Transform shipCenterPos;
     public Transform enemyShipPos;
     public GameObject mainShip;
     public GameObject enemyShip;
+    public Vector3 cameraCenter;
 
 
     public void EnemyEncounter()
     {
         pauseMng.Pause();
-        mainShip.transform.position = mainShipPos.position;
         enemyShip = spawnerMng.SpawnEnemy();
         enemyShip.transform.position = enemyShipPos.position;
 
@@ -30,26 +30,27 @@ public class EventsManager : MonoBehaviour {
         modalWindowMng.SetDescription("A ship is on your way, it's a pirate ship ! \n Prepare to fight !");
         modalWindowMng.AddAwnser("Fight");
         modalWindow.SetActive(true);
+        mainCameraPos.position = cameraCenter;
     }
 
+    // UnUSED
     public void StartBattle()
     {
 
         // affichage complet vaisseau
         pauseMng.Pause();
+        
 
     }
     public void EnemyDestroyed()
     {
         bulletSpawnerMng.DestroyAllBullets();
         weaponMng.StopAttacking();
+        mainCameraPos.position = new Vector3(shipCenterPos.position.x, mainCameraPos.position.y, cameraCenter.z);
 
         // animation de destruction du vaisseau enemy
         pauseMng.Pause();
         StandardRewardEvent();
-        // all crew in mainship, movement stop;
-        mainShip.transform.position = shipCenterPos.position;
-        // all crew in mainship, movement move;
     }
 
     public void StandardEvent()
@@ -82,6 +83,8 @@ public class EventsManager : MonoBehaviour {
     void Start ()
     {
         modalWindowMng = modalWindow.GetComponent<ModalWindowManager>();
+        cameraCenter = new Vector3(0f, 0f, -10f);
+
 
     }
 	

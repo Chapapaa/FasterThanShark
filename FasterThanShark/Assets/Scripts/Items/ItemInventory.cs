@@ -42,6 +42,7 @@ public class ItemInventory : MonoBehaviour {
         GameObject insObj = Instantiate(itemDisplay);
         newItem.displayPanelInventory = insObj;
         insObj.GetComponent<ItemPanelDisplay>().itemName.GetComponent<Text>().text = newItem.itemName;
+        insObj.GetComponent<ItemPanelDisplay>().itemPower.GetComponent<Image>().fillAmount = newItem.itemPwrCost / 10f;
         insObj.transform.SetParent(playerInventoryPanel.transform);
         playerInventory.Add(newItem);
 
@@ -104,6 +105,7 @@ public class ItemInventory : MonoBehaviour {
         playerWeaponInventory.Add(newItem);
         GameObject insObj = Instantiate(itemDisplay);
         insObj.GetComponent<ItemPanelDisplay>().itemName.GetComponent<Text>().text = newItem.itemName;
+        insObj.GetComponent<ItemPanelDisplay>().itemPower.GetComponent<Image>().fillAmount = newItem.itemPwrCost / 10f;
         newItem.displayPanelWeapon = insObj;
         insObj.transform.SetParent(playerInventoryWeaponPanel.transform);
         weaponHudManager.RefreshDisplay();

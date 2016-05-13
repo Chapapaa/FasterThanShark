@@ -5,9 +5,11 @@ public class Engine
 {
 
     public engineType engine = engineType.other;
-    public int maxHp = 1;
+    public int currentPwr = 0;
+    public int maxPwr = 0;
     public int currentHp = 1;
-    public int level;
+    public int maxHp = 1;
+    public int level = 1;
     public bool alive = true;
 
     public bool isActive = false;
@@ -20,18 +22,33 @@ public class Engine
         weapon,
         navigation,
         repair,
+        power,
+        medic,
         other
     };
+
+
+    public void LevelUp()
+    {
+        maxHp += 1;
+        currentHp += 1;
+        maxPwr = currentHp;
+        level += 1;   
+    }
+
 
     public Engine(engineType _engine, int _level)
     {
         engine = _engine;
         level = _level;
+        maxHp = level;
+        currentHp = maxHp;
+        maxPwr = level;
     }
     public Engine()
     {
         engine = engineType.other;
-        level = 0;
+        level = -1;
     }
     public void GetDamage(int amount)
     {
@@ -41,6 +58,7 @@ public class Engine
             currentHp = 0;
             alive = false;
         }
+        maxPwr = currentHp;
     }
     public void Repair(int amount)
     {
@@ -54,6 +72,7 @@ public class Engine
         {
             alive = true;
         }
+        maxPwr = currentHp;
     }
 
 

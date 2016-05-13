@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System;
 
-public class CharacterPanelDisplay : MonoBehaviour {
+public class CharacterPanelDisplay : MonoBehaviour, IPointerDownHandler {
 
     public GameObject character;
     CharacterManager charManager;
@@ -25,5 +27,14 @@ public class CharacterPanelDisplay : MonoBehaviour {
         healthBar.GetComponent<Image>().fillAmount = (float)charManager.currentHp /  charManager.maxHp;
 
 
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            print(character);
+            GameObject.FindGameObjectWithTag("Manager").GetComponent<PathfindingManager>().selectedPlayer = character;
+        }
     }
 }

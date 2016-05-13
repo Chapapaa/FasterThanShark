@@ -18,8 +18,8 @@ public class EnemyHealthDisplay : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        fill1 = stats.health1 / (float)stats.maxHealth1;
-        fill2 = stats.health2 / (float)stats.maxHealth2;
+        fill1 = stats.health1 / 10f;
+        fill2 = stats.health2 / 5f;
 
         health1.fillAmount = fill1;
         health2.fillAmount = fill2;

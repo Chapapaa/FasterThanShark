@@ -6,6 +6,7 @@ public class WeaponManager : MonoBehaviour {
     public ItemInventory playerInventory;
     public ClickEventManager clickEvntMng;
     public GameObject enemy;
+    public bool autoFire;
 
     public GameObject bulletPrefab;
 
@@ -17,29 +18,21 @@ public class WeaponManager : MonoBehaviour {
 
     Vector3 gismoPos = new Vector3(100f, 100f, 0f);
 
-    // Weapon 1 :
-    Item weapon1;
-    IEnumerator Weapon1CRT;
-    bool Weapon1CRTIsRunning;
-    // Weapon 2 :
-    Item weapon2;
-    IEnumerator Weapon2CRT;
-    bool Weapon2CRTIsRunning;
-    // Weapon 3 :
-    Item weapon3;
-    IEnumerator Weapon3CRT;
-    bool Weapon3CRTIsRunning;
-    // Weapon 4 :
-    Item weapon4;
-    IEnumerator Weapon4CRT;
-    bool Weapon4CRTIsRunning;
-
-
+    public PlayerManager playerMng;
+    public int weaponUsedPower = 0;
+    public int weaponsPower = 0;
+    // ---------
+    public Weapon[] weapons = new Weapon[4];
+    // ---------
 
     // Use this for initialization
-    void Start () {
-	
-	}
+    void Start ()
+    {
+        weapons[0] = new Weapon();
+        weapons[1] = new Weapon();
+        weapons[2] = new Weapon();
+        weapons[3] = new Weapon();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -60,6 +53,55 @@ public class WeaponManager : MonoBehaviour {
             SelectWeapon(3);
         }
 
+        weaponsPower = playerMng.GetWeaponsPower();
+        RefreshPower();
+    }
+
+    public bool PowerWeapon(int weaponIndex)
+    {
+        if (weapons[weaponIndex].weaponItem.itemPwrCost + weaponUsedPower <= weaponsPower)
+        {
+            weapons[weaponIndex].weaponPwr = weapons[weaponIndex].weaponItem.itemPwrCost;
+            return true;
+        }
+        return false;        
+    }
+
+    public void UnPowerWeapon(int weaponIndex)
+    {
+        weapons[weaponIndex].weaponPwr = 0;
+    }
+
+    public void RefreshPower()
+    {
+        if (weapons[0] == null || weapons[1] == null || weapons[2] == null || weapons[3] == null)
+        {
+            return;
+        }
+        weaponUsedPower = weapons[0].weaponPwr + weapons[1].weaponPwr + weapons[2].weaponPwr + weapons[3].weaponPwr;
+        if (weaponUsedPower > weaponsPower)
+        {
+            if(weapons[3].weaponPwr > 0)
+            {
+                UnPowerWeapon(3);
+                return;
+            }
+            if (weapons[2].weaponPwr > 0)
+            {
+                UnPowerWeapon(2);
+                return;
+            }
+            if (weapons[1].weaponPwr > 0)
+            {
+                UnPowerWeapon(1);
+                return;
+            }
+            if (weapons[0].weaponPwr > 0)
+            {
+                UnPowerWeapon(0);
+                return;
+            }
+        }
     }
 
     public void StopAttacking()
@@ -74,6 +116,14 @@ public class WeaponManager : MonoBehaviour {
 
     public void SelectWeapon(int index)
     {
+        if(!weapons[index].initialized)
+        {
+            return;
+        }
+        if(weapons[index].weaponPwr <= 0)
+        {
+            PowerWeapon(index);
+        }
         clickEvntMng.ResetSelection();
         // change le curseur en mode cible
         // selectionne l'arme
@@ -89,55 +139,18 @@ public class WeaponManager : MonoBehaviour {
             if (enemy == null)
             { return; }
             // enemy valide,
-            // Arme 1:
-            if (weaponSelected == 0)
+            //--------
+            if(!weapons[weaponSelected].initialized || weapons[weaponSelected].weaponPwr <= 0)
             {
-                if(weapon1 == null)         
-                { return; }
-                if(Weapon1CRTIsRunning)
-                {
-                    StopCoroutine(Weapon1CRT);
-                }
-                Weapon1CRT = UseWeapon1CRT(targetPos, _mapIndex);
-                StartCoroutine(Weapon1CRT);
+                return;
             }
-            // Arme 2:
-            if (weaponSelected == 1)
+            if(weapons[weaponSelected].weaponFireCoroutine)
             {
-                if (weapon2 == null)         
-                { return; }
-                if (Weapon2CRTIsRunning)
-                {
-                    StopCoroutine(Weapon2CRT);
-                }
-                Weapon2CRT = UseWeapon2CRT(targetPos, _mapIndex);
-                StartCoroutine(Weapon2CRT);
+                StopCoroutine(weapons[weaponSelected].fireCoroutine);
             }
-            // Arme 3:
-            if (weaponSelected == 2)
-            {
-                if (weapon3 == null)
-                { return; }
-                if (Weapon3CRTIsRunning)
-                {
-                    StopCoroutine(Weapon3CRT);
-                }
-                Weapon3CRT = UseWeapon3CRT(targetPos, _mapIndex);
-                StartCoroutine(Weapon3CRT);
-            }
-            // Arme 4:
-            if (weaponSelected == 3)
-            {
-                if (weapon4 == null)
-                { return; }
-                if (Weapon4CRTIsRunning)
-                {
-                    StopCoroutine(Weapon4CRT);
-                }
-                Weapon4CRT = UseWeapon4CRT(targetPos, _mapIndex);
-                StartCoroutine(Weapon4CRT);
-            }
-            // Fin de l'attaque
+            weapons[weaponSelected].fireCoroutine = UseWeaponCRT(weaponSelected, targetPos, _mapIndex);
+            StartCoroutine(weapons[weaponSelected].fireCoroutine);
+
             weaponSelected = -1;
             gismoPos = targetPos;
         }
@@ -147,10 +160,10 @@ public class WeaponManager : MonoBehaviour {
     {
         if(!WeaponDisplayInitialized)
         { return; }
-        weapon1 = null;
-        weapon2 = null;
-        weapon3 = null;
-        weapon4 = null;
+        weapons[0] = new Weapon();
+        weapons[1] = new Weapon();
+        weapons[2] = new Weapon();
+        weapons[3] = new Weapon();
         weaponDisplayMng.RefreshWeaponsInDisplay(); // enleve toutes les armes du displayMng
 
         for (int i = 0; i < playerInventory.playerWeaponInventory.Count; i++ )
@@ -159,26 +172,30 @@ public class WeaponManager : MonoBehaviour {
             {
                 case 0:
                     {
-                        weapon1 = playerInventory.playerWeaponInventory[i];
-                        weaponDisplayMng.weapon1 = weapon1;
+                        weapons[0] = new Weapon(playerInventory.playerWeaponInventory[i]);
+                        weapons[0].initialized = true;
+                        weaponDisplayMng.weapon1 = weapons[0].weaponItem;
                         break;
                     }
                 case 1:
                     {
-                        weapon2 = playerInventory.playerWeaponInventory[i];
-                        weaponDisplayMng.weapon2 = weapon2;
+                        weapons[1] = new Weapon(playerInventory.playerWeaponInventory[i]);
+                        weapons[1].initialized = true;
+                        weaponDisplayMng.weapon2 = weapons[1].weaponItem;
                         break;
                     }
                 case 2:
                     {
-                        weapon3 = playerInventory.playerWeaponInventory[i];
-                        weaponDisplayMng.weapon3 = weapon3;
+                        weapons[2] = new Weapon(playerInventory.playerWeaponInventory[i]);
+                        weapons[2].initialized = true;
+                        weaponDisplayMng.weapon3 = weapons[2].weaponItem;
                         break;
                     }
                 case 3:
                     {
-                        weapon4 = playerInventory.playerWeaponInventory[i];
-                        weaponDisplayMng.weapon4 = weapon4;
+                        weapons[3] = new Weapon(playerInventory.playerWeaponInventory[i]);
+                        weapons[3].initialized = true;
+                        weaponDisplayMng.weapon4 = weapons[3].weaponItem;
                         break;
                     }
             }
@@ -186,105 +203,57 @@ public class WeaponManager : MonoBehaviour {
         weaponDisplayMng.RefreshWeaponDisplay(); // enleve les display et les reaffiche correctement
     }
 
-    IEnumerator UseWeapon1CRT(Vector3 targetPosition, int mapIndex)
+    IEnumerator UseWeaponCRT(int weaponIndex, Vector3 targetPosition, int mapIndex)
     {
-
-        Weapon1CRTIsRunning = true;
-        while (true)
+        weapons[weaponIndex].weaponFireCoroutine = true;
+        while(true)
         {
-            if (weapon1.itemCurrentCD >= weapon1.itemCD)
+            if(!weapons[weaponIndex].initialized)
+            {
+                StopAllCoroutines();
+            }
+            if(weapons[weaponIndex].weaponPwr <= 0)
+            {
+                break;
+            }
+            if(weapons[weaponIndex].weaponItem.itemCurrentCD >= weapons[weaponIndex].weaponItem.itemCD)
             {
                 if (mapIndex == 1)
                 {
-                    //
-                    weaponDisplayMng.Fire(1, targetPosition);
-
+                    weaponDisplayMng.Fire(weaponIndex, targetPosition);
                 }
-                weapon1.itemCurrentCD = 0f;
-                break;
-            }
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-        Weapon1CRTIsRunning = false;
-    }
-
-    IEnumerator UseWeapon2CRT(Vector3 targetPosition, int mapIndex)
-    {
-        Weapon2CRTIsRunning = true;
-        while (true)
-        {
-            if (weapon2.itemCurrentCD >= weapon2.itemCD)
-            {
-                if (mapIndex == 1)
+                weapons[weaponIndex].weaponItem.itemCurrentCD = 0;
+                if(!autoFire)
                 {
-                    //
-                    weaponDisplayMng.Fire(2, targetPosition);
-                    //
-                    //bulletSpawnerMng.SpawnBulletOnEnemy(weapon2.itemDamage, bulletPrefab, targetPosition);
-                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon2.itemDamage, targetPosition);
+                    break;
                 }
-                weapon2.itemCurrentCD = 0f;
-                break;
+                
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
-        Weapon2CRTIsRunning = false;
-    }
-    IEnumerator UseWeapon3CRT(Vector3 targetPosition, int mapIndex)
-    {
-        Weapon3CRTIsRunning = true;
-        while (true)
-        {
-            if (weapon3.itemCurrentCD >= weapon3.itemCD)
-            {
-                if (mapIndex == 1)
-                {
-                    //
-                    weaponDisplayMng.Fire(3, targetPosition);
-                    //
-                    //bulletSpawnerMng.SpawnBulletOnEnemy(weapon3.itemDamage, bulletPrefab, targetPosition);
-                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon3.itemDamage, targetPosition);
-                }
-                weapon3.itemCurrentCD = 0f;
-                break;
-            }
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-        Weapon3CRTIsRunning = false;
-    }
-    IEnumerator UseWeapon4CRT(Vector3 targetPosition, int mapIndex)
-    {
-        Weapon4CRTIsRunning = true;
-        while (true)
-        {
-            if (weapon4.itemCurrentCD >= weapon4.itemCD)
-            {
-                if (mapIndex == 1)
-                {
-                    //
-                    weaponDisplayMng.Fire(4, targetPosition);
-                    //
-                    //bulletSpawnerMng.SpawnBulletOnEnemy(weapon4.itemDamage, bulletPrefab, targetPosition);
-                    //enemy.GetComponent<EnemyManager>().GetDamage(weapon4.itemDamage, targetPosition);
-                }
-                weapon4.itemCurrentCD = 0f;
-                break;
-            }
-            yield return new WaitForSeconds(Time.deltaTime);
-        }
-        Weapon4CRTIsRunning = false;
+        weapons[weaponIndex].weaponFireCoroutine = false;
     }
 
-    //IEnumerator Fire(Item weapon)
-    //{
-    //    /*
-    //        Animation de tir;
-    //        attends qq secondes 
-    //        animation de vaisseau enemy touché
-    //        fin
-    //    */
-    //    yield return new WaitForSeconds(0.1f);
-    //}
+
+    public class Weapon
+    {
+        public IEnumerator fireCoroutine;
+        public Item weaponItem;
+        public int weaponPwr = 0;
+        public bool weaponFireCoroutine;
+        public bool initialized = false;
+
+        public Weapon(Item _weaponItem)
+        {
+            weaponItem = _weaponItem;
+            initialized = true;
+        }
+        public Weapon()
+        {
+            initialized = false;
+        }
+        
+    }
 
 
     public void InitWeaponDisplayMng(GameObject weaponDisplayGO)

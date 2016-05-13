@@ -64,6 +64,7 @@ public class MainShip02Map : MonoBehaviour
     Engine weaponEngine;
     Engine navEngine;
     Engine repairEngine;
+    Engine powerEngine;
 
     Vector3 lastPosition;
     ShipMap shipMap;
@@ -86,13 +87,13 @@ public class MainShip02Map : MonoBehaviour
     /// <summary>
     /// Chaque Room est indexé a partir de 0, en partant du coin bas gauche de la map, en comptant chaque salle de gauche a droite par "balayage" et en montant d'une CASE a chaque fois.
     /// exemple : 
-    /// **************************
-    /// *******     *  6  ********
-    /// *******  5  **************
-    /// *************     *  4  **
-    /// *   *   *   *  3  ********
-    /// * 0 * 1 * 2 **************
-    /// **************************
+    /// #########################
+    /// #######     #  6  #######
+    /// #######  5  #############
+    /// #############     #  4  #
+    /// #   #   #   #  3  #######
+    /// # 0 # 1 # 2 #############
+    /// #########################
     /// </summary>
     void Initialize()
     {
@@ -118,8 +119,9 @@ public class MainShip02Map : MonoBehaviour
             {
                 enginesManager.engines.Add(shipRoom.engine);
             }
-        }
 
+        }
+        enginesManager.engines.Add(powerEngine);
     }
 
     void InitializeEngines()
@@ -133,6 +135,9 @@ public class MainShip02Map : MonoBehaviour
         repairEngine = new Engine(Engine.engineType.repair, 1);
         repairEngine.isActive = true;
         repairEngine.icon = repairIcon;
+        powerEngine = new Engine(Engine.engineType.power, 10);
+        powerEngine.currentPwr = 10;
+
 
     }
 

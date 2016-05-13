@@ -18,19 +18,21 @@ public class PathfindingManager : MonoBehaviour {
 	}
     public void MovePlayer(int roomIndex, int map)
     {
-        if (selectedPlayer != null)
+        // récupere une cell vide
+        if (selectedPlayer == null)
         {
-            ShipCell freeCell = GetFreeCellInRoom(roomIndex, map);
-            if(freeCell == null)
-            {
-                return;
-            }
-            Vector3 positionToGo = freeCell.position;
-
-            selectedPlayer.GetComponent<PlayerMovement>().MoveToNode(positionToGo);
+            return;
+        }
+        shipMapSCR.RemoveCharacterPosition(selectedPlayer, selectedPlayer.GetComponent<PlayerMovement>().isAlly);
+        ShipCell freeCell = GetFreeCellInRoom(roomIndex, map);
+        if(freeCell != null)
+        {
+            Vector3 targetPos = freeCell.position;
+            selectedPlayer.GetComponent<PlayerMovement>().MoveToNode(targetPos);
         }
     }
 
+    // useless?
     ShipCell GetFreeCellInRoom(int indexOfRoom, int map)
     {
         if(map == 1)

@@ -30,6 +30,10 @@ public class AILerp : MonoBehaviour {
 	 */
 	public float repathRate = 0.5F;
 
+    //
+    public bool stop = false;
+    //
+
 	/** Target to move towards.
 	 * The AI will try to follow/move towards this target.
 	 * It can be a point on the ground where the player has clicked in an RTS for example, or it can be the player object in a zombie game.
@@ -236,7 +240,8 @@ public class AILerp : MonoBehaviour {
 	 * You can also create a new script which inherits from this one
 	 * and override the function in that script.
 	 */
-	public virtual void OnTargetReached () {
+	public virtual void OnTargetReached ()
+    {
 	}
 
 	/** Called when a requested path has finished calculation.
@@ -364,26 +369,29 @@ public class AILerp : MonoBehaviour {
 	}
 
 	protected virtual void Update () {
-		if (canMove)
+        if (canMove && !stop)
         {
-			Vector3 direction;
-			Vector3 nextPos = CalculateNextPosition(out direction);
+            Vector3 direction;
+            Vector3 nextPos = CalculateNextPosition(out direction);
 
-			// Rotate unless we are really close to the target
-			if (enableRotation && direction != Vector3.zero) {
-				if (rotationIn2D) {
-					float angle = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg + 180;
-					Vector3 euler = tr.eulerAngles;
-					euler.z = Mathf.LerpAngle(euler.z, angle, Time.deltaTime * rotationSpeed);
-					tr.eulerAngles = euler;
-				} else {
-					Quaternion rot = tr.rotation;
-					Quaternion desiredRot = Quaternion.LookRotation(direction);
+            // Rotate unless we are really close to the target
+            if (enableRotation && direction != Vector3.zero)
+            {
+                if (rotationIn2D)
+                {
+                    float angle = Mathf.Atan2(direction.x, -direction.y) * Mathf.Rad2Deg + 180;
+                    Vector3 euler = tr.eulerAngles;
+                    euler.z = Mathf.LerpAngle(euler.z, angle, Time.deltaTime * rotationSpeed);
+                    tr.eulerAngles = euler;
+                }
+                else {
+                    Quaternion rot = tr.rotation;
+                    Quaternion desiredRot = Quaternion.LookRotation(direction);
 
-					tr.rotation = Quaternion.Slerp(rot, desiredRot, Time.deltaTime * rotationSpeed);
-				}
-			}
-            if(nextPos != tr.position)
+                    tr.rotation = Quaternion.Slerp(rot, desiredRot, Time.deltaTime * rotationSpeed);
+                }
+            }
+            if (nextPos != tr.position)
             {
                 isMoving = true;
             }
@@ -391,12 +399,12 @@ public class AILerp : MonoBehaviour {
             {
                 isMoving = false;
             }
-            if(isMoving)
+            if (isMoving)
             {
                 tr.position = nextPos;
             }
-		}
-	}
+        }
+    }    
 
 	/** Calculate the AI's next position (one frame in the future).
 	 * \param direction The direction of the segment the AI is currently traversing. Not normalized.

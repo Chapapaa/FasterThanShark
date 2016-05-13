@@ -49,6 +49,7 @@ public class EnemyShip01Map : MonoBehaviour
     Engine navigationEngine;
     Engine weaponEngine;
     Engine repairEngine;
+    Engine powerEngine;
 
 
     ShipMap shipMap;
@@ -100,6 +101,7 @@ public class EnemyShip01Map : MonoBehaviour
             {
                 enginesManager.engines.Add(shipRoom.engine);
             }
+            enginesManager.engines.Add(powerEngine);
         }
         // pour chaque room, si engine != other, on rajoute l'engine dans l'engine manager
         // Dans le manager si des degats sont subis, je regarde si la room atteinte contient un engine,
@@ -113,14 +115,19 @@ public class EnemyShip01Map : MonoBehaviour
         navigationEngine = new Engine(Engine.engineType.navigation, 1);
         navigationEngine.isActive = true;
         navigationEngine.icon = navigationIcon;
+        navigationEngine.LevelUp();
+        navigationEngine.currentPwr += 1;
         weaponEngine = new Engine(Engine.engineType.weapon, 1);
         weaponEngine.isActive = true;
         weaponEngine.icon = weaponIcon;
+        weaponEngine.LevelUp();
+        weaponEngine.currentPwr += 1;
         repairEngine = new Engine(Engine.engineType.repair, 1);
         repairEngine.isActive = true;
         repairEngine.icon = repairIcon;
-
-
+        repairEngine.LevelUp();
+        repairEngine.currentPwr += 1;
+        powerEngine = new Engine(Engine.engineType.power, 10);
 
     }
 }

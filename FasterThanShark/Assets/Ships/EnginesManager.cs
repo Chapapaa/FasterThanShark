@@ -20,11 +20,29 @@ public class EnginesManager: MonoBehaviour
             {
                 if(!engine.alive)
                 { return; }
-                print("damagedEngine !");
-                engine.GetDamage(dmgAmount * 10);
-                print(engine.currentHp);
+                engine.GetDamage(dmgAmount);
+                if(engine.currentPwr > engine.maxPwr)
+                {
+                    int pwrOverflow = engine.currentPwr - engine.maxPwr;
+                    engine.currentPwr -= pwrOverflow;
+                    GetEngine(Engine.engineType.power).currentPwr += pwrOverflow;
+
+                }
+
             }
         }
+    }
+
+    public Engine GetEngine(Engine.engineType type)
+    {
+        foreach(Engine engine in engines)
+        {
+            if(engine.engine == type)
+            {
+                return engine;
+            }
+        }
+        return null;
     }
 
 
@@ -50,28 +68,30 @@ public class EnginesManager: MonoBehaviour
         }
     }
 
+    // !!!!!!!!!
 	public bool isWeaponEngineAlive()
     {
         foreach (Engine engine in engines)
         {
             if(engine.engine == Engine.engineType.weapon )
             {
-                if(engine.alive && engine.isActive)
+                if (engine.alive && engine.isActive && engine.currentPwr > 0)
                 {
                     return true;
                 }
             }
         }
         return false;
-
     }
+    //
+
     public bool isNavigationEngineAlive()
     {
         foreach (Engine engine in engines)
         {
             if (engine.engine == Engine.engineType.navigation)
             {
-                if (engine.alive && engine.isActive)
+                if (engine.alive && engine.isActive && engine.currentPwr > 0)
                 {
                     return true;
                 }
@@ -87,7 +107,7 @@ public class EnginesManager: MonoBehaviour
         {
             if (engine.engine == Engine.engineType.repair)
             {
-                if (engine.alive && engine.isActive)
+                if (engine.alive && engine.isActive && engine.currentPwr > 0)
                 {
                     return true;
                 }
@@ -97,5 +117,42 @@ public class EnginesManager: MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="engine">Navigation,Repair,Weapon</param>
+    public void AddPowerOnEngine(Engine.engineType engineType, int amount)
+    {
+        Engine powerEngine = GetEngine(Engine.engineType.power);
+        Engine myEngine = GetEngine(engineType);
+        if(myEngine == null || powerEngine == null)
+        {
+            Debug.Log("wrong engine type");
+            return;
+        }
+        if (amount <= powerEngine.currentPwr && myEngine.currentPwr + amount <= myEngine.maxPwr)
+        {
+            powerEngine.currentPwr -= amount;
+            myEngine.currentPwr += amount;
+        }
+
+    }
+    public void RmvPowerOnEngine(Engine.engineType engineType, int amount)
+    {
+        Engine powerEngine = GetEngine(Engine.engineType.power);
+        Engine myEngine = GetEngine(engineType);
+        if (myEngine == null || powerEngine == null)
+        {
+            Debug.Log("wrong engine type");
+            return;
+        }
+        if (amount > myEngine.currentPwr)
+        {
+            amount = myEngine.currentPwr;
+        }
+        myEngine.currentPwr -= amount;
+        powerEngine.currentPwr += amount;
+
+    }
 
 }

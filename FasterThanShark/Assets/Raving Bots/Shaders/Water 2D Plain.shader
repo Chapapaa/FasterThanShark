@@ -3,7 +3,7 @@ Shader "Water/Water 2D Plain"
 	Properties 
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_Color ("Color", Color) = (1, 1, 1, 0.5)
+		_Color ("Color", Color) = (1, 1, 1, 1)
 		[Normal] _Refraction ("Refraction", 2D) = "bump" {}
 		_Intensity ("Refraction Intensity", Float) = 0.02
 		_Current ("Current Speed", Float) = -0.25

@@ -6,32 +6,24 @@ public class PlayerManager : MonoBehaviour {
 
     public PlayerStats playerStats;
     public EnginesManager engineMng;
+    public NavigationHUDMng navHudMng;
+    public WeaponHUDMng weaponHudMng;
+    public RepairHUDMng repairHudMng;
+    public PowerHUDMng pwrHudMng;
 
-    public void GetDamage(int amount, ShipRoom targetRoom)
-    {
-        int trueDamage = playerStats.GetTrueDamage(amount);
-        if(trueDamage > 0)
-        {
-            engineMng.GetDamageOnEngine(targetRoom.engine, trueDamage);
-            foreach(ShipCell cell in targetRoom.cells)
-            {
-                if(cell.crew != null)
-                {
-                    cell.crew.GetComponent<CharacterManager>().GetDamage(amount);
-                }
-                if (cell.enemy != null)
-                {
-                    cell.enemy.GetComponent<CharacterManager>().GetDamage(amount);
-                }
-            }
-        }
-    }
+
 
 
 	// Use this for initialization
 	void Start ()
     {
         StartCoroutine(RepairHullCrt());
+        playerStats.engineMng = engineMng;
+        repairHudMng.engineMng = engineMng;
+        weaponHudMng.engineMng = engineMng;
+        navHudMng.engineMng = engineMng;
+        pwrHudMng.engineMng = engineMng;
+
     }
 	
 	// Update is called once per frame
@@ -50,6 +42,46 @@ public class PlayerManager : MonoBehaviour {
         }
 	
 	}
+    public int GetWeaponsPower()
+    {
+        if(engineMng != null)
+        {
+            int weaponPwr = engineMng.GetEngine(Engine.engineType.weapon).currentPwr;
+            return weaponPwr;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void GetDamage(int amount, ShipRoom targetRoom)
+    {
+        int trueDamage = playerStats.GetTrueDamage(amount);
+        if (trueDamage > 0)
+        {
+            engineMng.GetDamageOnEngine(targetRoom.engine, trueDamage);
+            foreach (ShipCell cell in targetRoom.cells)
+            {
+                if (cell.crew != null)
+                {
+                    cell.crew.GetComponent<CharacterManager>().GetDamage(amount);
+                }
+                if (cell.enemy != null)
+                {
+                    cell.enemy.GetComponent<CharacterManager>().GetDamage(amount);
+                }
+            }
+        }
+    }
+
+
+
+    public Engine GetEngine(Engine.engineType engineType)
+    {
+        return engineMng.GetEngine(engineType);
+    }
+
 
     IEnumerator RepairHullCrt()
     {

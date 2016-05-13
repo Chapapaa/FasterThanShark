@@ -12,56 +12,95 @@ public class ShipMap : MonoBehaviour
         enemyShipMap.Clear();
     }
 
-    public void SetCharacterPosition(GameObject character, bool ally)
+    public ShipCell SetCharacterPosition(GameObject character, bool ally)
     {
-        Vector3 charPos = character.transform.position;
-        ShipCell cell = GetCellByPos(charPos);
-        if (cell != null)
-        {
-            if(ally)
-            {
-                cell.crew = character;
-            }
-            else
-            {
-                cell.enemy = character;
-            }
-        }
+        Vector3 target = character.transform.position;
+        return SetCharacterPosition(character, ally, target);
     }
-    public void SetCharacterPosition(GameObject character, bool ally, Vector3 targetPosition)
+    public ShipCell SetCharacterPosition(GameObject character, bool ally, Vector3 targetPosition)
     {
+        print("SETPOS");
         Vector3 charPos = targetPosition;
-        ShipCell cell = GetCellByPos(charPos);
-        if (cell != null)
+        ShipRoom room = GetRoomByPos(charPos);
+        if (room != null)
         {
-            if (ally)
+            foreach(ShipCell cell in room.cells)
             {
-                cell.crew = character;
-            }
-            else
-            {
-                cell.enemy = character;
-            }
+                if (ally)
+                {
+                    if(cell.crew == null)
+                    {
+                        cell.crew = character;
+                        return cell;
+                    }
+                }
+                else
+                {
+                    if (cell.enemy == null)
+                    {
+                        cell.enemy = character;
+                        return cell;
+                    }
+                }
+            } 
         }
+        return null;
     }
     public void RemoveCharacterPosition(GameObject character, bool ally)
     {
-        Vector3 charPos = character.transform.position;
-        ShipCell cell = GetCellByPos(charPos);
-        if (cell != null)
+        foreach(ShipRoom room in shipMap)
         {
-            if (ally)
+            foreach(ShipCell cell in room.cells)
             {
-                cell.crew = null;
-            }
-            else
-            {
-                cell.enemy = null;
+                if(ally)
+                {
+                    if(cell.crew == character)
+                    {
+                        cell.crew = null;
+                        print("found");
+                    }
+                }
+                else
+                {
+                    if (cell.enemy == character)
+                    {
+                        cell.crew = null;
+                        print("found");
+                        return;
+                    }
+                }
             }
         }
+        foreach (ShipRoom room in enemyShipMap)
+        {
+            foreach (ShipCell cell in room.cells)
+            {
+                if (ally)
+                {
+                    if (cell.crew == character)
+                    {
+                        cell.crew = null;
+                        print("found");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (cell.enemy == character)
+                    {
+                        cell.crew = null;
+                        print("found");
+                        return;
+                    }
+                }
+            }
+        }
+        //Vector3 charPos = character.transform.position;
+        //RemoveCharacterPosition(character, ally, charPos);
     }
     public void RemoveCharacterPosition(GameObject character, bool ally, Vector3 targetPosition)
     {
+        print("REMOVEPOS");
         Vector3 charPos = targetPosition;
         ShipCell cell = GetCellByPos(charPos);
         if (cell != null)
@@ -75,6 +114,29 @@ public class ShipMap : MonoBehaviour
                 cell.enemy = null;
             }
         }
+    }
+
+    public ShipCell IsRoomEmpty(Vector3 targetPos, bool ally)
+    {
+        ShipRoom myRoom = GetRoomByPos(targetPos);
+        foreach(ShipCell cell in myRoom.cells)
+        {
+            if(ally)
+            {
+                if (cell.crew == null)
+                {
+                    return cell;
+                }
+            }
+            else
+            {
+                if(cell.enemy == null)
+                {
+                    return cell;
+                }
+            }
+        }
+        return null;
     }
 
     ShipCell GetCellByPos(Vector3 _position)
