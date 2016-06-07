@@ -7,6 +7,12 @@ public class ShipMap : MonoBehaviour
     public List<ShipRoom> shipMap = new List<ShipRoom>();
     public List<ShipRoom> enemyShipMap = new List<ShipRoom>();
 
+    void Start()
+    {
+        StartCoroutine(RefreshCharsPosCrt());
+    }
+
+
     public void ResetEnemyShipMap()
     {
         enemyShipMap.Clear();
@@ -19,9 +25,7 @@ public class ShipMap : MonoBehaviour
     }
     public ShipCell SetCharacterPosition(GameObject character, bool ally, Vector3 targetPosition)
     {
-        print("SETPOS");
-        Vector3 charPos = targetPosition;
-        ShipRoom room = GetRoomByPos(charPos);
+        ShipRoom room = GetRoomByPos(targetPosition);
         if (room != null)
         {
             foreach(ShipCell cell in room.cells)
@@ -57,15 +61,14 @@ public class ShipMap : MonoBehaviour
                     if(cell.crew == character)
                     {
                         cell.crew = null;
-                        print("found");
+                        return;
                     }
                 }
                 else
                 {
                     if (cell.enemy == character)
                     {
-                        cell.crew = null;
-                        print("found");
+                        cell.enemy = null;
                         return;
                     }
                 }
@@ -80,7 +83,6 @@ public class ShipMap : MonoBehaviour
                     if (cell.crew == character)
                     {
                         cell.crew = null;
-                        print("found");
                         return;
                     }
                 }
@@ -88,19 +90,15 @@ public class ShipMap : MonoBehaviour
                 {
                     if (cell.enemy == character)
                     {
-                        cell.crew = null;
-                        print("found");
+                        cell.enemy = null;
                         return;
                     }
                 }
             }
         }
-        //Vector3 charPos = character.transform.position;
-        //RemoveCharacterPosition(character, ally, charPos);
     }
     public void RemoveCharacterPosition(GameObject character, bool ally, Vector3 targetPosition)
     {
-        print("REMOVEPOS");
         Vector3 charPos = targetPosition;
         ShipCell cell = GetCellByPos(charPos);
         if (cell != null)
@@ -141,23 +139,25 @@ public class ShipMap : MonoBehaviour
 
     ShipCell GetCellByPos(Vector3 _position)
     {
-        foreach(var room in shipMap)
+        foreach(ShipRoom room in shipMap)
         {
-            foreach (var cell in room.cells)
+            foreach (ShipCell cell in room.cells)
             {
-                float dist = Vector3.Distance(cell.position, _position);
-                if (dist < 0.5f)
+                float distX = Mathf.Abs(cell.position.x - _position.x);
+                float distY = Mathf.Abs(cell.position.y - _position.y);
+                if (distX < 0.4f && distY < 0.4f)
                 {
                     return cell;
                 }
             }
         }
-        foreach (var room in enemyShipMap)
+        foreach (ShipRoom room in enemyShipMap)
         {
-            foreach (var cell in room.cells)
+            foreach (ShipCell cell in room.cells)
             {
-                float dist = Vector3.Distance(cell.position, _position);
-                if (dist < 0.5f)
+                float distX = Mathf.Abs(cell.position.x - _position.x);
+                float distY = Mathf.Abs(cell.position.y - _position.y);
+                if (distX < 0.4f && distY < 0.4f)
                 {
                     return cell;
                 }
@@ -170,21 +170,32 @@ public class ShipMap : MonoBehaviour
     {
         foreach (var room in shipMap)
         {
-            foreach (var cell in room.cells)
+            if(Vector3.Distance(room.roomPosition, _position) < 0.45f)
             {
-                float dist = Vector3.Distance(cell.position, _position);
-                if (dist < 0.9f)
+                return room;
+            }
+            foreach(ShipCell cell in room.cells)
+            {
+                float distX = Mathf.Abs(cell.position.x - _position.x);
+                float distY = Mathf.Abs(cell.position.y - _position.y);
+                if(distX < 0.45f && distY < 0.45f)
                 {
                     return room;
                 }
+
             }
         }
         foreach (var room in enemyShipMap)
         {
-            foreach (var cell in room.cells)
+            if (Vector3.Distance(room.roomPosition, _position) < 0.45f)
             {
-                float dist = Vector3.Distance(cell.position, _position);
-                if (dist < 0.9f)
+                return room;
+            }
+            foreach (ShipCell cell in room.cells)
+            {
+                float distX = Mathf.Abs(cell.position.x - _position.x);
+                float distY = Mathf.Abs(cell.position.y - _position.y);
+                if (distX < 0.45f && distY < 0.45f)
                 {
                     return room;
                 }
@@ -192,17 +203,42 @@ public class ShipMap : MonoBehaviour
         }
         return null;
     }
+    public Vector3 GetEnginePos(Engine.engineType engineType, bool isAlly)
+    {
+        if(isAlly)
+        {
+            foreach (ShipRoom room in shipMap)
+            {
+                if (room.engine.engine == engineType)
+                {
+                    return room.roomPosition;
+                }
+            }
+        }
+        else
+        {
+            foreach (ShipRoom room in enemyShipMap)
+            {
+                if (room.engine.engine == engineType)
+                {
+                    return room.roomPosition;
+                }
+            }
+        }
+        return Vector3.zero;
+    }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="mapIndex">0 for ally, 1 for enemy</param>
     public ShipRoom GetRandomAllyRoom()
     {
         
         int randomNumber = Random.Range(0, shipMap.Count);
         return shipMap[randomNumber];
         
+    }
+    public ShipRoom GetRandomEnnemyRoom()
+    {
+        int randomNumber = Random.Range(0, enemyShipMap.Count);
+        return enemyShipMap[randomNumber];
     }
 
     public void DestroyChar(GameObject character)
@@ -241,6 +277,95 @@ public class ShipMap : MonoBehaviour
         }
     }
 
+    
+
+    IEnumerator RefreshCharsPosCrt()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.75f);
+            foreach(ShipRoom room in shipMap)
+            {
+                if(room.engine.engine != Engine.engineType.other)
+                {
+                    if(!room.engine.operated && room.cells[0].crew == null)
+                    {
+                        foreach(ShipCell cell in room.cells)
+                        {
+                            if(cell.crew != null)
+                            {
+                                CharacterManager charMng = cell.crew.GetComponent<CharacterManager>();
+                                if(!charMng.isMoving && !charMng.isRepairing)
+                                {
+                                    cell.crew.GetComponent<PlayerMovement>().MoveToNode(room.roomPosition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            foreach (ShipRoom room in enemyShipMap)
+            {
+                if (room.engine.engine != Engine.engineType.other)
+                {
+                    if (!room.engine.operated && room.cells[0].enemy == null)
+                    {
+                        foreach (ShipCell cell in room.cells)
+                        {
+                            if (cell.enemy != null)
+                            {
+                                CharacterManager charMng = cell.enemy.GetComponent<CharacterManager>();
+                                if (!charMng.isMoving && !charMng.isRepairing)
+                                {
+                                    cell.enemy.GetComponent<PlayerMovement>().MoveToNode(room.roomPosition);
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        foreach(ShipRoom room in shipMap)
+        {
+            foreach(ShipCell cell in room.cells)
+            {
+                if(cell.crew != null)
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawSphere(cell.position, 0.2f);
+                }
+                if (cell.enemy != null)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(cell.position, 0.2f);
+                }
+            }
+        }
+        foreach (ShipRoom room in enemyShipMap)
+        {
+            foreach (ShipCell cell in room.cells)
+            {
+                if (cell.crew != null)
+                {
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawSphere(cell.position, 0.2f);
+                }
+                if (cell.enemy != null)
+                {
+                    Gizmos.color = Color.yellow;
+                    Gizmos.DrawSphere(cell.position, 0.2f);
+                }
+            }
+        }
+
+
+    }
 }
 
 

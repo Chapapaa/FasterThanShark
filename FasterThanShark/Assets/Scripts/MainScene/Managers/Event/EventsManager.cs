@@ -6,7 +6,6 @@ public class EventsManager : MonoBehaviour {
     public int sector = 1;
 
     public ShipSpawnManager spawnerMng;
-    public PauseManager pauseMng;
     public BulletSpawnerManager bulletSpawnerMng;
     public WeaponManager weaponMng;
 
@@ -19,10 +18,30 @@ public class EventsManager : MonoBehaviour {
     public GameObject enemyShip;
     public Vector3 cameraCenter;
 
+    bool isEnemySpawned = false;
+
+
+
+    public void EnemyDestroyed()
+    {
+        bulletSpawnerMng.DestroyAllBullets();
+        weaponMng.StopAttacking();
+        mainCameraPos.position = new Vector3(shipCenterPos.position.x, mainCameraPos.position.y, cameraCenter.z);
+
+        // animation de destruction du vaisseau enemy
+        PauseManager.Pause();
+        StandardRewardEvent();
+        isEnemySpawned = false;
+    }
+
 
     public void EnemyEncounter()
     {
-        pauseMng.Pause();
+        if(isEnemySpawned)
+        {
+            return;
+        }
+        PauseManager.Pause();
         enemyShip = spawnerMng.SpawnEnemy();
         enemyShip.transform.position = enemyShipPos.position;
 
@@ -31,6 +50,7 @@ public class EventsManager : MonoBehaviour {
         modalWindowMng.AddAwnser("Fight");
         modalWindow.SetActive(true);
         mainCameraPos.position = cameraCenter;
+        isEnemySpawned = true;
     }
 
     // UnUSED
@@ -38,31 +58,27 @@ public class EventsManager : MonoBehaviour {
     {
 
         // affichage complet vaisseau
-        pauseMng.Pause();
+        PauseManager.Resume();
         
 
     }
-    public void EnemyDestroyed()
-    {
-        bulletSpawnerMng.DestroyAllBullets();
-        weaponMng.StopAttacking();
-        mainCameraPos.position = new Vector3(shipCenterPos.position.x, mainCameraPos.position.y, cameraCenter.z);
 
-        // animation de destruction du vaisseau enemy
-        pauseMng.Pause();
-        StandardRewardEvent();
-    }
 
     public void StandardEvent()
     {
         // position du vaisseau center;
-        pauseMng.Pause();
+        PauseManager.Pause();
         // affichage d'une fenetre modale
     }
     public void MainShipDestroyed()
     {
         // Animation de destruction du vaisseau
-        pauseMng.Pause();
+        PauseManager.Pause();
+        modalWindowMng.SetTitle("Ship destroyed !");
+        modalWindowMng.SetDescription("You ship was destroyed !\n Try again !");
+        modalWindowMng.AddAwnser("Close");
+        modalWindow.SetActive(true);
+
         // affichage du score + boutton retry
     }
 
@@ -84,6 +100,11 @@ public class EventsManager : MonoBehaviour {
     {
         modalWindowMng = modalWindow.GetComponent<ModalWindowManager>();
         cameraCenter = new Vector3(0f, 0f, -10f);
+        mainCameraPos.position = new Vector3(shipCenterPos.position.x, mainCameraPos.position.y, cameraCenter.z);
+        modalWindowMng.SetTitle("Your journey begins !");
+        modalWindowMng.SetDescription("Welcome aboard captain !\n You are here to do epic stuff like saving the world or something like that ! \n So let's Go !");
+        modalWindowMng.AddAwnser("Let's Start !");
+        modalWindow.SetActive(true);
 
 
     }

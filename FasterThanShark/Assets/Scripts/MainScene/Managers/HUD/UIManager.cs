@@ -5,7 +5,7 @@ public class UIManager : MonoBehaviour {
 
     public GameObject optionPanel;
     public GameObject inventoryPanel;
-    public PauseManager pauseMng;
+    public GameObject crewPanel;
     float inputCD = 0.5f;
     float timer = 0f;
 
@@ -18,11 +18,23 @@ public class UIManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
         if (timer <= inputCD)
         {
+
             timer += Time.deltaTime;
         }
-        if (Input.GetKey(KeyCode.I))
+
+        if(crewPanel.activeInHierarchy)
+        {
+            KeyEventsManager.isInputFieldFocused = true;
+        }
+        else
+        {
+            KeyEventsManager.isInputFieldFocused = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.I) && !KeyEventsManager.isInputFieldFocused)
         {
             if(timer < inputCD)
             {
@@ -32,13 +44,15 @@ public class UIManager : MonoBehaviour {
             if (inventoryPanel.activeInHierarchy)
             {
                 inventoryPanel.SetActive(false);
+                PauseManager.Resume();
             }
             else
             {
                 inventoryPanel.SetActive(true);
+                PauseManager.Pause();
             }
         }
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !KeyEventsManager.isInputFieldFocused)
         {
             if (timer < inputCD)
             {
@@ -48,13 +62,57 @@ public class UIManager : MonoBehaviour {
             if (optionPanel.activeInHierarchy)
             {
                 optionPanel.SetActive(false);
-                pauseMng.Pause();
+                PauseManager.Resume();
             }
             else
             {
                 optionPanel.SetActive(true);
-                pauseMng.Pause();
+                PauseManager.Pause();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            if (timer < inputCD)
+            {
+                return;
+            }
+            timer = 0f;
+            if (!crewPanel.activeInHierarchy)
+            {
+                crewPanel.SetActive(true);
+                PauseManager.Pause();
+            }
+            else
+            {
+                crewPanel.SetActive(false);
+                PauseManager.Resume();
+            }
+        }
+
+    }
+
+    public void CloseInventory()
+    {
+        if (inventoryPanel.activeInHierarchy)
+        {
+            inventoryPanel.SetActive(false);
+            PauseManager.Resume();
+        }
+    }
+    public void CloseCrew()
+    {
+        if (crewPanel.activeInHierarchy)
+        {
+            crewPanel.SetActive(false);
+            PauseManager.Resume();
+        }
+    }
+    public void ClosePause()
+    {
+        if (optionPanel.activeInHierarchy)
+        {
+            optionPanel.SetActive(false);
+            PauseManager.Resume();
         }
     }
 }

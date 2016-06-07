@@ -10,7 +10,8 @@ public class ShipSpawnManager : MonoBehaviour {
     {
         GameObject enemyShip =  Instantiate(enemyPrefab1);
         enemyShip.transform.localRotation = Quaternion.Euler(0f, 0f, 90f);
-
+        AstarPath.active.Scan();
+    
         return enemyShip;
     }
 }

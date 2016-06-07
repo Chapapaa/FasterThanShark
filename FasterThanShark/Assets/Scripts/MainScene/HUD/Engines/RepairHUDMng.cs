@@ -9,6 +9,7 @@ public class RepairHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public GameObject maxPowerBar;
     public GameObject currentPowerBar;
+    public GameObject levelPowerBar;
 
     bool isPointerOver;
     public EnginesManager engineMng;
@@ -49,10 +50,17 @@ public class RepairHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             }
 
         }
+        if (engineMng.GetEngine(Engine.engineType.repair).operated)
+        {
+            currentPowerBar.GetComponent<Image>().color = Color.blue;
+        }
+        else
+        {
+            currentPowerBar.GetComponent<Image>().color = Color.white;
+        }
         maxPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.repair).maxPwr / 10f;
         currentPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.repair).currentPwr / 10f;
-
-
+        levelPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.repair).level / 10f;
     }
 
 

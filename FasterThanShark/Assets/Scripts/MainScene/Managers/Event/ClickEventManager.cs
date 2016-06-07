@@ -33,8 +33,7 @@ public class ClickEventManager : MonoBehaviour {
 
     public void ClickOnRoom(int index, int buttonIndex, int map, Vector3 RoomPos)
     {
-        // A revoir , les appelation publiques, et le pathfinding manager 
-        // ce script doit juste servire a dire "hey on a cliqué sur une case"
+        print("clickedOnRoom");
         if(clickCD >= 0 )
         {
             return;

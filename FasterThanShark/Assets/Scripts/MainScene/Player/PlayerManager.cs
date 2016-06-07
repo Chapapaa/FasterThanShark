@@ -10,6 +10,9 @@ public class PlayerManager : MonoBehaviour {
     public WeaponHUDMng weaponHudMng;
     public RepairHUDMng repairHudMng;
     public PowerHUDMng pwrHudMng;
+    public MedicHUDMng medicHudMng;
+
+
 
 
 
@@ -23,6 +26,7 @@ public class PlayerManager : MonoBehaviour {
         weaponHudMng.engineMng = engineMng;
         navHudMng.engineMng = engineMng;
         pwrHudMng.engineMng = engineMng;
+        medicHudMng.engineMng = engineMng;
 
     }
 	
@@ -61,15 +65,22 @@ public class PlayerManager : MonoBehaviour {
         if (trueDamage > 0)
         {
             engineMng.GetDamageOnEngine(targetRoom.engine, trueDamage);
-            foreach (ShipCell cell in targetRoom.cells)
+            GameObject[] chars = GameObject.FindGameObjectsWithTag("Character");
+            foreach (GameObject myChar in chars)
             {
-                if (cell.crew != null)
+                if (Vector3.Distance(myChar.transform.position, targetRoom.roomPosition) < 0.45f)
                 {
-                    cell.crew.GetComponent<CharacterManager>().GetDamage(amount);
+                    myChar.GetComponent<CharacterManager>().GetDamage(trueDamage);
                 }
-                if (cell.enemy != null)
+                else
                 {
-                    cell.enemy.GetComponent<CharacterManager>().GetDamage(amount);
+                    foreach (ShipCell cell in targetRoom.cells)
+                    {
+                        if (Vector3.Distance(myChar.transform.position, cell.position) < 0.45f)
+                        {
+                            myChar.GetComponent<CharacterManager>().GetDamage(trueDamage);
+                        }
+                    }
                 }
             }
         }

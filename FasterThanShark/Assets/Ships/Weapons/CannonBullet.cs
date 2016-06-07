@@ -11,20 +11,15 @@ public class CannonBullet : MonoBehaviour {
     public int bulletDamage = 1;
     public GameObject explosionGO;
     public GameObject missText;
-    PauseManager pauseMng;
-    
-
 
 	// Use this for initialization
 	void Start () {
-        pauseMng = GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>();
-
 
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (move && !pauseMng.isGamePaused)
+        if (move && !PauseManager.isGamePaused)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
         }
@@ -76,7 +71,8 @@ public class CannonBullet : MonoBehaviour {
             int rng = Random.Range(0, 100);
             if (rng > enemyFlee)
             {
-                enemyMng.GetDamage(bulletDamage, targetPosition);
+                ShipRoom targetedRoom = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>().GetRoomByPos(targetPosition);
+                enemyMng.GetDamage(bulletDamage, targetedRoom);
                 Instantiate(explosionGO, transform.position, Quaternion.identity);
                 Destroy(gameObject);
             }

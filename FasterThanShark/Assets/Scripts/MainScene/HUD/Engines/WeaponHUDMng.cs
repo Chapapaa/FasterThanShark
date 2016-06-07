@@ -10,6 +10,7 @@ public class WeaponHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameObject maxPowerBar;
     public GameObject currentPowerBar;
     public EnginesManager engineMng;
+    public GameObject levelPowerBar;
 
     bool isPointerOver;
 
@@ -51,8 +52,17 @@ public class WeaponHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             }
 
         }
+        if (engineMng.GetEngine(Engine.engineType.weapon).operated)
+        {
+            currentPowerBar.GetComponent<Image>().color = Color.blue;
+        }
+        else
+        {
+            currentPowerBar.GetComponent<Image>().color = Color.white;
+        }
         maxPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.weapon).maxPwr / 10f;
         currentPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.weapon).currentPwr / 10f;
+        levelPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.weapon).level / 10f;
 
 
     }

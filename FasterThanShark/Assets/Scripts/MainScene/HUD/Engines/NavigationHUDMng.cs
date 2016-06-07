@@ -7,6 +7,7 @@ using System;
 public class NavigationHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
 
+    public GameObject levelPowerBar;
     public GameObject maxPowerBar;
     public GameObject currentPowerBar;
     public EnginesManager engineMng;
@@ -50,8 +51,17 @@ public class NavigationHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExi
             }
 
         }
+        if(engineMng.GetEngine(Engine.engineType.navigation).operated)
+        {
+            currentPowerBar.GetComponent<Image>().color = Color.blue;
+        }
+        else
+        {
+            currentPowerBar.GetComponent<Image>().color = Color.white;
+        }
         maxPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).maxPwr / 10f;
         currentPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).currentPwr / 10f;
+        levelPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).level / 10f;
 
 
     }

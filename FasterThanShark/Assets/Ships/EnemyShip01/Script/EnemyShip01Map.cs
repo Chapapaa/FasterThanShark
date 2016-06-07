@@ -4,10 +4,29 @@ using System.Collections.Generic;
 
 public class EnemyShip01Map : MonoBehaviour
 {
+    public int navigationLevel;
+    public int weaponLevel;
+    public int repairLevel;
+    public int medicLevel;
+    public int powerLevel;
+
     public GameObject navigationIcon;
     public GameObject weaponIcon;
     public GameObject repairIcon;
+    public GameObject medicIcon;
 
+    public Transform Room0;
+    public Transform Room1;
+    public Transform Room2;
+    public Transform Room3;
+    public Transform Room4;
+    public Transform Room5;
+    public Transform Room6;
+    public Transform Room7;
+    public Transform Room8;
+    public Transform Room9;
+    public Transform Room10;
+    public Transform Room11;
 
     public Transform cell0;
     public Transform cell1;
@@ -50,6 +69,7 @@ public class EnemyShip01Map : MonoBehaviour
     Engine weaponEngine;
     Engine repairEngine;
     Engine powerEngine;
+    Engine medicEngine;
 
 
     ShipMap shipMap;
@@ -82,18 +102,18 @@ public class EnemyShip01Map : MonoBehaviour
     {
         InitializeEngines();
         // Taille | engine | cell 0,1(,2,3)
-        map.Add(new ShipRoom(4, repairEngine, cell0.position, cell1.position, cell8.position, cell9.position));
-        map.Add(new ShipRoom(2, new Engine(), cell2.position, cell3.position));
-        map.Add(new ShipRoom(4, weaponEngine, cell4.position, cell5.position, cell12.position, cell13.position));
-        map.Add(new ShipRoom(2, new Engine(), cell6.position, cell18.position));
-        map.Add(new ShipRoom(2, new Engine(), cell7.position, cell19.position));
-        map.Add(new ShipRoom(4, new Engine(), cell10.position, cell11.position, cell22.position, cell23.position));
-        map.Add(new ShipRoom(2, new Engine(), cell14.position, cell26.position));
-        map.Add(new ShipRoom(4, new Engine(), cell15.position, cell16.position, cell27.position, cell28.position));
-        map.Add(new ShipRoom(2, navigationEngine, cell17.position, cell29.position));
-        map.Add(new ShipRoom(4, new Engine(), cell20.position, cell21.position, cell30.position, cell31.position));
-        map.Add(new ShipRoom(2, new Engine(), cell32.position, cell33.position));
-        map.Add(new ShipRoom(4, new Engine(), cell24.position, cell25.position, cell34.position, cell35.position));
+        map.Add(new ShipRoom(4, repairEngine, cell0.position, cell1.position, cell8.position, cell9.position, Room0.position));
+        map.Add(new ShipRoom(2, new Engine(), cell2.position, cell3.position, Room1.position));
+        map.Add(new ShipRoom(4, weaponEngine, cell4.position, cell5.position, cell12.position, cell13.position, Room2.position));
+        map.Add(new ShipRoom(2, new Engine(), cell6.position, cell18.position, Room3.position));
+        map.Add(new ShipRoom(2, new Engine(), cell7.position, cell19.position, Room4.position));
+        map.Add(new ShipRoom(4, new Engine(), cell10.position, cell11.position, cell22.position, cell23.position, Room5.position));
+        map.Add(new ShipRoom(2, new Engine(), cell14.position, cell26.position, Room6.position));
+        map.Add(new ShipRoom(4, new Engine(), cell15.position, cell16.position, cell27.position, cell28.position, Room7.position));
+        map.Add(new ShipRoom(2, navigationEngine, cell17.position, cell29.position, Room8.position));
+        map.Add(new ShipRoom(4, medicEngine, cell20.position, cell21.position, cell30.position, cell31.position, Room9.position));
+        map.Add(new ShipRoom(2, new Engine(), cell32.position, cell33.position, Room10.position));
+        map.Add(new ShipRoom(4, new Engine(), cell24.position, cell25.position, cell34.position, cell35.position, Room11.position));
 
         foreach(var shipRoom in map)
         {
@@ -108,26 +128,51 @@ public class EnemyShip01Map : MonoBehaviour
         // si c'est le cas je vais dans l'engine manager et je fais des degats a l'engine
         // pour chaque feature qui demande un engine, je vais dans l'engine manager et je check si l'engine est opérationnel
 
+
     }
 
     void InitializeEngines()
     {
-        navigationEngine = new Engine(Engine.engineType.navigation, 1);
+        navigationEngine = new Engine(Engine.engineType.navigation, 0);
         navigationEngine.isActive = true;
         navigationEngine.icon = navigationIcon;
-        navigationEngine.LevelUp();
-        navigationEngine.currentPwr += 1;
-        weaponEngine = new Engine(Engine.engineType.weapon, 1);
+        
+        weaponEngine = new Engine(Engine.engineType.weapon, 0);
         weaponEngine.isActive = true;
         weaponEngine.icon = weaponIcon;
-        weaponEngine.LevelUp();
-        weaponEngine.currentPwr += 1;
-        repairEngine = new Engine(Engine.engineType.repair, 1);
+
+        repairEngine = new Engine(Engine.engineType.repair, 0);
         repairEngine.isActive = true;
         repairEngine.icon = repairIcon;
-        repairEngine.LevelUp();
-        repairEngine.currentPwr += 1;
-        powerEngine = new Engine(Engine.engineType.power, 10);
+        powerEngine = new Engine(Engine.engineType.power, 0);
+        powerEngine.isActive = true;
+
+        medicEngine = new Engine(Engine.engineType.medic, 0);
+        medicEngine.isActive = true;
+        medicEngine.icon = medicIcon;
+
+        for (int i = 0; i < powerLevel; i++)
+        {
+            powerEngine.LevelUp();
+            powerEngine.currentPwr += 1;
+        }
+        for (int i = 0; i < navigationLevel; i++)
+        {
+            navigationEngine.LevelUp();
+        }
+        for (int i = 0; i < weaponLevel; i++)
+        {
+            weaponEngine.LevelUp();
+        }
+        for (int i = 0; i < repairLevel; i++)
+        {
+            repairEngine.LevelUp();
+        }
+        for (int i = 0; i < medicLevel; i++)
+        {
+            medicEngine.LevelUp();
+        }
 
     }
+
 }

@@ -47,12 +47,19 @@ public class GetClickedRoom : MonoBehaviour {
         {
             if (Input.GetMouseButton(1))
             {
-                eventMng.ClickOnRoom(index, 1, mapIndex, transform.position);
+                if(!PauseManager.isGamePaused)
+                {
+                    eventMng.ClickOnRoom(index, 1, mapIndex, transform.position);
+                }
+                
 
             }
             if (Input.GetMouseButton(0))
             {
-                eventMng.ClickOnRoom(index, 0, mapIndex, transform.position);
+                if (!PauseManager.isGamePaused)
+                {
+                    eventMng.ClickOnRoom(index, 0, mapIndex, transform.position);
+                }
             }
         }
 

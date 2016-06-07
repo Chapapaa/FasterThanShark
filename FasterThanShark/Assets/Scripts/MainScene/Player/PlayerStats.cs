@@ -21,6 +21,7 @@ public class PlayerStats : MonoBehaviour {
     public int maxPwr = 0;
 
     public EnginesManager engineMng = null;
+    public EventsManager evntMng;
 
 
 
@@ -58,6 +59,7 @@ public class PlayerStats : MonoBehaviour {
     void Death()
     {
         health = 0;
+        evntMng.MainShipDestroyed();
 
     }
 

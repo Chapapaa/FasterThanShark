@@ -5,11 +5,11 @@ public class OptionWindowManager : MonoBehaviour {
 
     void OnEnable()
     {
-        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Pause();
+        PauseManager.Pause();
     }
     void OnDisable()
     {
-        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Resume();
+        PauseManager.Resume();
     }
 
     public void ExitToWindows()

@@ -15,11 +15,11 @@ public class ModalWindowManager : MonoBehaviour {
 
     void OnEnable ()
     {
-        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Pause();
+        PauseManager.Pause();
 	}
     void OnDisable()
     {
-        GameObject.FindGameObjectWithTag("Manager").GetComponent<PauseManager>().Resume();
+        PauseManager.Resume();
     }
 	
 	// Update is called once per frame
@@ -40,12 +40,13 @@ public class ModalWindowManager : MonoBehaviour {
         instDesc.GetComponentInChildren<Text>().text = descStr;
     }
 
-    public void AddAwnser(string awnserStr)
+    public GameObject AddAwnser(string awnserStr)
     {
         GameObject instAwnser = Instantiate(awnserButtonPrefab);
         instAwnser.transform.SetParent(textContainer.transform);
         instAwnser.GetComponentInChildren<Text>().text = awnserStr;
         instAwnser.GetComponent<AwnserManager>().ModalWindow = gameObject;
+        return instAwnser;
 
     }
     public void CloseModalWindow()

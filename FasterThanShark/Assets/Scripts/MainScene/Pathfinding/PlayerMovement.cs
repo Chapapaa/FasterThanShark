@@ -5,13 +5,16 @@ using Pathfinding;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public bool isAlly = true;
+    public bool isAlly;
     public float mapScale = 2f;
 	public float moveSpeed;
     public bool moving = false;
     AILerp aiLerp;
     ShipMap mapSCR;
     Vector3 tempCellPos = new Vector3();
+    CharacterManager charMng;
+    bool pathsCalculated = false;
+
 
     ABPath path = null;
     List<PathDest> goalList = new List<PathDest>();
@@ -22,12 +25,22 @@ public class PlayerMovement : MonoBehaviour {
 
     public void MoveToNode(Vector3 targetPos)
 	{
+        aiLerp.ResetToDefault();
         mapSCR.RemoveCharacterPosition(gameObject, isAlly);
-        mapSCR.RemoveCharacterPosition(gameObject, isAlly, tempCellPos);
+        //mapSCR.RemoveCharacterPosition(gameObject, isAlly, tempCellPos);
+        charMng.playerCell = null;
         tempCellPos = targetPos;
-        mapSCR.SetCharacterPosition(gameObject, isAlly, tempCellPos);
+        ShipCell cellToGo = mapSCR.SetCharacterPosition(gameObject, isAlly, tempCellPos);
+        charMng.playerCell = cellToGo;
         StopAllCoroutines() ;
-        moveCoroutine = Move (targetPos);
+        if(cellToGo == null)
+        {
+            moveCoroutine = Move(targetPos);
+        }
+        else
+        {
+            moveCoroutine = Move(cellToGo.position);
+        }
 		StartCoroutine(moveCoroutine);
 	}
 
@@ -46,10 +59,8 @@ public class PlayerMovement : MonoBehaviour {
             aiLerp.SearchPath();
             aiLerp.stop = false;
             yield return new WaitForSeconds(0.3f);
-            if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
+            if (Vector2.Distance(transform.position, targetPosition) < 0.05f)
             {
-                print("YOLOOOOOOOOOOOOw");
-                //transform.position = targetPosition;
                 break;
             }
             if(transform.position == lastPos)
@@ -67,16 +78,16 @@ public class PlayerMovement : MonoBehaviour {
         StopAllCoroutines();
         moving = false;
         AjustPosition();
-        //mapSCR.SetCharacterPosition(gameObject, isAlly);
 
     }
 
     void AjustPosition()
     {
         mapSCR.RemoveCharacterPosition(gameObject, isAlly);
-        mapSCR.RemoveCharacterPosition(gameObject, isAlly, tempCellPos);
+        //mapSCR.RemoveCharacterPosition(gameObject, isAlly, tempCellPos);
+        charMng.playerCell = null;
         ShipCell emptyCell = mapSCR.IsRoomEmpty(transform.position, isAlly);
-        if(emptyCell != null)
+        if (emptyCell != null)
         {
             Vector2 mypos = new Vector2(transform.position.x, transform.position.y);
             Vector2 mycellpos = new Vector2(emptyCell.position.x, emptyCell.position.y);
@@ -87,15 +98,14 @@ public class PlayerMovement : MonoBehaviour {
             }
             else
             {
-                mapSCR.SetCharacterPosition(gameObject, isAlly);
-            }
-            aiLerp.target = gameObject.transform.position;            
+                charMng.playerCell = mapSCR.SetCharacterPosition(gameObject, isAlly);
+            }           
         }
 
         else
         {
             goalList.Clear();
-            CalculateAllPath();
+            StartCoroutine(CalculateAllPath());
             StartCoroutine(UrgentPathCorrect());
         }
     }
@@ -126,21 +136,42 @@ public class PlayerMovement : MonoBehaviour {
         // Replace the old path
         path = p;
     }
-    void CalculateAllPath()
+    IEnumerator CalculateAllPath()
     {
-        foreach(ShipRoom room in mapSCR.shipMap)
+        pathsCalculated = false;
+        if(isAlly)
         {
-            if (AstarPath.active == null) return;
-            // As there is not Seeker to keep track of the callbacks, we now need to specify the callback every time again
-            var p = ABPath.Construct(transform.position, room.roomPosition, OnPathComplete);
-            p.nnConstraint = NNConstraint.None;
-            // Start the path, but call AstarPath directly
-            // AstarPath.active is the current AstarPath instance in the scene
-            AstarPath.StartPath(p);
-        }
+            foreach (ShipRoom room in mapSCR.shipMap)
+            {
 
+                if (AstarPath.active == null) break;
+                // As there is not Seeker to keep track of the callbacks, we now need to specify the callback every time again
+                var p = ABPath.Construct(transform.position, room.roomPosition, OnPathComplete);
+                p.nnConstraint = NNConstraint.None;
+                // Start the path, but call AstarPath directly
+                // AstarPath.active is the current AstarPath instance in the scene
+                AstarPath.StartPath(p);
+                yield return StartCoroutine(p.WaitForPath());
+            }
+        }
+        else
+        {
+            foreach (ShipRoom room in mapSCR.enemyShipMap)
+            {
+
+                if (AstarPath.active == null) break;
+                // As there is not Seeker to keep track of the callbacks, we now need to specify the callback every time again
+                var p = ABPath.Construct(transform.position, room.roomPosition, OnPathComplete);
+                p.nnConstraint = NNConstraint.None;
+                // Start the path, but call AstarPath directly
+                // AstarPath.active is the current AstarPath instance in the scene
+                AstarPath.StartPath(p);
+                yield return StartCoroutine(p.WaitForPath());
+            }
+        }
+        pathsCalculated = true;
         //There must be an AstarPath instance in the scene
-        
+
     }
 
     class PathDest
@@ -160,6 +191,10 @@ public class PlayerMovement : MonoBehaviour {
 	{
         mapSCR = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
         aiLerp = gameObject.GetComponent<AILerp>();
+        charMng = gameObject.GetComponent<CharacterManager>();
+        isAlly = charMng.isAlly;
+
+        StartCoroutine(Initialization());
 
     }
 	
@@ -170,28 +205,41 @@ public class PlayerMovement : MonoBehaviour {
 
     void MagicTp()
     {
-        print("MAGICTPPPP ---------------------");
-        ShipRoom rdmRoom = mapSCR.GetRandomAllyRoom();
-        aiLerp.stop = true;
+        aiLerp.ResetToDefault();
+        ShipRoom rdmRoom = null;
+        if (isAlly)
+        {
+            rdmRoom = mapSCR.GetRandomAllyRoom();
+        }
+        else
+        {
+            rdmRoom = mapSCR.GetRandomEnnemyRoom();
+        }
         gameObject.transform.position = rdmRoom.roomPosition;
         MoveToNode(rdmRoom.roomPosition);
     }
 
     IEnumerator UrgentPathCorrect()
     {
-        yield return new WaitForSeconds(0.4f);
+        while(!pathsCalculated)
+        {
+            yield return new WaitForSeconds(0.05f);
+        }
+        yield return new WaitForSeconds(0.1f);
         float mini = 100f;
         PathDest fDest = null;
         foreach(PathDest dest in goalList)
         {
-            if(dest.pathDist < mini)
+            if (mapSCR.IsRoomEmpty(dest.endPoint, isAlly) != null)
             {
-                if(Vector3.Distance(dest.endPoint, mapSCR.GetRoomByPos(transform.position).roomPosition) > 0.1f)
+                if (dest.pathDist < mini)
                 {
-                    mini = dest.pathDist;
-                    fDest = dest;
+                    if (Vector3.Distance(dest.endPoint, mapSCR.GetRoomByPos(transform.position).roomPosition) > 0.1f)
+                    {
+                        mini = dest.pathDist;
+                        fDest = dest;
+                    }
                 }
-                
             }
         }
         if(fDest != null)
@@ -202,5 +250,10 @@ public class PlayerMovement : MonoBehaviour {
         {
             MagicTp();
         }
+    }
+    IEnumerator Initialization()
+    {
+        yield return new WaitForSeconds(Random.Range(0.02f, 0.1f));
+        MoveToNode(mapSCR.GetRoomByPos(transform.position).roomPosition);
     }
 }

@@ -8,6 +8,7 @@ public class MainShip02Map : MonoBehaviour
     public GameObject weaponIcon;
     public GameObject navIcon;
     public GameObject repairIcon;
+    public GameObject medicIcon;
 
     public Transform Room0;
     public Transform Room1;
@@ -65,6 +66,7 @@ public class MainShip02Map : MonoBehaviour
     Engine navEngine;
     Engine repairEngine;
     Engine powerEngine;
+    Engine medicEngine;
 
     Vector3 lastPosition;
     ShipMap shipMap;
@@ -107,7 +109,7 @@ public class MainShip02Map : MonoBehaviour
         map.Add(new ShipRoom(4, new Engine(), cell13.position, cell14.position, cell17.position, cell18.position, Room5.position));
         map.Add(new ShipRoom(2, new Engine(), cell15.position, cell19.position, Room6.position));
         map.Add(new ShipRoom(4, repairEngine, cell20.position, cell21.position, cell24.position, cell25.position, Room7.position));
-        map.Add(new ShipRoom(4, new Engine(), cell22.position, cell23.position, cell26.position, cell27.position, Room8.position));
+        map.Add(new ShipRoom(4, medicEngine , cell22.position, cell23.position, cell26.position, cell27.position, Room8.position));
         map.Add(new ShipRoom(2, new Engine(), cell28.position, cell29.position, Room9.position));
         map.Add(new ShipRoom(4, new Engine(), cell30.position, cell31.position, cell32.position, cell33.position, Room10.position));
         map.Add(new ShipRoom(2, navEngine, cell34.position, cell35.position, Room11.position));
@@ -135,8 +137,11 @@ public class MainShip02Map : MonoBehaviour
         repairEngine = new Engine(Engine.engineType.repair, 1);
         repairEngine.isActive = true;
         repairEngine.icon = repairIcon;
-        powerEngine = new Engine(Engine.engineType.power, 10);
-        powerEngine.currentPwr = 10;
+        medicEngine = new Engine(Engine.engineType.medic, 1);
+        medicEngine.isActive = true;
+        medicEngine.icon = medicIcon;
+        powerEngine = new Engine(Engine.engineType.power, 5);
+        powerEngine.currentPwr = 5;
 
 
     }

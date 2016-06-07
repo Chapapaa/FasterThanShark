@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class EnemyManager : MonoBehaviour {
 
@@ -7,8 +8,11 @@ public class EnemyManager : MonoBehaviour {
     ShipMap shipMap;
     WeaponManager weaponsMng;
     EventsManager eventsMng;
+    EnemyIA iAMng;
     public EnginesManager engineMng;
     public GameObject crewContainer;
+    public GameObject crewPrefab;
+    public Transform crewSpawnPos;
     
 
 
@@ -16,12 +20,14 @@ public class EnemyManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
+        iAMng = GetComponent<EnemyIA>();
         statsSCR = GetComponent<EnemyStats>();
         shipMap = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
         eventsMng = GameObject.FindGameObjectWithTag("Manager").GetComponent<EventsManager>();
         weaponsMng = GameObject.FindGameObjectWithTag("Manager").GetComponent<WeaponManager>();
         weaponsMng.enemy = gameObject;
         StartCoroutine(RepairHullCrt());
+        StartCoroutine(InitCrew());
 
 
     }
@@ -42,13 +48,31 @@ public class EnemyManager : MonoBehaviour {
         }
     }
 	
-    public void GetDamage(int amount, Vector3 position)
+    public void GetDamage(int amount, ShipRoom targetRoom)
     {
-        int trueDmanage = statsSCR.GetDamage(amount);
-        ShipRoom damagedRoom = shipMap.GetRoomByPos(position);
-        if(damagedRoom != null)
-        { 
-            engineMng.GetDamageOnEngine(damagedRoom.engine, trueDmanage);
+        int trueDamage = statsSCR.GetDamage(amount);
+
+        if (trueDamage > 0)
+        {
+            engineMng.GetDamageOnEngine(targetRoom.engine, trueDamage);
+            GameObject[] chars = GameObject.FindGameObjectsWithTag("Character");
+            foreach (GameObject myChar in chars)
+            {
+                if (Vector3.Distance(myChar.transform.position, targetRoom.roomPosition) < 0.45f)
+                {
+                    myChar.GetComponent<CharacterManager>().GetDamage(trueDamage);
+                }
+                else
+                {
+                    foreach (ShipCell cell in targetRoom.cells)
+                    {
+                        if (Vector3.Distance(myChar.transform.position, cell.position) < 0.45f)
+                        {
+                            myChar.GetComponent<CharacterManager>().GetDamage(trueDamage);
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -94,6 +118,31 @@ public class EnemyManager : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.1f);
         }
+    }
+    IEnumerator InitCrew()
+    {
+        yield return new WaitForSeconds(0.2f);
+        GameObject instCrew = Instantiate(crewPrefab);
+        instCrew.transform.SetParent(crewContainer.transform);
+        instCrew.transform.position = crewSpawnPos.position;
+        iAMng.AddCrewToIA(instCrew);
+        GameObject inst2Crew = Instantiate(crewPrefab);
+        inst2Crew.transform.SetParent(crewContainer.transform);
+        inst2Crew.transform.position = crewSpawnPos.position;
+        iAMng.AddCrewToIA(inst2Crew);
+        //GameObject inst3Crew = Instantiate(crewPrefab);
+        //inst3Crew.transform.SetParent(crewContainer.transform);
+        //inst3Crew.transform.position = crewSpawnPos.position;
+        //iAMng.AddCrewToIA(inst3Crew);
+        //GameObject inst4Crew = Instantiate(crewPrefab);
+        //inst4Crew.transform.SetParent(crewContainer.transform);
+        //inst4Crew.transform.position = crewSpawnPos.position;
+        //iAMng.AddCrewToIA(inst4Crew);
+        //GameObject inst5Crew = Instantiate(crewPrefab);
+        //inst5Crew.transform.SetParent(crewContainer.transform);
+        //inst5Crew.transform.position = crewSpawnPos.position;
+        //iAMng.AddCrewToIA(inst5Crew);
+
     }
 
 

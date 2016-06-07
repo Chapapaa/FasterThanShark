@@ -8,6 +8,7 @@ public class EnginesManager: MonoBehaviour
 
     Color redColor = new Color(1f, 0f, 0f);
     Color whiteColor = new Color(1f, 1f, 1f);
+    Color orangeColor = Color.yellow;
 
     public List<Engine> engines = new List<Engine>();
 
@@ -50,7 +51,7 @@ public class EnginesManager: MonoBehaviour
     {
         foreach(Engine engine in engines)
         {
-            if(engine.icon != null)
+            if(engine.icon != null && engine.icon.GetComponent<IconManager>() != null)
             { 
                 if(!engine.isActive)
                 {
@@ -58,11 +59,15 @@ public class EnginesManager: MonoBehaviour
                 }
                 if(!engine.alive)
                 {
-                    engine.icon.GetComponent<SpriteRenderer>().color = redColor;
+                    engine.icon.GetComponent<IconManager>().ChangeColor(redColor);
+                }
+                else if (engine.currentHp < engine.maxHp)
+                {
+                    engine.icon.GetComponent<IconManager>().ChangeColor(orangeColor); 
                 }
                 else
                 {
-                    engine.icon.GetComponent<SpriteRenderer>().color = whiteColor;
+                    engine.icon.GetComponent<IconManager>().ChangeColor(whiteColor);
                 }
             }
         }
@@ -116,6 +121,21 @@ public class EnginesManager: MonoBehaviour
         return false;
 
     }
+    public bool IsMedicEngineAlive()
+    {
+        foreach (Engine engine in engines)
+        {
+            if (engine.engine == Engine.engineType.medic)
+            {
+                if (engine.alive && engine.isActive && engine.currentPwr > 0)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
 
     /// <summary>
     /// 
@@ -129,6 +149,14 @@ public class EnginesManager: MonoBehaviour
         {
             Debug.Log("wrong engine type");
             return;
+        }
+        if(amount > powerEngine.currentPwr)
+        {
+            amount = powerEngine.currentPwr;
+        }
+        if(myEngine.currentPwr + amount > myEngine.maxPwr)
+        {
+            amount = myEngine.maxPwr - myEngine.currentPwr;
         }
         if (amount <= powerEngine.currentPwr && myEngine.currentPwr + amount <= myEngine.maxPwr)
         {
@@ -152,7 +180,6 @@ public class EnginesManager: MonoBehaviour
         }
         myEngine.currentPwr -= amount;
         powerEngine.currentPwr += amount;
-
     }
 
 }

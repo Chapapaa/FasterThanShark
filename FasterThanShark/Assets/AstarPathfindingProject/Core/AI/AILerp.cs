@@ -143,6 +143,14 @@ public class AILerp : MonoBehaviour {
 		OnEnable();
 	}
 
+    public void ResetToDefault()
+    {
+        OnDisable();
+        OnEnable();
+        Awake();
+
+    }
+
 	/** Run at start and when reenabled.
 	 * Starts RepeatTrySearchPath.
 	 *
@@ -401,7 +409,11 @@ public class AILerp : MonoBehaviour {
             }
             if (isMoving)
             {
-                tr.position = nextPos;
+                if(Vector3.Distance(tr.position, nextPos) < 0.5f)
+                {
+                    tr.position = nextPos;
+                }
+                    
             }
         }
     }    

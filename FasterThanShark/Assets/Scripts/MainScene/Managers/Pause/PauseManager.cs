@@ -3,17 +3,17 @@ using System.Collections;
 
 public class PauseManager : MonoBehaviour {
 
-    public bool isGamePaused = false;
+    public static bool isGamePaused = false;
 
 
-    public void Pause()
+    public static void Pause()
     {
             print("paused");
             isGamePaused = true;
             Time.timeScale = 0f;
     }
 
-    public void Resume()
+    public static void Resume()
     {
         print("resumed");
         isGamePaused = false;

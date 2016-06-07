@@ -6,6 +6,8 @@ public class ShipCell {
     public Vector3 position;
     public GameObject crew;
     public GameObject enemy;
+    public Engine engine = null;
+
     public ShipCell(Vector3 _position, GameObject _crew, GameObject _enemy)
     {
         position = _position;

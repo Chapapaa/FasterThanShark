@@ -5,6 +5,7 @@ public class EnemyStats : MonoBehaviour {
 
     public EnemyManager enemyMngSCR;
 
+
     public int health0 = 0;
     public int maxHealth0 = 0;
     public int health1 = 10;
@@ -21,8 +22,8 @@ public class EnemyStats : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
-	}
+
+    }
 	
 
     void Death()
