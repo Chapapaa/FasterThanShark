@@ -19,7 +19,29 @@ public class CharacterManager : MonoBehaviour {
     public int maxHp = 10;
     public int currentHp = 10;
     public int repairPower = 10;
-    public int operateLevel = 1;
+
+
+    
+    public int navigationOpeLevel = 1;
+    public int navigationCurrentExp = 0;
+    public int navigationMaxExp = 10;
+
+    public int medicOpeLevel = 1;
+    public int medicCurrentExp = 0;
+    public int medicMaxExp = 10;
+
+    public int weaponOpeLevel = 1;
+    public int weaponCurrentExp = 0;
+    public int weaponMaxExp = 10;
+
+    public int repairOpeLevel = 1;
+    public int repairCurrentExp = 0;
+    public int repairMaxExp = 10;
+
+    public int repairModuleOpeLevel = 1;
+    public int repairModuleCurrentExp = 0;
+    public int repairModuleMaxExp = 10;
+
 
     public float healTime = 0f;
     bool isHealCrtRunning = false;
@@ -158,9 +180,122 @@ public class CharacterManager : MonoBehaviour {
         currentHp -= amount;
     }
 
+    
+
+    public void ChangeName(string myName)
+    {
+        characterName = myName;
+        displayPanel2.GetComponent<CrewPanelDisplayManager>().crewName.GetComponent<InputField>().text = myName;
+    }
+
+    public int GetOperateLevel(Engine.engineType _engineType)
+    {
+        if(_engineType == Engine.engineType.navigation)
+        {
+            return navigationOpeLevel;
+        }
+        else if (_engineType == Engine.engineType.repair)
+        {
+            return repairOpeLevel;
+        }
+        else if (_engineType == Engine.engineType.weapon)
+        {
+            return weaponOpeLevel;
+        }
+        else if (_engineType == Engine.engineType.medic)
+        {
+            return medicOpeLevel;
+        }
+        else
+        {
+            return 0;
+        }
+        
+    }
+
+    public void GainExp(Engine.engineType engineType)
+    {
+        if(engineType == Engine.engineType.weapon)
+        {
+            weaponCurrentExp += 10;
+            if(weaponCurrentExp >= weaponMaxExp)
+            {
+                if(weaponOpeLevel >= 6)
+                {
+                    weaponOpeLevel = 6;
+                    weaponCurrentExp = weaponMaxExp;
+                }
+                else
+                {
+                    weaponOpeLevel += 1;
+                    weaponCurrentExp -= weaponMaxExp;
+                    weaponMaxExp += weaponMaxExp / weaponOpeLevel;
+                }
+                
+            }
+        }
+        else if(engineType == Engine.engineType.navigation)
+        {
+            navigationCurrentExp += 10;
+            if (navigationCurrentExp >= navigationMaxExp)
+            {
+                if (navigationOpeLevel >= 6)
+                {
+                    navigationOpeLevel = 6;
+                    navigationCurrentExp = navigationMaxExp;
+                }
+                else
+                {
+                    navigationOpeLevel += 1;
+                    navigationCurrentExp -= navigationMaxExp;
+                    navigationMaxExp += navigationMaxExp / navigationOpeLevel;
+                }
+            }
+        }
+        else if (engineType == Engine.engineType.repair)
+        {
+            repairCurrentExp += 10;
+            if (repairCurrentExp >= repairMaxExp)
+            {
+                if (repairOpeLevel >= 6)
+                {
+                    repairOpeLevel = 6;
+                    repairCurrentExp = repairMaxExp;
+                }
+                else
+                {
+                    repairOpeLevel += 1;
+                    repairCurrentExp -= repairMaxExp;
+                    repairMaxExp += repairMaxExp / repairOpeLevel;
+                }
+            }
+        }
+        else if (engineType == Engine.engineType.medic)
+        {
+            medicCurrentExp += 10;
+            if (medicCurrentExp >= medicMaxExp)
+            {
+                if (medicOpeLevel >= 6)
+                {
+                    medicOpeLevel = 6;
+                    medicCurrentExp = medicMaxExp;
+                }
+                else
+                {
+                    medicOpeLevel += 1;
+                    medicCurrentExp -= medicMaxExp;
+                    medicMaxExp += medicMaxExp / medicOpeLevel;
+                }
+            }
+        }
+    }
+
+
+
+
     IEnumerator RepairCoroutine()
     {
-        while(true)
+        while (true)
         {
             bool repairing = false;
             if (isMoving)
@@ -168,15 +303,16 @@ public class CharacterManager : MonoBehaviour {
                 yield return new WaitForSeconds(0.1f);
                 continue;
             }
-            if(isAlly)  // si allié et sur le ship allié
+            if (isAlly)  // si allié et sur le ship allié
             {
                 ShipRoom myRoom = globalMap.GetRoomByPos(transform.position);
-                if(myRoom != null)
+                if (myRoom != null)
                 {
-                    if(myRoom.engine.currentHp < myRoom.engine.maxHp)
+                    if (myRoom.engine.currentHp < myRoom.engine.maxHp)
                     {
                         repairing = true;
                         myRoom.engine.Repair(repairPower);
+                        GainExp(Engine.engineType.repairModule);
                     }
                 }
             }
@@ -192,7 +328,7 @@ public class CharacterManager : MonoBehaviour {
                     }
                 }
             }
-            if(repairing)
+            if (repairing)
             {
                 isRepairing = true;
             }
@@ -204,12 +340,6 @@ public class CharacterManager : MonoBehaviour {
         }
     }
 
-    public void ChangeName(string myName)
-    {
-        characterName = myName;
-        displayPanel2.GetComponent<CrewPanelDisplayManager>().crewName.GetComponent<InputField>().text = myName;
-    }
-
     IEnumerator OperateCrt()
     {
         while(true)
@@ -219,28 +349,31 @@ public class CharacterManager : MonoBehaviour {
             {
                 if(playerCell.engine != null)
                 {
-                    if(isAlly)
+                    int opeLevel = GetOperateLevel(playerCell.engine.engine);
+                    if (opeLevel > 0 && playerCell.engine.currentPwr > 0)
                     {
-                        if(playerCell.position.x < 0)
+                        if (isAlly)
                         {
-                            operating = true;
-                            playerCell.engine.Operate(operateLevel);
-                            playerCell.engine.operatedBy = gameObject;
-                            lastCell = playerCell;
+                            if (playerCell.position.x < 0)
+                            {
+
+                                operating = true;
+                                playerCell.engine.Operate(opeLevel);
+                                playerCell.engine.operatedBy = gameObject;
+                                lastCell = playerCell;
+                            }
+                        }
+                        else
+                        {
+                            if (playerCell.position.x > 0)
+                            {
+                                operating = true;
+                                playerCell.engine.Operate(opeLevel);
+                                playerCell.engine.operatedBy = gameObject;
+                                lastCell = playerCell;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (playerCell.position.x > 0)
-                        {
-                            operating = true;
-                            playerCell.engine.Operate(operateLevel);
-                            playerCell.engine.operatedBy = gameObject;
-                            lastCell = playerCell;
-                        }
-                    }
-                    
-                    // stuff d'operate.
                 }
             }
             if (operating)
@@ -281,7 +414,6 @@ public class CharacterManager : MonoBehaviour {
     {
         healTime = 0f;
         isHealCrtRunning = true;
-        print("Coroutine");
         while (true)
         {
             if(stopCoroutine)
@@ -291,9 +423,12 @@ public class CharacterManager : MonoBehaviour {
             }
             if(healTime >= 10f)
             {
-                print("healing done");
                 healTime = 0f;
                 currentHp += medicEngine.currentPwr;
+                if(medicEngine.operated && medicEngine.operatedBy != null)
+                {
+                    medicEngine.operatedBy.GetComponent<CharacterManager>().GainExp(Engine.engineType.medic);
+                }
                 if (currentHp >= maxHp)
                 {
                     currentHp = maxHp;
@@ -303,9 +438,6 @@ public class CharacterManager : MonoBehaviour {
             yield return new WaitForSeconds(0.05f);
         }
         isHealCrtRunning = false;
-        print("end of crt");
-
-
     }
 
     IEnumerator initCrt()

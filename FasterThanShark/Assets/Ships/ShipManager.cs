@@ -7,7 +7,6 @@ public class ShipManager : MonoBehaviour {
     public GameObject crewSpawnContainer;
     public EnginesManager engineManager;
 
-    EventsManager eventsManager;
 
 
 
@@ -17,8 +16,6 @@ public class ShipManager : MonoBehaviour {
         CharSpawnManager spawnManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<CharSpawnManager>();
         spawnManager.spawnPosition = crewSpawn.transform.position;
         spawnManager.mapCrewContainer = crewSpawnContainer;
-        eventsManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<EventsManager>();
-        eventsManager.mainShip = gameObject;
 
         GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().engineMng = engineManager;
 

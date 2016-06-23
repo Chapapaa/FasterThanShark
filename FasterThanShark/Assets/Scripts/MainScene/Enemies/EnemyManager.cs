@@ -7,23 +7,26 @@ public class EnemyManager : MonoBehaviour {
     EnemyStats statsSCR;
     ShipMap shipMap;
     WeaponManager weaponsMng;
-    EventsManager eventsMng;
+    EventTriggerManager eventsMng;
     EnemyIA iAMng;
     public EnginesManager engineMng;
     public GameObject crewContainer;
     public GameObject crewPrefab;
     public Transform crewSpawnPos;
-    
+    public int repairDelay = 40;
+    public float repairOpeBonus = 10f; // réduction en pourcentage par level d'opérate 
+    public int fleeOperateModifier = 5; // bonus en flat par level d'opérate 
 
 
 
-	// Use this for initialization
-	void Start ()
+
+    // Use this for initialization
+    void Start ()
     {
         iAMng = GetComponent<EnemyIA>();
         statsSCR = GetComponent<EnemyStats>();
         shipMap = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
-        eventsMng = GameObject.FindGameObjectWithTag("Manager").GetComponent<EventsManager>();
+        eventsMng = GameObject.FindGameObjectWithTag("Manager").GetComponentInChildren<EventTriggerManager>();
         weaponsMng = GameObject.FindGameObjectWithTag("Manager").GetComponent<WeaponManager>();
         weaponsMng.enemy = gameObject;
         StartCoroutine(RepairHullCrt());
@@ -36,9 +39,10 @@ public class EnemyManager : MonoBehaviour {
     {
         if (engineMng != null)
         {
-            if (engineMng.isNavigationEngineAlive())
+            Engine navEngine = engineMng.GetEngine(Engine.engineType.navigation);
+            if (navEngine != null && navEngine.currentPwr > 0)
             {
-                // TD : recupere la bonne valeur de flee;
+                statsSCR.maxFlee = (navEngine.currentPwr * 10) + (navEngine.operateLevel * fleeOperateModifier);
                 statsSCR.flee = statsSCR.maxFlee;
             }
             else
@@ -80,7 +84,7 @@ public class EnemyManager : MonoBehaviour {
     {
         shipMap.ResetEnemyShipMap();
         DestroyCrews();
-        eventsMng.EnemyDestroyed();
+        eventsMng.EnemyDeath();
         Destroy(gameObject);
     }
 
@@ -102,19 +106,23 @@ public class EnemyManager : MonoBehaviour {
         {
             if (engineMng != null)
             {
-                if (engineMng.IsRepairEngineAlive())
+                Engine repairEngine = engineMng.GetEngine(Engine.engineType.repair);
+                if(repairEngine != null)
                 {
-                    if (statsSCR.health2 < statsSCR.maxHealth2)
+                    if (repairEngine.currentPwr > 0)
                     {
-                        repairProgress += 1;
-                        if (repairProgress >= 40)
+                        if (statsSCR.health2 < statsSCR.maxHealth2)
                         {
-                            statsSCR.health2 += 1;
-                            repairProgress = 0;
+                            repairProgress += 1;
+                            float repairMax = repairDelay * ((100 - (repairOpeBonus * repairEngine.operateLevel)) / 100f);
+                            if (repairProgress >= repairMax)
+                            {
+                                statsSCR.health2 += 1;
+                                repairProgress = 0;
+                            }
                         }
                     }
                 }
-
             }
             yield return new WaitForSeconds(0.1f);
         }

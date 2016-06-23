@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour {
     public GameObject optionPanel;
     public GameObject inventoryPanel;
     public GameObject crewPanel;
+    public GameObject shopPanel;
     float inputCD = 0.5f;
     float timer = 0f;
 
@@ -70,7 +71,7 @@ public class UIManager : MonoBehaviour {
                 PauseManager.Pause();
             }
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C) && !KeyEventsManager.isInputFieldFocused)
         {
             if (timer < inputCD)
             {
@@ -88,6 +89,7 @@ public class UIManager : MonoBehaviour {
                 PauseManager.Resume();
             }
         }
+
 
     }
 
@@ -115,4 +117,18 @@ public class UIManager : MonoBehaviour {
             PauseManager.Resume();
         }
     }
+
+    public void OpenShopPanel()
+    {
+        shopPanel.SetActive(true);
+    }
+    public void CloseShopPanel()
+    {
+        if (shopPanel.activeInHierarchy)
+        {
+            shopPanel.SetActive(false);
+            PauseManager.Resume();
+        }        
+    }
+
 }

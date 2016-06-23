@@ -5,6 +5,8 @@ public class PlayerStats : MonoBehaviour {
 
     public int health = 10;
     public int gold = 0;
+    public int food = 0;
+    public int cannonball = 0;
 
     public int health0 = 5;
     public int maxHealth0 = 5;
@@ -16,12 +18,13 @@ public class PlayerStats : MonoBehaviour {
 
     public int flee = 0;
     public int maxFlee = 100;
+    public int fleeOperateModifier = 5;
 
     public int currentPwr = 0;
     public int maxPwr = 0;
 
     public EnginesManager engineMng = null;
-    public EventsManager evntMng;
+    public EventTriggerManager evntMng;
 
 
 
@@ -38,7 +41,8 @@ public class PlayerStats : MonoBehaviour {
     {
         if(engineMng != null)
         {
-            maxFlee = engineMng.GetEngine(Engine.engineType.navigation).currentPwr * 10;
+            Engine navEngine = engineMng.GetEngine(Engine.engineType.navigation);
+            maxFlee = (navEngine.currentPwr * 10) + (navEngine.operateLevel * fleeOperateModifier);
             maxHealth2 = engineMng.GetEngine(Engine.engineType.repair).currentPwr;
         }
         if(health0 > maxHealth0)
@@ -59,7 +63,7 @@ public class PlayerStats : MonoBehaviour {
     void Death()
     {
         health = 0;
-        evntMng.MainShipDestroyed();
+        evntMng.AllyDeath();
 
     }
 
@@ -94,6 +98,43 @@ public class PlayerStats : MonoBehaviour {
         }
         return remainDamage2;
 
+    }
+
+    public void LoseGold(int amount)
+    {
+        gold -= amount;
+        if(gold < 0)
+        {
+            gold = 0;
+        }
+    }
+    public void GainGold(int amount)
+    {
+        gold += amount;
+    }
+    public void LoseFood(int amount)
+    {
+        food += amount;
+        if(food < 0)
+        {
+            food = 0;
+        }
+    }
+    public void GainFood(int amount)
+    {
+        food += amount;
+    }
+    public void LoseCannonball(int amount)
+    {
+        cannonball -= amount;
+        if(cannonball < 0)
+        {
+            cannonball = 0;
+        }
+    }
+    public void GainCannonball(int amount)
+    {
+        cannonball += amount;
     }
 
     

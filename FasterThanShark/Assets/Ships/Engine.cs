@@ -28,6 +28,7 @@ public class Engine
         repair,
         power,
         medic,
+        repairModule, // utilisé juste pour le gian d'exp
         other
     };
 

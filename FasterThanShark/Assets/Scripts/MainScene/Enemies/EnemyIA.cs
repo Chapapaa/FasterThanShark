@@ -148,7 +148,8 @@ public class EnemyIA : MonoBehaviour {
             foreach (Crew2 crew2 in crew2List)
             {
                 CharacterManager charMng = crew2.crew.GetComponent<CharacterManager>();
-                if (charMng.maxHp / 1.2f > charMng.currentHp)
+                float HpPercent = (charMng.currentHp * 100) / (float)charMng.maxHp;
+                if (HpPercent < 40)
                 {
                     if(!crew2.isHealing)
                     {

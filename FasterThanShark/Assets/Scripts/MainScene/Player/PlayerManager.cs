@@ -12,13 +12,16 @@ public class PlayerManager : MonoBehaviour {
     public PowerHUDMng pwrHudMng;
     public MedicHUDMng medicHudMng;
 
+    public float maxRepairProgress = 40f;
+    public int repairOperateRatio = 10; // réduction du delay de recharge en pourcentage (100 = recharge instant);
+
+    public float modifiedMaxRepairProgress;
 
 
 
 
-
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         StartCoroutine(RepairHullCrt());
         playerStats.engineMng = engineMng;
@@ -62,6 +65,17 @@ public class PlayerManager : MonoBehaviour {
     public void GetDamage(int amount, ShipRoom targetRoom)
     {
         int trueDamage = playerStats.GetTrueDamage(amount);
+        if(playerStats.maxHealth2 > 0)
+        {
+            Engine repairEngine = engineMng.GetEngine(Engine.engineType.repair);
+            if (repairEngine.operated)
+            {
+                if (repairEngine.operatedBy != null)
+                {
+                    repairEngine.operatedBy.GetComponent<CharacterManager>().GainExp(Engine.engineType.navigation);
+                }
+            }
+        }
         if (trueDamage > 0)
         {
             engineMng.GetDamageOnEngine(targetRoom.engine, trueDamage);
@@ -82,6 +96,18 @@ public class PlayerManager : MonoBehaviour {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    public void Flee()
+    {
+        Engine navEngine = engineMng.GetEngine(Engine.engineType.navigation);
+        if (navEngine.operated)
+        {
+            if(navEngine.operatedBy != null)
+            {
+                navEngine.operatedBy.GetComponent<CharacterManager>().GainExp(Engine.engineType.navigation);
             }
         }
     }
@@ -107,11 +133,17 @@ public class PlayerManager : MonoBehaviour {
                     if (playerStats.health2 < playerStats.maxHealth2)
                     {
                         repairProgress += 1;
-                        if (repairProgress >= 40)
+                        Engine repairEngine = engineMng.GetEngine(Engine.engineType.repair);
+                        if(repairEngine != null)
                         {
-                            playerStats.health2 += 1;
-                            repairProgress = 0;
+                            modifiedMaxRepairProgress = maxRepairProgress * ((100 - (repairEngine.operateLevel * repairOperateRatio)) / 100f);
+                            if (repairProgress >= modifiedMaxRepairProgress)
+                            {
+                                playerStats.health2 += 1;
+                                repairProgress = 0;
+                            }
                         }
+                        
                     }
                 }
 

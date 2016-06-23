@@ -18,43 +18,18 @@ public class CannonBullletSpawner : MonoBehaviour {
 	
 	}
 
-    // OSEF
-    //public void SpawnBullet()
-    //{
-    //    GameObject instBullet = (GameObject) Instantiate(bulletPrefab, transform.position, transform.rotation);
-    //    instBullet.transform.position = transform.position;
+    
 
-    //    instBullet.GetComponent<CannonBullet>().MoveTowards(transform.position, targetPosition);
-    //    instBullet.GetComponent<CannonBullet>().targetID = -1;
-    //    instBullet.GetComponent<ShaderRenderOrder>().renderQueueValue = shaderOrder;
-
-    //    // OSEF 
-    //    if(selectedCamera == 0)
-    //    {
-    //        Transform[] transforms = instBullet.GetComponentsInChildren<Transform>();
-    //        foreach(var x in transforms)
-    //        {
-    //            x.gameObject.layer = 0;
-    //        }
-    //    }
-    //    if (selectedCamera == 1)
-    //    {
-    //        Transform[] transforms = instBullet.GetComponentsInChildren<Transform>();
-    //        foreach (var x in transforms)
-    //        {
-    //            x.gameObject.layer = 11;
-    //        }
-    //    }
-    //}
-
-    public void SpawnBullet(Vector3 _targetPos, int targetID)
+    public void SpawnBullet(Vector3 _targetPos, int targetID, int itemDamage)
     {
         GameObject instBullet = (GameObject)Instantiate(bulletPrefab, transform.position, transform.rotation);
         instBullet.transform.position = transform.position;
 
         instBullet.GetComponent<CannonBullet>().MoveTowards(transform.position, _targetPos);
         instBullet.GetComponent<CannonBullet>().targetID = targetID;
-        
+        instBullet.GetComponent<CannonBullet>().bulletDamage = itemDamage;
+
+
     }
 
 }

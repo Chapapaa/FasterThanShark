@@ -4,7 +4,7 @@ using System.Collections;
 public class MainShip02Stats : MonoBehaviour
 {
 
-    public int crewNumber = 3;
+    public int crewNumber = 5;
     CharSpawnManager charSpawnMng;
 
     // Use this for initialization

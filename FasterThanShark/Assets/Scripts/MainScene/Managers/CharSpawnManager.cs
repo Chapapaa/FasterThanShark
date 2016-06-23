@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 public class CharSpawnManager : MonoBehaviour {
 
+    public int maxSpawnerChars = 12;
+    int currentSpawnerChars = 0;
+
     public Vector3 spawnPosition;  // initialisé par le ship dès le spawn
     public GameObject mapCrewContainer; // range les char au bon endroit (optionnel)
     public GameObject character;    // prefab a spawn
@@ -23,7 +26,8 @@ public class CharSpawnManager : MonoBehaviour {
 
     public void SpawnAlly(string charName)
     {
-
+        currentSpawnerChars = mapCrewContainer.transform.childCount;
+        if (currentSpawnerChars >= maxSpawnerChars) { return; }
         GameObject spawnedChar = (GameObject)Instantiate(character, spawnPosition, transform.rotation);
         spawnedChar.transform.SetParent(mapCrewContainer.transform);
         GameObject spawnerCharPanel = Instantiate(allyCharDisplayPanel);

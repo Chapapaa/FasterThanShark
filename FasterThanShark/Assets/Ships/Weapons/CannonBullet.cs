@@ -53,6 +53,7 @@ public class CannonBullet : MonoBehaviour {
             }
             else
             {
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>().Flee();
                 Instantiate(missText, transform.position, Quaternion.identity);
                 Vector3 newTarget = (targetPosition - startPosition) * 100f;
                 targetPosition = newTarget;

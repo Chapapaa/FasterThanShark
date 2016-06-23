@@ -21,9 +21,14 @@ public class WeaponManager : MonoBehaviour {
     public PlayerManager playerMng;
     public int weaponUsedPower = 0;
     public int weaponsPower = 0;
+    public int weaponOpeDelayReduc = 10; // en pourcentage du temps de base (100 = aucun delay)
+    
     // ---------
     public Weapon[] weapons = new Weapon[4];
     // ---------
+
+    Engine weaponEngine;
+    bool isWeaponEngineInit = false;
 
     // Use this for initialization
     void Start ()
@@ -55,6 +60,30 @@ public class WeaponManager : MonoBehaviour {
 
         weaponsPower = playerMng.GetWeaponsPower();
         RefreshPower();
+
+        if (!isWeaponEngineInit)
+        {
+            weaponEngine = playerMng.GetEngine(Engine.engineType.weapon);
+            if(weaponEngine != null)
+            {
+                isWeaponEngineInit = true;
+            }
+        }
+        else
+        {
+
+            foreach (Weapon wpn in weapons)
+            {
+                if (wpn.weaponPwr > 0)
+                {
+                    wpn.weaponItem.itemCD = wpn.weaponItem.baseItemCD * ((100 - (weaponEngine.operateLevel * weaponOpeDelayReduc)) / 100f);
+                    if (wpn.weaponItem.itemCurrentCD < wpn.weaponItem.itemCD)
+                    {
+                        wpn.weaponItem.itemCurrentCD += Time.deltaTime;
+                    }
+                }
+            }
+        }
     }
 
     public bool PowerWeapon(int weaponIndex)
@@ -216,17 +245,27 @@ public class WeaponManager : MonoBehaviour {
             {
                 break;
             }
+
             if(weapons[weaponIndex].weaponItem.itemCurrentCD >= weapons[weaponIndex].weaponItem.itemCD)
             {
                 if (mapIndex == 1)
                 {
-                    weaponDisplayMng.Fire(weaponIndex, targetPosition);
+                    if (enemy == null)
+                    { break; }
+                    weaponDisplayMng.Fire(weaponIndex, targetPosition, weapons[weaponIndex].weaponItem.itemDamage);
+                    if(weaponEngine.operated && weaponEngine.operatedBy != null)
+                    {
+                        GameObject characterOp = weaponEngine.operatedBy;
+                        characterOp.GetComponent<CharacterManager>().GainExp(Engine.engineType.weapon);
+                    }
+                    weapons[weaponIndex].weaponItem.itemCurrentCD = 0;
+                    if (!autoFire)
+                    {
+
+                        break;
+                    }
                 }
-                weapons[weaponIndex].weaponItem.itemCurrentCD = 0;
-                if(!autoFire)
-                {
-                    break;
-                }
+                
                 
             }
             yield return new WaitForSeconds(Time.deltaTime);

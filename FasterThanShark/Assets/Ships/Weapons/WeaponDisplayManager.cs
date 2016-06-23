@@ -33,45 +33,14 @@ public class WeaponDisplayManager : MonoBehaviour {
         weaponMng.WeaponDisplayInitialized = true;
     }
 
-    //// OSEF #########
-
-    ///// <summary>
-    ///// animation of fireing
-    ///// </summary>
-    ///// <param name="weaponID">1,2,3,4</param>
-    //public void Fire(int weaponID)
-    //{
-    //    //affiche l'animation de tir avec l'arme choisie
-    //    if(weaponID == 1)
-    //    {
-    //        weapon1Display.GetComponent<Animator>().SetTrigger("Fire");
-    //        //CannonBullletSpawner
-    //        weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-    //    }
-    //    if (weaponID == 2)
-    //    {
-    //        weapon2Display.GetComponent<Animator>().SetTrigger("Fire");
-    //        weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-    //    }
-    //    if (weaponID == 3)
-    //    {
-    //        weapon3Display.GetComponent<Animator>().SetTrigger("Fire");
-    //        weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-    //    }
-    //    if (weaponID == 4)
-    //    {
-    //        weapon4Display.GetComponent<Animator>().SetTrigger("Fire");
-    //        weapon4Display.GetComponent<CannonBullletSpawner>().SpawnBullet();
-    //    }
-    //}
-    public void Fire(int weaponID, Vector3 targetPosition)
+    
+    public void Fire(int weaponID, Vector3 targetPosition, int weaponDamage)
     {
         //affiche l'animation de tir avec l'arme choisie
         if (weaponID == 0)
         {
             weapon1Display.GetComponent<Animator>().SetTrigger("Fire");
-            //CannonBullletSpawner
-            weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1);
+            weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1, weaponDamage);
             weapon1Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = targetPosition - weapon1Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -80,7 +49,7 @@ public class WeaponDisplayManager : MonoBehaviour {
         if (weaponID == 1)
         {
             weapon2Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1);
+            weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1, weaponDamage);
             weapon2Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = targetPosition - weapon2Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -89,7 +58,7 @@ public class WeaponDisplayManager : MonoBehaviour {
         if (weaponID == 2)
         {
             weapon3Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1);
+            weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1, weaponDamage);
             weapon3Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = targetPosition - weapon3Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -98,7 +67,7 @@ public class WeaponDisplayManager : MonoBehaviour {
         if (weaponID == 3)
         {
             weapon4Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon4Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1);
+            weapon4Display.GetComponent<CannonBullletSpawner>().SpawnBullet(targetPosition, 1, weaponDamage);
             weapon4Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = targetPosition - weapon4Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

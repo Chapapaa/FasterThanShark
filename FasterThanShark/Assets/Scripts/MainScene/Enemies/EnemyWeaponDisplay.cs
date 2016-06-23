@@ -27,13 +27,13 @@ public class EnemyWeaponDisplay : MonoBehaviour {
     /// animation of fireing
     /// </summary>
     /// <param name="weaponID">0,1,2,3</param>
-    public void Fire(int weaponID, Vector3 _targetPos)
+    public void Fire(int weaponID, Vector3 _targetPos, int weaponDamage)
     {
         //affiche l'animation de tir avec l'arme choisie
         if (weaponID == 0)
         {
             weapon0Display.GetComponent<Animator>().SetTrigger("Fire");          
-            weapon0Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon0Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0, weaponDamage);
             weapon0Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = _targetPos - weapon0Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -44,7 +44,7 @@ public class EnemyWeaponDisplay : MonoBehaviour {
         if (weaponID == 1)
         {
             weapon1Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon1Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0, weaponDamage);
             weapon1Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = _targetPos - weapon1Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -53,7 +53,7 @@ public class EnemyWeaponDisplay : MonoBehaviour {
         if (weaponID == 2)
         {
             weapon2Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon2Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0, weaponDamage);
             weapon2Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = _targetPos - weapon2Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -63,7 +63,7 @@ public class EnemyWeaponDisplay : MonoBehaviour {
         if (weaponID == 3)
         {
             weapon3Display.GetComponent<Animator>().SetTrigger("Fire");
-            weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0);
+            weapon3Display.GetComponent<CannonBullletSpawner>().SpawnBullet(_targetPos, 0, weaponDamage);
             weapon3Display.transform.localRotation = Quaternion.identity;
             Vector3 dir = _targetPos - weapon3Display.transform.position;
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

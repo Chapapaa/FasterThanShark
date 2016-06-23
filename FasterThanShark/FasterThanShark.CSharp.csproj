@@ -149,6 +149,9 @@
     <Compile Include="Assets\AstarPathfindingProject\Utilities\ProfileHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\Utilities\UnityReferenceHelper.cs" />
     <Compile Include="Assets\AstarPathfindingProject\changelog.cs" />
+    <Compile Include="Assets\EVENTS\EnemyDeathEvent\EnemyDeathEvent.cs" />
+    <Compile Include="Assets\EVENTS\EnemyEncounterEvent\EnemyEncounterEvent.cs" />
+    <Compile Include="Assets\EVENTS\EventPanelScript.cs" />
     <Compile Include="Assets\Raving Bots\Scripts\Water2D\Water2DEffects.cs" />
     <Compile Include="Assets\Raving Bots\Scripts\Water2D\Water2DMaterialScaler.cs" />
     <Compile Include="Assets\Raving Bots\Scripts\Water2D\Water2DSplashFX.cs" />
@@ -159,8 +162,6 @@
     <Compile Include="Assets\Scripts\MainScene\Background\BGSpriteMng.cs" />
     <Compile Include="Assets\Scripts\MainScene\Background\WaterMovement.cs" />
     <Compile Include="Assets\Scripts\MainScene\BulletSpawner\BulletSpawnerManager.cs" />
-    <Compile Include="Assets\Scripts\MainScene\BulletSpawner\BulletSpawnerOnAlly.cs" />
-    <Compile Include="Assets\Scripts\MainScene\BulletSpawner\BulletSpawnerOnEnemy.cs" />
     <Compile Include="Assets\Scripts\MainScene\Character\CharHealthDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Character\CharacterManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyHealthDisplay.cs" />
@@ -170,6 +171,8 @@
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyWeaponDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Enemies\EnemyWeaponManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\CharacterPanelDisplay.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\CharacterWindow\CharDescription\CharacterDescDisplay.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\CharacterWindow\CharSupressValidation.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\CharacterWindow\CrewPanelDisplayManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\CharacterWindow\CrewWindowDiisplayManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\Engines\MedicHUDMng.cs" />
@@ -180,8 +183,12 @@
     <Compile Include="Assets\Scripts\MainScene\HUD\HealthDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\ModalWindow\AwnserManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\ModalWindow\ModalWindowManager.cs" />
-    <Compile Include="Assets\Scripts\MainScene\HUD\MoneyDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\OptionWindow\OptionWindowManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\ShopPanel\DescriptionManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\ShopPanel\ResourcesCategory.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\ShopPanel\ShopPanelManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\ShopPanel\ShopWeaponMng.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\ShopPanel\WeaponContentManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\UpgradesWindow\UpgradeIconOnHover.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\UpgradesWindow\UpgradePanelManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\Weapons\AutoFireButton.cs" />
@@ -190,10 +197,13 @@
     <Compile Include="Assets\Scripts\MainScene\HUD\Weapons\WeaponHudButtonDisplayMng.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\Weapons\WeaponPowerManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\HUD\debug\EnergieDisplayManagerDebug.cs" />
+    <Compile Include="Assets\Scripts\MainScene\HUD\myResources\PlayerResourcesDisplay.cs" />
     <Compile Include="Assets\Scripts\MainScene\Icons\IconManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\CharSpawnManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Event\ClickEventManager.cs" />
-    <Compile Include="Assets\Scripts\MainScene\Managers\Event\EventsManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Event\EventsManagers\EventEnemySpawnManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Event\EventsManagers\EventTriggerManager.cs" />
+    <Compile Include="Assets\Scripts\MainScene\Managers\Event\EventsManagers\EventWindowManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\HUD\UIManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\KeyEvents\KeyEventsManager.cs" />
     <Compile Include="Assets\Scripts\MainScene\Managers\Pathfinding\PathfindingManager.cs" />
