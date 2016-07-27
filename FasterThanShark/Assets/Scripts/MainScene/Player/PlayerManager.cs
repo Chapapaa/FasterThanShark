@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class PlayerManager : MonoBehaviour {
 
+
     public PlayerStats playerStats;
     public EnginesManager engineMng;
     public NavigationHUDMng navHudMng;
@@ -72,7 +73,7 @@ public class PlayerManager : MonoBehaviour {
             {
                 if (repairEngine.operatedBy != null)
                 {
-                    repairEngine.operatedBy.GetComponent<CharacterManager>().GainExp(Engine.engineType.navigation);
+                    repairEngine.operatedBy.GetComponent<CharacterManager>().GainExp(Engine.engineType.repair);
                 }
             }
         }

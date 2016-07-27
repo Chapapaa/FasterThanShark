@@ -21,7 +21,7 @@ public class CannonBullet : MonoBehaviour {
 	void Update () {
         if (move && !PauseManager.isGamePaused)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
         }
         if(transform.position == targetPosition)
         {

@@ -19,8 +19,6 @@ public class EnginesManager: MonoBehaviour
         {
             if (engine == damagedEngine)
             {
-                if(!engine.alive)
-                { return; }
                 engine.GetDamage(dmgAmount);
                 if(engine.currentPwr > engine.maxPwr)
                 {

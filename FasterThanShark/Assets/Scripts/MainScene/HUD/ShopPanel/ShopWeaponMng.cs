@@ -28,7 +28,17 @@ public class ShopWeaponMng : MonoBehaviour, IPointerEnterHandler {
         {
             nameText.text = selfItem.itemName;
             priceText.text = selfItem.itemPrice.ToString();
+            if(playerStats.gold < selfItem.itemPrice)
+            {
+                GetComponent<Image>().color = Color.red;
+            }
+            else
+            {
+                GetComponent<Image>().color = Color.white;
+            }
+
         }
+
         // playerStats // Si pas assez de golds change le couleur 
 
     }

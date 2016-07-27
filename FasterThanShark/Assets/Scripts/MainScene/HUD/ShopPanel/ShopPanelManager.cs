@@ -6,8 +6,9 @@ public class ShopPanelManager : MonoBehaviour {
 
     public PlayerStats playerStats;
 
-    public GameObject ressourcesPanel;
+    public GameObject resourcesPanel;
     public GameObject weaponsPanel;
+    public GameObject crewPanel;
 
 	// Use this for initialization
 	void Start () {
@@ -27,12 +28,17 @@ public class ShopPanelManager : MonoBehaviour {
     public void ShowRessources()
     {
         CloseAllTabs();
-        ressourcesPanel.SetActive(true);
+        resourcesPanel.SetActive(true);
     }
     public void ShowWeapons()
     {
         CloseAllTabs();
         weaponsPanel.SetActive(true);
+    }
+    public void ShowCrews()
+    {
+        CloseAllTabs();
+        crewPanel.SetActive(true);
     }
 
     /// <summary>
@@ -40,9 +46,9 @@ public class ShopPanelManager : MonoBehaviour {
     /// </summary>
     void CloseAllTabs()
     {
-        
-        ressourcesPanel.SetActive(false);
+        resourcesPanel.SetActive(false);
         weaponsPanel.SetActive(false);
+        crewPanel.SetActive(false);
     }
 
 

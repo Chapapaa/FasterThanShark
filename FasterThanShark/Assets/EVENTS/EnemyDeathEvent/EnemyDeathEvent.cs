@@ -7,7 +7,7 @@ public class EnemyDeathEvent : MonoBehaviour {
 
     public GameObject rewardPanel;
     public EventPanelScript eventScript;
-    public int GoldRewardAmount = 50;
+    public int GoldRewardAmount = 150;
 
 	// Use this for initialization
 	void Start () {

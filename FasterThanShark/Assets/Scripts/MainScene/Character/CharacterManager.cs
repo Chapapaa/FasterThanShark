@@ -16,6 +16,7 @@ public class CharacterManager : MonoBehaviour {
     public ShipCell lastCell = null;
     public bool isAlly;
     public string characterName = "CharName";
+    public Sprite charIcon;
     public int maxHp = 10;
     public int currentHp = 10;
     public int repairPower = 10;
@@ -288,6 +289,24 @@ public class CharacterManager : MonoBehaviour {
                 }
             }
         }
+        else if (engineType == Engine.engineType.repairModule)
+        {
+            repairModuleCurrentExp += 10;
+            if (repairModuleCurrentExp >= repairModuleMaxExp)
+            {
+                if (repairModuleOpeLevel >= 6)
+                {
+                    repairModuleOpeLevel = 6;
+                    repairModuleCurrentExp = repairModuleMaxExp;
+                }
+                else
+                {
+                    repairModuleOpeLevel += 1;
+                    repairModuleCurrentExp -= repairModuleMaxExp;
+                    repairModuleMaxExp += repairModuleMaxExp / repairModuleOpeLevel;
+                }
+            }
+        }
     }
 
 
@@ -311,7 +330,7 @@ public class CharacterManager : MonoBehaviour {
                     if (myRoom.engine.currentHp < myRoom.engine.maxHp)
                     {
                         repairing = true;
-                        myRoom.engine.Repair(repairPower);
+                        myRoom.engine.Repair(repairPower + repairOpeLevel);
                         GainExp(Engine.engineType.repairModule);
                     }
                 }
@@ -324,7 +343,7 @@ public class CharacterManager : MonoBehaviour {
                     if (myRoom.engine.currentHp < myRoom.engine.maxHp)
                     {
                         repairing = true;
-                        myRoom.engine.Repair(repairPower);
+                        myRoom.engine.Repair(repairPower + repairOpeLevel);
                     }
                 }
             }

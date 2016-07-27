@@ -85,7 +85,7 @@ public class UpgradePanelManager : MonoBehaviour {
         }
     }
 
-    int GetEngineCost(Engine.engineType _engineType)
+    public int GetEngineCost(Engine.engineType _engineType)
     {
         if(_engineType == Engine.engineType.power)
         {

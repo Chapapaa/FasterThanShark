@@ -4,7 +4,7 @@ using System.Collections;
 public class MainShip02Stats : MonoBehaviour
 {
 
-    public int crewNumber = 5;
+    public int crewNumber = 3;
     CharSpawnManager charSpawnMng;
 
     // Use this for initialization
@@ -22,11 +22,12 @@ public class MainShip02Stats : MonoBehaviour
 
     IEnumerator spawnCrt()
     {
+
         yield return new WaitForSeconds(0.5f);
-        charSpawnMng.SpawnAlly("Crew n1");
-        charSpawnMng.SpawnAlly("Crew n2");
-        charSpawnMng.SpawnAlly("Crew n3");
-        charSpawnMng.SpawnAlly("Crew n4");
-        charSpawnMng.SpawnAlly("Crew n5");
+        for (int i = 0; i < crewNumber; i++)
+        {
+            string name = "Crew n" + (i+1).ToString();
+            charSpawnMng.SpawnAlly(name);
+        }
     }
 }

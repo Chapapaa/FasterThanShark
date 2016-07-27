@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ItemInventory : MonoBehaviour {
 
+    public WeaponInventoryManager invMng;
     public WeaponButtonDisplay weaponHudManager;
     public ItemDatabase databaseSCR;
     public WeaponManager weaponSCR;
@@ -29,11 +30,7 @@ public class ItemInventory : MonoBehaviour {
     public void AddItemToInventory(int itemID)
     {
         Item newItem = databaseSCR.GetItem(itemID);
-        GameObject insObj = Instantiate(itemDisplay);
-        newItem.displayPanelInventory = insObj;
-        insObj.GetComponent<ItemPanelDisplay>().itemName.GetComponent<Text>().text = newItem.itemName;
-        insObj.GetComponent<ItemPanelDisplay>().itemPower.GetComponent<Image>().fillAmount = newItem.itemPwrCost / 10f;
-        insObj.transform.SetParent(playerInventoryPanel.transform);
+        invMng.AddWeaponInUnequipped(newItem);
         playerInventory.Add(newItem);
 
     }
@@ -43,7 +40,7 @@ public class ItemInventory : MonoBehaviour {
         {
             if(itemToRemove == item)
             {
-                Destroy(itemToRemove.displayPanelInventory);
+                invMng.RemoveWeaponUnequipped(itemToRemove.displayPanelInventory);
                 playerInventory.Remove(itemToRemove);
                 return;
             }
@@ -63,7 +60,7 @@ public class ItemInventory : MonoBehaviour {
                 // Si ce n'est pas une arme, return
                 if(item.itemType != Item.itemTypeEnum.Weapon)
                 { return; }
-                Destroy(item.displayPanelInventory);
+                invMng.RemoveWeaponUnequipped(itemPanel);
                 item.displayPanelInventory = null;
                 AddItemToWeaponInventory(item.itemID);
                 playerInventory.Remove(item);
@@ -78,12 +75,13 @@ public class ItemInventory : MonoBehaviour {
         {
             if (item.displayPanelWeapon == itemPanel)
             {
-                Destroy(item.displayPanelWeapon);
+                invMng.RemoveWeaponEquipped(itemPanel);
                 item.displayPanelWeapon = null;
                 AddItemToInventory(item.itemID);
                 playerWeaponInventory.Remove(item);
                 weaponHudManager.RefreshDisplay();
                 weaponSCR.RefreshWeapons();
+                
                 break;
             }
         }
@@ -93,14 +91,9 @@ public class ItemInventory : MonoBehaviour {
     {
         Item newItem = databaseSCR.GetItem(itemID);
         playerWeaponInventory.Add(newItem);
-        GameObject insObj = Instantiate(itemDisplay);
-        insObj.GetComponent<ItemPanelDisplay>().itemName.GetComponent<Text>().text = newItem.itemName;
-        insObj.GetComponent<ItemPanelDisplay>().itemPower.GetComponent<Image>().fillAmount = newItem.itemPwrCost / 10f;
-        newItem.displayPanelWeapon = insObj;
-        insObj.transform.SetParent(playerInventoryWeaponPanel.transform);
+        invMng.AddWeaponInEquipped(newItem);
         weaponHudManager.RefreshDisplay();
         weaponSCR.RefreshWeapons();
-
     }
 
 }

@@ -23,6 +23,8 @@ public class PlayerStats : MonoBehaviour {
     public int currentPwr = 0;
     public int maxPwr = 0;
 
+    public bool isInBattle = false;
+
     public EnginesManager engineMng = null;
     public EventTriggerManager evntMng;
 

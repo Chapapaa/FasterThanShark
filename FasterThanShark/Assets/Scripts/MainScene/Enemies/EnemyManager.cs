@@ -155,5 +155,9 @@ public class EnemyManager : MonoBehaviour {
 
 
 
+    // TD : Fonction de setUP;
+
+
+
 
 }

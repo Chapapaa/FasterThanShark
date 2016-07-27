@@ -76,7 +76,8 @@ public class Engine
     public void GetDamage(int amount)
     {
         currentHp -= amount;
-        if(currentHp <= 0)
+        repairAmount = 0;
+        if (currentHp <= 0)
         {
             currentHp = 0;
             alive = false;

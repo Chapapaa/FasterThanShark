@@ -20,9 +20,9 @@ public class WeaponContentManager : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
-        itemsToSpawn[0] = itemDatabase.GetItem(1);
-        itemsToSpawn[1] = itemDatabase.GetItem(2);
-        itemsToSpawn[2] = itemDatabase.GetItem(1);
+        itemsToSpawn[0] = itemDatabase.GetItem(3);
+        itemsToSpawn[1] = itemDatabase.GetItem(4);
+        itemsToSpawn[2] = itemDatabase.GetItem(5);
 
         SpawnWeapons();
 

@@ -5,7 +5,9 @@ public class ShipManager : MonoBehaviour {
 
     public GameObject crewSpawn;
     public GameObject crewSpawnContainer;
+    public GameObject fullShipSprite;
     public EnginesManager engineManager;
+
 
 
 
@@ -27,4 +29,15 @@ public class ShipManager : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public void ShowFullShip()
+    {
+        fullShipSprite.SetActive(true);
+    }
+    public void ShowHalfShip()
+    {
+        fullShipSprite.SetActive(false);
+    }
+
+
 }

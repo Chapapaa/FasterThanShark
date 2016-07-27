@@ -13,7 +13,10 @@ public class WaterMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - speed, transform.position.z);
+        if(!PauseManager.isGamePaused)
+        {
+            gameObject.transform.position = new Vector3(transform.position.x, transform.position.y - speed, transform.position.z);
+        }     
   
 	}
 }

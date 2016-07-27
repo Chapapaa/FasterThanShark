@@ -20,6 +20,9 @@ public class ItemDatabase : MonoBehaviour {
         itemDatabase.Add(new Item(0,"defaultItem", Item.itemTypeEnum.Other, 0f, 0, 0, 0));
         itemDatabase.Add(new Item(1,"TestCannon1", Item.itemTypeEnum.Weapon, 2f,1, 1, 50));
         itemDatabase.Add(new Item(2, "TestCannon2", Item.itemTypeEnum.Weapon, 5f, 2, 2, 60));
+        itemDatabase.Add(new Item(3, "Cannon", Item.itemTypeEnum.Weapon, 2f, 1, 1, 50));
+        itemDatabase.Add(new Item(4, "Cannon II", Item.itemTypeEnum.Weapon, 3f, 2, 2, 80));
+        itemDatabase.Add(new Item(5, "Mega Cannon", Item.itemTypeEnum.Weapon, 6f, 3, 5, 120));
     }
     public Item GetItem(int ID)
     {
