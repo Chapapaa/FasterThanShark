@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class ClickEventManager : MonoBehaviour {
 
@@ -33,7 +33,6 @@ public class ClickEventManager : MonoBehaviour {
 
     public void ClickOnRoom(int index, int buttonIndex, int map, Vector3 RoomPos)
     {
-        print("clickedOnRoom");
         if(clickCD >= 0 )
         {
             return;

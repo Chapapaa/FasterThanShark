@@ -126,20 +126,28 @@ public class EnemyIA : MonoBehaviour {
         while(true)
         {
             yield return new WaitForSeconds(0.1f);
-            // Si un personnage est dans une salle, uptade sa priority à celle actuelle de la salle
+            if(mapScr == null)
+            {
+                continue;
+            }
+            // Si un personnage est dans une salle, update sa priority à celle actuelle de la salle
             foreach(Crew2 crew2 in crew2List)
             {
                 ShipCell playerCell = crew2.crew.GetComponent<CharacterManager>().playerCell;
                 if (playerCell != null )
                 {
-                    Engine myEng = mapScr.GetRoomByPos(playerCell.position).engine;
-                    if(myEng != null)
+                    ShipRoom playerRoom = mapScr.GetRoomByPos(playerCell.position);
+                    if(playerRoom != null)
                     {
-                        foreach (Engine2 eng2 in eng2List)
+                        Engine myEng = playerRoom.engine;
+                        if (myEng != null)
                         {
-                            if (eng2.engine == myEng)
+                            foreach (Engine2 eng2 in eng2List)
                             {
-                                crew2.priority = eng2.priority;
+                                if (eng2.engine == myEng)
+                                {
+                                    crew2.priority = eng2.priority;
+                                }
                             }
                         }
                     }

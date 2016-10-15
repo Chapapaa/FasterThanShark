@@ -8,6 +8,7 @@ public class PowerHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public GameObject maxPowerBar;
     public GameObject currentPowerBar;
+    public GameObject currentPowerBarFG;
     public EnginesManager engineMng;
 
     bool isPointerOver;
@@ -53,6 +54,7 @@ public class PowerHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
         maxPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.power).maxPwr / 10f;
         currentPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.power).currentPwr / 10f;
+        currentPowerBarFG.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.power).currentPwr / 10f;
 
 
     }

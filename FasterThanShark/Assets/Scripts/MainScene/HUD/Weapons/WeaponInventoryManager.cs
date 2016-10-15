@@ -45,6 +45,7 @@ public class WeaponInventoryManager : MonoBehaviour {
     }
     public void AddWeaponInUnequipped(Item _item)
     {
+
         GameObject instObj = Instantiate(îtemPanel);
         instObj.transform.SetParent(unequippedPanel.transform);
         _item.displayPanelInventory = instObj;

@@ -12,8 +12,9 @@ public class CharSpawnManager : MonoBehaviour {
     public GameObject mapCrewContainer; // range les char au bon endroit (optionnel)
     public GameObject character;    // prefab a spawn
 
-    public GameObject allyCharDisplayPanel;     // prefab du panel du personnage
+    public GameObject allyCharDisplayPanel;     // prefab du panel du personnage (panel left)
     public GameObject allyCharDisplayPanelContainer;    // Container parent du panel du personnage
+    public GameObject allyCharDescriptionPanel;
 
     public GameObject allyCharDisplayPanel2;     // prefab du panel du personnage ( crew window )
     public GameObject allyCharDisplayPanelContainer2;    // Container parent du panel du personnage
@@ -34,6 +35,7 @@ public class CharSpawnManager : MonoBehaviour {
         GameObject spawnerCharPanel = Instantiate(allyCharDisplayPanel);
         spawnerCharPanel.transform.SetParent(allyCharDisplayPanelContainer.transform);
         spawnerCharPanel.GetComponent<CharacterPanelDisplay>().character = spawnedChar;
+        spawnerCharPanel.GetComponent<CharacterPanelDisplay>().charDescPanel = allyCharDescriptionPanel;
         GameObject spawnerCharWindowPanel = Instantiate(allyCharDisplayPanel2);
         spawnerCharWindowPanel.transform.SetParent(allyCharDisplayPanelContainer2.transform);
         spawnerCharWindowPanel.GetComponent<CrewPanelDisplayManager>().character = spawnedChar;
@@ -56,6 +58,7 @@ public class CharSpawnManager : MonoBehaviour {
         GameObject spawnerCharPanel = Instantiate(allyCharDisplayPanel);
         spawnerCharPanel.transform.SetParent(allyCharDisplayPanelContainer.transform);
         spawnerCharPanel.GetComponent<CharacterPanelDisplay>().character = spawnedChar;
+        spawnerCharPanel.GetComponent<CharacterPanelDisplay>().charDescPanel = allyCharDescriptionPanel;
         GameObject spawnerCharWindowPanel = Instantiate(allyCharDisplayPanel2);
         spawnerCharWindowPanel.transform.SetParent(allyCharDisplayPanelContainer2.transform);
         spawnerCharWindowPanel.GetComponent<CrewPanelDisplayManager>().character = spawnedChar;
@@ -75,11 +78,7 @@ public class CharSpawnManager : MonoBehaviour {
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q) && !KeyEventsManager.isInputFieldFocused)
-        {
-            Debug.Log("spawnAlly");
-            SpawnAlly();
-        }
+        
     }
 
 }

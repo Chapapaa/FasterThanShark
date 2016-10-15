@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 public class ItemInventory : MonoBehaviour {
 
+    public GameObject inventoryFullPanel;
     public WeaponInventoryManager invMng;
     public WeaponButtonDisplay weaponHudManager;
     public ItemDatabase databaseSCR;
     public WeaponManager weaponSCR;
     public List<Item> playerWeaponInventory = new List<Item>();
     public List<Item> playerInventory = new List<Item>();
+    public Item tempItem = null;
 
     public GameObject playerInventoryPanel;
     public GameObject playerInventoryWeaponPanel;
@@ -30,10 +32,20 @@ public class ItemInventory : MonoBehaviour {
     public void AddItemToInventory(int itemID)
     {
         Item newItem = databaseSCR.GetItem(itemID);
-        invMng.AddWeaponInUnequipped(newItem);
-        playerInventory.Add(newItem);
-
+        if(playerWeaponInventory.Count > 3 && playerInventory.Count > 3)
+        {
+            tempItem = newItem;
+            inventoryFullPanel.GetComponent<FullInventoryManager>().tempItem = tempItem;
+            inventoryFullPanel.SetActive(true);
+        }
+        else
+        {
+            invMng.AddWeaponInUnequipped(newItem);
+            playerInventory.Add(newItem);
+            EquipItem(newItem.displayPanelInventory);
+        }
     }
+
     public void RemoveItemFromInventory(Item item)
     {
         foreach (Item itemToRemove in playerInventory)
@@ -71,13 +83,17 @@ public class ItemInventory : MonoBehaviour {
     }
     public void UnEquipItem(GameObject itemPanel)
     {
+        if (playerInventory.Count >= 4)
+        { return; }
         foreach (Item item in playerWeaponInventory)
         {
             if (item.displayPanelWeapon == itemPanel)
             {
                 invMng.RemoveWeaponEquipped(itemPanel);
                 item.displayPanelWeapon = null;
-                AddItemToInventory(item.itemID);
+                Item newItem = databaseSCR.GetItem(item.itemID);
+                invMng.AddWeaponInUnequipped(newItem);
+                playerInventory.Add(newItem);
                 playerWeaponInventory.Remove(item);
                 weaponHudManager.RefreshDisplay();
                 weaponSCR.RefreshWeapons();
@@ -94,6 +110,34 @@ public class ItemInventory : MonoBehaviour {
         invMng.AddWeaponInEquipped(newItem);
         weaponHudManager.RefreshDisplay();
         weaponSCR.RefreshWeapons();
+    }
+
+    public void DeleteItem(int itemID)
+    {
+        Item ItemToDelete = null;
+        foreach(Item itemInInventory in playerInventory)
+        {
+            if(itemInInventory.itemID == itemID)
+            {
+                ItemToDelete = itemInInventory;
+            }
+        }
+        foreach(Item itemInWeaponInventory in playerWeaponInventory)
+        {
+            if (itemInWeaponInventory.itemID == itemID)
+            {
+                ItemToDelete = itemInWeaponInventory;
+            }
+        }
+        invMng.RemoveWeaponEquipped(ItemToDelete.displayPanelWeapon);
+        invMng.RemoveWeaponUnequipped(ItemToDelete.displayPanelWeapon);
+        playerInventory.Remove(ItemToDelete);
+        playerWeaponInventory.Remove(ItemToDelete);
+        weaponHudManager.RefreshDisplay();
+        weaponSCR.RefreshWeapons();
+
+        //ItemToDelete.
+
     }
 
 }

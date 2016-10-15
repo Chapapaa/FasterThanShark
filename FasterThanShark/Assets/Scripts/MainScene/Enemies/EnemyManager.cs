@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour {
     EnemyStats statsSCR;
     ShipMap shipMap;
     WeaponManager weaponsMng;
-    EventTriggerManager eventsMng;
+    EventsMainManager eventsMng;
     EnemyIA iAMng;
     public EnginesManager engineMng;
     public GameObject crewContainer;
@@ -26,7 +26,7 @@ public class EnemyManager : MonoBehaviour {
         iAMng = GetComponent<EnemyIA>();
         statsSCR = GetComponent<EnemyStats>();
         shipMap = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
-        eventsMng = GameObject.FindGameObjectWithTag("Manager").GetComponentInChildren<EventTriggerManager>();
+        eventsMng = GameObject.FindGameObjectWithTag("Manager").GetComponentInChildren<EventsMainManager>();
         weaponsMng = GameObject.FindGameObjectWithTag("Manager").GetComponent<WeaponManager>();
         weaponsMng.enemy = gameObject;
         StartCoroutine(RepairHullCrt());
@@ -82,9 +82,10 @@ public class EnemyManager : MonoBehaviour {
 
     public void Death()
     {
+        eventsMng.EnemyDeath();
         shipMap.ResetEnemyShipMap();
         DestroyCrews();
-        eventsMng.EnemyDeath();
+        
         Destroy(gameObject);
     }
 

@@ -120,6 +120,11 @@ public class PlayerManager : MonoBehaviour {
         return engineMng.GetEngine(engineType);
     }
 
+    public void PowerEngine(Engine.engineType _engineType, int _pwrAmount)
+    {
+        engineMng.AddPowerOnEngine(_engineType, _pwrAmount);
+    }
+
 
     IEnumerator RepairHullCrt()
     {

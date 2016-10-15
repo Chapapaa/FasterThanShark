@@ -6,11 +6,14 @@ using System;
 
 public class NavigationHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
-    public GameObject levelPowerBar;
     public GameObject maxPowerBar;
+    public GameObject levelPowerBar;
+    public GameObject levelPowerBarFG;
     public GameObject currentPowerBar;
+    public GameObject currentPowerBarFG;
     public EnginesManager engineMng;
+
+    Color greyColor = new Color(0.8f, 0.8f, 0.8f);
 
     bool isPointerOver;
 
@@ -57,11 +60,14 @@ public class NavigationHUDMng : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
         else
         {
-            currentPowerBar.GetComponent<Image>().color = Color.white;
+            currentPowerBar.GetComponent<Image>().color = greyColor;
         }
         maxPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).maxPwr / 10f;
-        currentPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).currentPwr / 10f;
         levelPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).level / 10f;
+        levelPowerBarFG.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).level / 10f;
+        currentPowerBar.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).currentPwr / 10f;
+        currentPowerBarFG.GetComponent<Image>().fillAmount = engineMng.GetEngine(Engine.engineType.navigation).currentPwr / 10f;
+        
 
 
     }

@@ -6,10 +6,15 @@ public class UpgradePanelManager : MonoBehaviour {
 
     public PlayerStats stats;
     public Image powerImg;
+    public Image powerImg2;
     public Image navImg;
+    public Image navImg2;
     public Image weaponImg;
+    public Image weaponImg2;
     public Image repairImg;
+    public Image repairImg2;
     public Image medicImg;
+    public Image medicImg2;
     public int powerEngineCost = 30;
     public int navEngineCost = 60;
     public int weaponEngineCost = 50;
@@ -52,6 +57,11 @@ public class UpgradePanelManager : MonoBehaviour {
             weaponImg.fillAmount = weaponEng.level / 10f;
             repairImg.fillAmount = repairEng.level / 10f;
             medicImg.fillAmount = medicEng.level / 10f;
+            powerImg2.fillAmount = powerEng.level / 10f;
+            navImg2.fillAmount = navEng.level / 10f;
+            weaponImg2.fillAmount = weaponEng.level / 10f;
+            repairImg2.fillAmount = repairEng.level / 10f;
+            medicImg2.fillAmount = medicEng.level / 10f;
         }
 
 

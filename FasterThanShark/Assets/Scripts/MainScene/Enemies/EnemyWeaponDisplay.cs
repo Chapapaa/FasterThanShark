@@ -14,6 +14,8 @@ public class EnemyWeaponDisplay : MonoBehaviour {
     public GameObject weapon2Container;
     public GameObject weapon3Container;
 
+    public float baseRotationDegree;
+
     GameObject weapon0Display;
     GameObject weapon1Display;
     GameObject weapon2Display;
@@ -85,29 +87,29 @@ public class EnemyWeaponDisplay : MonoBehaviour {
             // TD : récupere le type d'arme et instancie le bon prefab;
             weapon0Display = Instantiate(standardCannon);
             weapon0Display.transform.SetParent(weapon0Container.transform);
-            weapon0Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon0Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+            weapon0Display.transform.localPosition = Vector3.zero;
+            weapon0Display.transform.localRotation = Quaternion.Euler(0f, 0f, baseRotationDegree);
         }
         if (weapon1 != null)
         {
             weapon1Display = Instantiate(standardCannon);
             weapon1Display.transform.SetParent(weapon1Container.transform);
             weapon1Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon1Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+            weapon1Display.transform.localRotation = Quaternion.Euler(0f, 0f, baseRotationDegree);
         }
         if (weapon2 != null)
         {
             weapon2Display = Instantiate(standardCannon);
             weapon2Display.transform.SetParent(weapon2Container.transform);
             weapon2Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon2Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+            weapon2Display.transform.localRotation = Quaternion.Euler(0f, 0f, baseRotationDegree);
         }
         if (weapon3 != null)
         {
             weapon3Display = Instantiate(standardCannon);
             weapon3Display.transform.SetParent(weapon3Container.transform);
             weapon3Display.transform.localPosition = new Vector3(0f, 0f, 0.1f);
-            weapon3Display.transform.localRotation = Quaternion.Euler(0f, 0f, 180f);
+            weapon3Display.transform.localRotation = Quaternion.Euler(0f, 0f, baseRotationDegree);
         }
 
     }

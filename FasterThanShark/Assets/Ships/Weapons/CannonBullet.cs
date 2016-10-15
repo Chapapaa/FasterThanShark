@@ -57,7 +57,7 @@ public class CannonBullet : MonoBehaviour {
                 Instantiate(missText, transform.position, Quaternion.identity);
                 Vector3 newTarget = (targetPosition - startPosition) * 100f;
                 targetPosition = newTarget;
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
+                //transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
                 StartCoroutine(WaitAndDestroy());
             }
         }
@@ -82,7 +82,7 @@ public class CannonBullet : MonoBehaviour {
                 Instantiate(missText, transform.position, Quaternion.identity);
                 Vector3 newTarget = (targetPosition - startPosition) * 100f;
                 targetPosition = newTarget;
-                transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
+                //transform.position = Vector3.MoveTowards(transform.position, targetPosition, 0.1f * speed);
                 StartCoroutine(WaitAndDestroy());
             }
         }

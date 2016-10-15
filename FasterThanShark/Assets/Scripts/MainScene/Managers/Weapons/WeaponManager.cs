@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
 
 public class WeaponManager : MonoBehaviour {
 
+    public CursorManager cursorMng;
     public ItemInventory playerInventory;
     public ClickEventManager clickEvntMng;
     public GameObject enemy;
@@ -22,6 +23,9 @@ public class WeaponManager : MonoBehaviour {
     public int weaponUsedPower = 0;
     public int weaponsPower = 0;
     public int weaponOpeDelayReduc = 10; // en pourcentage du temps de base (100 = aucun delay)
+
+    public GameObject targetIcon1;
+    public GameObject targetIcon2;
     
     // ---------
     public Weapon[] weapons = new Weapon[4];
@@ -57,6 +61,10 @@ public class WeaponManager : MonoBehaviour {
         {
             SelectWeapon(3);
         }
+        if(Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            UnselectWeapon();
+        }
 
         weaponsPower = playerMng.GetWeaponsPower();
         RefreshPower();
@@ -88,6 +96,11 @@ public class WeaponManager : MonoBehaviour {
 
     public bool PowerWeapon(int weaponIndex)
     {
+        if(weapons[weaponIndex].weaponItem.itemPwrCost + weaponUsedPower > weaponsPower)
+        {
+            playerMng.PowerEngine(Engine.engineType.weapon, weapons[weaponIndex].weaponItem.itemPwrCost);
+            weaponsPower = playerMng.GetWeaponsPower();
+        }
         if (weapons[weaponIndex].weaponItem.itemPwrCost + weaponUsedPower <= weaponsPower)
         {
             weapons[weaponIndex].weaponPwr = weapons[weaponIndex].weaponItem.itemPwrCost;
@@ -98,6 +111,7 @@ public class WeaponManager : MonoBehaviour {
 
     public void UnPowerWeapon(int weaponIndex)
     {
+        UnselectWeapon();
         weapons[weaponIndex].weaponPwr = 0;
     }
 
@@ -135,17 +149,23 @@ public class WeaponManager : MonoBehaviour {
 
     public void StopAttacking()
     {
+        weapons[0].ClearTargetIcon();
+        weapons[1].ClearTargetIcon();
+        weapons[2].ClearTargetIcon();
+        weapons[3].ClearTargetIcon();
         StopAllCoroutines();
     }
 
     public void UnselectWeapon()
     {
         weaponSelected = -1;
+        cursorMng.ChangeCursor("default");
     }
 
     public void SelectWeapon(int index)
     {
-        if(!weapons[index].initialized)
+        
+        if (!weapons[index].initialized)
         {
             return;
         }
@@ -154,7 +174,23 @@ public class WeaponManager : MonoBehaviour {
             PowerWeapon(index);
         }
         clickEvntMng.ResetSelection();
-        // change le curseur en mode cible
+        weapons[index].ClearTargetIcon();
+        if (weapons[index].weaponFireCoroutine)
+        {
+            StopCoroutine(weapons[index].fireCoroutine);
+            weapons[index].weaponFireCoroutine = false;
+        }
+        if (weapons[index].weaponPwr > 0)
+        {
+            if (autoFire)
+            {
+                cursorMng.ChangeCursor("battle2");
+            }
+            else
+            {
+                cursorMng.ChangeCursor("battle1");
+            }
+        }
         // selectionne l'arme
         weaponSelected = index;
         Debug.Log("Weapon selected : " + index);
@@ -171,16 +207,18 @@ public class WeaponManager : MonoBehaviour {
             //--------
             if(!weapons[weaponSelected].initialized || weapons[weaponSelected].weaponPwr <= 0)
             {
+                UnselectWeapon();
                 return;
             }
             if(weapons[weaponSelected].weaponFireCoroutine)
             {
                 StopCoroutine(weapons[weaponSelected].fireCoroutine);
+                weapons[weaponSelected].ClearTargetIcon();
             }
-            weapons[weaponSelected].fireCoroutine = UseWeaponCRT(weaponSelected, targetPos, _mapIndex);
+            weapons[weaponSelected].fireCoroutine = UseWeaponCRT(weaponSelected, targetPos, _mapIndex, autoFire);
             StartCoroutine(weapons[weaponSelected].fireCoroutine);
 
-            weaponSelected = -1;
+            UnselectWeapon();
             gismoPos = targetPos;
         }
     }
@@ -232,20 +270,49 @@ public class WeaponManager : MonoBehaviour {
         weaponDisplayMng.RefreshWeaponDisplay(); // enleve les display et les reaffiche correctement
     }
 
-    IEnumerator UseWeaponCRT(int weaponIndex, Vector3 targetPosition, int mapIndex)
+    public void InitWeaponDisplayMng(GameObject weaponDisplayGO)
     {
+        weaponDisplayMng = weaponDisplayGO.GetComponent<WeaponDisplayManager>();
+    }
+
+    IEnumerator UseWeaponCRT(int weaponIndex, Vector3 targetPosition, int mapIndex, bool _autoFire)
+    {
+
         weapons[weaponIndex].weaponFireCoroutine = true;
         while(true)
         {
+
             if(!weapons[weaponIndex].initialized)
             {
+                weapons[weaponIndex].ClearTargetIcon();
                 StopAllCoroutines();
             }
-            if(weapons[weaponIndex].weaponPwr <= 0)
+            if (enemy == null)
+            { break; }
+            if (weapons[weaponIndex].weaponPwr <= 0)
             {
                 break;
             }
-
+            if(_autoFire)
+            {
+                if(weapons[weaponIndex].targetIcon == null)
+                {
+                    weapons[weaponIndex].ClearTargetIcon();
+                    GameObject instTargetIcon = Instantiate(targetIcon2);
+                    instTargetIcon.transform.position = targetPosition;
+                    weapons[weaponIndex].targetIcon = instTargetIcon;
+                }
+            }
+            else
+            {
+                if (weapons[weaponIndex].targetIcon == null)
+                {
+                    weapons[weaponIndex].ClearTargetIcon();
+                    GameObject instTargetIcon = Instantiate(targetIcon1);
+                    instTargetIcon.transform.position = targetPosition;
+                    weapons[weaponIndex].targetIcon = instTargetIcon;
+                }
+            }
             if(weapons[weaponIndex].weaponItem.itemCurrentCD >= weapons[weaponIndex].weaponItem.itemCD)
             {
                 if (mapIndex == 1)
@@ -259,17 +326,15 @@ public class WeaponManager : MonoBehaviour {
                         characterOp.GetComponent<CharacterManager>().GainExp(Engine.engineType.weapon);
                     }
                     weapons[weaponIndex].weaponItem.itemCurrentCD = 0;
-                    if (!autoFire)
+                    if (!_autoFire)
                     {
-
                         break;
                     }
                 }
-                
-                
             }
             yield return new WaitForSeconds(Time.deltaTime);
         }
+        weapons[weaponIndex].ClearTargetIcon();
         weapons[weaponIndex].weaponFireCoroutine = false;
     }
 
@@ -281,6 +346,7 @@ public class WeaponManager : MonoBehaviour {
         public int weaponPwr = 0;
         public bool weaponFireCoroutine;
         public bool initialized = false;
+        public GameObject targetIcon = null;
 
         public Weapon(Item _weaponItem)
         {
@@ -291,14 +357,19 @@ public class WeaponManager : MonoBehaviour {
         {
             initialized = false;
         }
+        public void ClearTargetIcon()
+        {
+            if (targetIcon != null)
+            {
+                DestroyImmediate(targetIcon);
+                targetIcon = null;
+            }
+        }
         
     }
 
 
-    public void InitWeaponDisplayMng(GameObject weaponDisplayGO)
-    {
-        weaponDisplayMng = weaponDisplayGO.GetComponent<WeaponDisplayManager>();
-    }
+    
 
     void OnDrawGizmos()
     {

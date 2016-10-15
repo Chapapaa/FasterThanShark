@@ -26,7 +26,6 @@ public class PlayerStats : MonoBehaviour {
     public bool isInBattle = false;
 
     public EnginesManager engineMng = null;
-    public EventTriggerManager evntMng;
 
 
 
@@ -65,7 +64,7 @@ public class PlayerStats : MonoBehaviour {
     void Death()
     {
         health = 0;
-        evntMng.AllyDeath();
+        // Affichage event game over
 
     }
 
@@ -116,7 +115,7 @@ public class PlayerStats : MonoBehaviour {
     }
     public void LoseFood(int amount)
     {
-        food += amount;
+        food -= amount;
         if(food < 0)
         {
             food = 0;

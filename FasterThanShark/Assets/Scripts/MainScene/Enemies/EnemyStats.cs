@@ -15,15 +15,7 @@ public class EnemyStats : MonoBehaviour {
     public int flee = 0;
     public int maxFlee = 0;
 
-
-
     public bool alive = true;
-
-
-	// Use this for initialization
-	void Start () {
-
-    }
 	
 
     void Death()

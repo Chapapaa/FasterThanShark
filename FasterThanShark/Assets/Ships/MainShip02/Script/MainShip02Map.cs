@@ -77,6 +77,7 @@ public class MainShip02Map : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject.FindGameObjectWithTag("Manager").GetComponent<ItemInventory>().AddItemToInventory(5);
         shipMap = GameObject.FindGameObjectWithTag("Manager").GetComponent<ShipMap>();
         enginesManager = GetComponent<EnginesManager>();
 
